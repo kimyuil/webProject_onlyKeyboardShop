@@ -31,9 +31,33 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
-		model.addAttribute("serverTime", formattedDate );
+		//model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
 	}
 	
+	///menubar_top
+	@RequestMapping(value = "/menubar_top", method = RequestMethod.GET)
+	public String menubar_top(Locale locale, Model model) {
+			
+		return "menubar_top";
+	}
+	
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String main(Locale locale, Model model) {
+			
+		return "/main";
+	}
+	
+	@RequestMapping(value = "/infobar_bottom", method = RequestMethod.GET)
+	public String infobar_bottom(Locale locale, Model model) {
+		
+		return "infobar_bottom";
+	}
+	//brand_about
+	@RequestMapping(value = "/brand_about", method = RequestMethod.GET)
+	public String brand_about(Locale locale, Model model) {
+		System.out.println("check");
+		return "brand/about";
+	}
 }
