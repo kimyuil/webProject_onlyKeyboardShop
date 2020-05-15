@@ -5,136 +5,65 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
-
-<style>
-	.upper_space{
-		height : 75px;
-	}
-	li{list-style:none;}
-	a{text-decoration:none;}
-	
-	.header{
-		background-color:blue;
-		height : 75px;
-		border:1px;
-		position:fixed;
-		width:100%;
-		z-index:9999;
-		top:0;
-		left:0;
-	}
-	.menu_wrapper{
-		margin: 0 auto;
-		width: 1170px;
-		/* height : 75px; */
-		
-	}
-	.menu_wrapper li{font-size: x-large}
-	
-	.dropdown {
-		
-	  position: relative;
-	  /* display : inline-block; */
-	  
-	}
-		
-	.bottom{
-		display: none;
-  		position: absolute;
-  		background-color: #f9f9f9;
-  		min-width: 160px; 
-  		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  		z-index: 1;
-		height : 75px;
-		top:75px; 
-		width: 700;
-		left: 40;
-	}
-	.bottom .left:hover{
-		background-color: #f1f1f1
-	}
-	
-	.dropdown-content a {
-  		color: black;
-  		padding: 12px 16px;
-  		display: inline;
-	}
-
-	
-	
-	
-	.left{
-		display : inline-block;
-		cursor: pointer;
-		float : left;
-		top : 10px;
-		/*color:red;
-		line-height:75px; */
-	}
-	.left li{float : left;}
-	.left a{
-		linge-height:75px;
-		color: white;
-		padding: 0 15px;
-		display : inline-block;
-	}
-	
-	.right{
-		position:absolute;
-		right : 0;
-		/* float:right; */
-	}
-	.right li{float : left;}
-	.right a{
-		linge-height:75px;
-		color: white;
-		padding: 0 15px;
-		display : block;
-	}
-	
-	
-	.dropdown:hover .bottom {
-  		display: block;
-	}
-
-</style>
-<script src="//code.jquery.com/jquery-3.3.1.min.js">
-</script>
-
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<div class="header">
-	<div class="menu_wrapper">
-		<nav class="dropdown">
-			<ul class="left">
-				<li><a href="/onlyKeyboardShop/">onlykeyboard</a></li> 	
-				<li><a href="/onlyKeyboardShop/brand_about">brand_about</a></li> 
-				<li><a href="#">product</a> </li>
-				<li><a href="#">community</a></li>
-			</ul>
-		
-			<div class="bottom">
-				<a href="#">Link 1</a>
-  				<a href="#">Link 2</a>
-  				<a href="#">Link 3</a>
-			</div>  
-		
-		</nav>
-		
-		<nav>
-		<ul class="right">
-			<li><a href="#">login</a></li>
-			<li><a href="#">장바구니</a></li> 
-		</ul>
-		</nav>
-		 
-	</div>	
-</div>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="/onlyKeyboardShop/">Only Keyboard</a>
 
-<div class="upper_space"></div>
-
-
+  <!-- Links -->
+  <ul class="navbar-nav">
+       <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Brand
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/onlyKeyboardShop/about">about</a>
+        <a class="dropdown-item" href="/onlyKeyboardShop/location">location</a>
+      </div>
+    </li>
+       <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Product
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/onlyKeyboardShop/88keyboard">88Keyboard</a>
+        <a class="dropdown-item" href="/onlyKeyboardShop/76keyboard">76Keyboard</a>
+        <a class="dropdown-item" href="/onlyKeyboardShop/61keyboard">61Keyboard</a>
+      </div>
+    </li>
+       <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Community
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/onlyKeyboardShop/freeboard">자유게시판</a>
+        <a class="dropdown-item" href="/onlyKeyboardShop/notice">공지사항</a>
+      </div>
+    </li>
+  </ul>
+  
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+  	<ul class="navbar-nav ml-auto">
+  		<li class="nav-item">
+  			<a class="nav-link" href="/onlyKeyboardShop/login">login</a>
+  		</li>
+  		<li class="nav-item">
+  			<a class="nav-link" href="/onlyKeyboardShop/mypage">mypage</a>
+  		</li>
+  	</ul>
+  </div>
+</nav>
+<br>
 
 </body>
 </html>

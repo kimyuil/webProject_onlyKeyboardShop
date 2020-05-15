@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<%@ include file="/WEB-INF/views/newMenuBar.jsp"%>
+<%@ include file="/WEB-INF/views/menubar_top.jsp"%>
 <%@ include file="/WEB-INF/views/main.jsp"%>
 <%@ include file="/WEB-INF/views/infobar_bottom.jsp"%>
 

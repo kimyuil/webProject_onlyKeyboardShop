@@ -8,7 +8,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
-<p align="center">notice</p>
+<p align="center">mypage</p>
 <br><br><br><br><br><br> hahaha <br>
 <%@ include file="/WEB-INF/views/infobar_bottom.jsp"%>
 </body>

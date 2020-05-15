@@ -9,7 +9,8 @@
 <body>
 
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
-about
+<p align="center">about</p>
+<br><br><br><br><br><br> hahaha <br>
 <%@ include file="/WEB-INF/views/infobar_bottom.jsp"%>
 
 
