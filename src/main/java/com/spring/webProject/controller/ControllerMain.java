@@ -57,21 +57,6 @@ public class ControllerMain {
 		return "home";
 	}
 	
-	///menubar_top
-	@RequestMapping(value = "/menubar_top", method = RequestMethod.GET)
-	public String menubar_top(Locale locale, Model model) {
-		return "menubar_top";
-	}
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Locale locale, Model model) {		
-		return "/main";
-	}
-	@RequestMapping(value = "/infobar_bottom", method = RequestMethod.GET)
-	public String infobar_bottom(Locale locale, Model model) {	
-		return "infobar_bottom";
-	}
-	
-	
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String about(Locale locale, Model model) {
 		System.out.println("about");
