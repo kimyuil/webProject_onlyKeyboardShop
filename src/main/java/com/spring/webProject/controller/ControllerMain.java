@@ -1,16 +1,21 @@
 package com.spring.webProject.controller;
 
-
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.spring.webProject.command.TestCommand;
+import com.spring.webProject.dao.IDao;
+import com.spring.webProject.dao.TestDao;
 
 /**
  * Handles requests for the application home page.
@@ -19,6 +24,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ControllerMain {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ControllerMain.class);
+	
+	TestCommand tc;
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	///test
+		@RequestMapping(value = "/test", method = RequestMethod.GET)
+		public String test(Locale locale, Model model) {
+			tc=new TestCommand();
+			tc.dodo(sqlSession);
+			
+			//mainDao=new TestDao();
+			return "home";
+		}
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
