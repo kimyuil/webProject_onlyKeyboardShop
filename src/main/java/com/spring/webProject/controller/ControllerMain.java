@@ -1,7 +1,5 @@
 package com.spring.webProject.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,9 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.webProject.command.ICommand;
+import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.TestCommand;
-import com.spring.webProject.dao.IDao;
-import com.spring.webProject.dao.TestDao;
+
 
 /**
  * Handles requests for the application home page.
@@ -25,34 +24,26 @@ public class ControllerMain {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ControllerMain.class);
 	
-	TestCommand tc;
+	ICommand command;
 	
 	@Autowired
 	private SqlSession sqlSession;
 	
 	///test
-		@RequestMapping(value = "/test", method = RequestMethod.GET)
-		public String test(Locale locale, Model model) {
-			tc=new TestCommand();
-			tc.dodo(sqlSession);
-			
-			//mainDao=new TestDao();
-			return "home";
-		}
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String test(Locale locale, Model model) {
+		command = new TestCommand();
+		command.execute(sqlSession,model);
+		System.out.println("test ½ÇÇà");
+		//mainDao=new TestDao();
+		return "home";
+	}
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		//model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
 	}
@@ -72,16 +63,33 @@ public class ControllerMain {
 	@RequestMapping(value = "/88keyboard", method = RequestMethod.GET)
 	public String keyboard88(Locale locale, Model model) {
 		System.out.println("88keyboard");
+		model.addAttribute("category", "88keyboard");
+		command = new ProductCommand();
+		command.execute(sqlSession, model);
+		System.out.println(model.toString());
+		
 		return "product/88keyboard/88category";
 	}
 	@RequestMapping(value = "/76keyboard", method = RequestMethod.GET)
 	public String keyboard76(Locale locale, Model model) {
 		System.out.println("76keyboard");
+		
+		model.addAttribute("category", "76keyboard");
+		command = new ProductCommand();
+		command.execute(sqlSession, model);
+		System.out.println(model.toString());
+		
 		return "product/76keyboard/76category";
 	}
 	@RequestMapping(value = "/61keyboard", method = RequestMethod.GET)
 	public String keyboard61(Locale locale, Model model) {
 		System.out.println("61keyboard");
+		
+		model.addAttribute("category", "61keyboard");
+		command = new ProductCommand();
+		command.execute(sqlSession, model);
+		System.out.println(model.toString());
+		
 		return "product/61keyboard/61category";
 	}
 	
