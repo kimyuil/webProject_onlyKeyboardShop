@@ -1,6 +1,9 @@
 package com.spring.webProject.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -11,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.webProject.command.BuyPageCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.ProductCommand;
+import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.TestCommand;
 
 
@@ -92,6 +97,42 @@ public class ControllerMain {
 		
 		return "product/61keyboard/61category";
 	}
+		
+	
+	@RequestMapping(value = "/productPage", method = RequestMethod.GET)
+	public String productPage(HttpServletRequest request, Model model) {
+		
+		System.out.println("productPage");
+		String category = request.getParameter("category");
+		String pId = request.getParameter("pId");
+		
+		model.addAttribute("pId", pId); //pid РќДо
+		command = new ProductPageCommand();
+		command.execute(sqlSession, model);
+		
+		
+		System.out.println(model.toString());
+		
+		
+		if (category.equals("61keyboard"))
+			return "product/61keyboard/61product";
+		else if (category.equals("76keyboard"))
+			return "product/76keyboard/76product";
+		else
+			return "product/88keyboard/88product";
+	}
+	
+	@RequestMapping(value = "/buyPage", method = RequestMethod.POST)
+	public String buyPage(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
+		System.out.println("buy page");
+		
+		command = new BuyPageCommand();
+		
+		return "home";
+	}
+	
+	
+	
 	
 	
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)

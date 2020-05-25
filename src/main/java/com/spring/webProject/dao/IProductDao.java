@@ -6,4 +6,5 @@ import com.spring.webProject.dto.ProductDto;
 
 public interface IProductDao {
 	public ArrayList<ProductDto> listProduct(String category);
+	public ProductDto getProduct(String pId);
 } 

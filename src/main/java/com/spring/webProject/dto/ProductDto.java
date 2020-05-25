@@ -9,9 +9,12 @@ public class ProductDto {
 	int pDeliveryPrice;
 	String pExplainImageRoute;
 	int pSellingNum;
-	String category;
+	String pCategory;
 	int pIsSoldOut;//0 is flase 1 is true
 	String pInformation;
+	String pColors;
+	int pStock;
+	
 	
 	public String getpName() {
 		return pName;
@@ -61,13 +64,13 @@ public class ProductDto {
 	public void setpSellingNum(int pSellingNum) {
 		this.pSellingNum = pSellingNum;
 	}
-	public String getCategory() {
-		return category;
+	public String getpCategory() {
+		return pCategory;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setpCategory(String pCategory) {
+		this.pCategory = pCategory;
 	}
-	public int ispIsSoldOut() {
+	public int getpIsSoldOut() {
 		return pIsSoldOut;
 	}
 	public void setpIsSoldOut(int pIsSoldOut) {
@@ -78,6 +81,18 @@ public class ProductDto {
 	}
 	public void setpInformation(String pInformation) {
 		this.pInformation = pInformation;
+	}
+	public String getpColors() {
+		return pColors;
+	}
+	public void setpColors(String pColors) {
+		this.pColors = pColors;
+	}
+	public int getpStock() {
+		return pStock;
+	}
+	public void setpStock(int pStock) {
+		this.pStock = pStock;
 	}
 	
 	

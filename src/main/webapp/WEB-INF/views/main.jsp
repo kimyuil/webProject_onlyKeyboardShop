@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +44,7 @@
 <div class="image_main">
 
 <div class="img-cover_main">
-<div class="content_main">Only Keyboard ShopÀÔ´Ï´Ù<br> ±ò²ûÇÑ µðÀÚÀÎ°ú °íÇ°ÁúÀÇ ¼Ò¸®¸¦<br> Áñ±â½Ç ¼ö ÀÖ½À´Ï´Ù.</div>
+<div class="content_main">Only Keyboard Shopìž…ë‹ˆë‹¤<br> ê¹”ë”í•œ ë””ìžì¸ê³¼ ê³ í’ˆì§ˆì˜ ì†Œë¦¬ë¥¼<br> ì¦ê¸°ì‹¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.</div>
 </div>
 
 </div>

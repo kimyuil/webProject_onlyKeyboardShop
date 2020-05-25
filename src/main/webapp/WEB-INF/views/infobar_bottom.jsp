@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@ a:hover {text-decoration: underline; color: red;}
 <body>
 
 <div style="float:left; width: 50%;">
-	<div align="center"> °³¹ßÀÚ ÀÌ¸§ : ±èÀ¯ÀÏ</div>
+	<div align="center"> ê°œë°œì ì´ë¦„ : ê¹€ìœ ì¼</div>
 	<div align="center"> <b>phone Number</b> : 010 2350 0688</div>
 	<div align="center"> <b>email</b> - il3575@naver.com & il3575il6892@gmail.com </div>
 </div>

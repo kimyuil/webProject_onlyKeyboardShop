@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +17,11 @@
 	<div style="width: 48%; float:right; margin-top: 20px; ">
 		<h2>About Only Keyboard Shop</h2>
 		<br>
-		ÀúÈñ only keyboard shopÀº,<br> °³¹ßÀÚÀÇ ÀÌ¸§ÀÎ ±èÀ¯ÀÏ¿¡¼­ À¯ÀÏÀÇ ÀÌ¸§À» µû¼­ <b>only</b>·Î Áþ°Ô µÇ¾ú½À´Ï´Ù.<br>
-		¿·ÀÇ »çÁøÀº ÀúÀÇ »çÁøÀÔ´Ï´Ù.<br><br>
-		À½¾Ç¿¡ ÀÖ¾î¼­´Â <b>°¨¼º</b>ÀÌ ¸Å¿ì Áß¿äÇÕ´Ï´Ù. <br>ÀúÈñ only keyboard shop¿¡¼­´Â °¨¼ºÀ» µ¸´Â <b>¾Æ¸§´Ù¿î µðÀÚÀÎ</b>À¸·Î ¿©·¯ºÐÀ» µ½°Ú½À´Ï´Ù.<br><br>
-		¶ÇÇÑ ¼Ò¸®°¡ ÁÁÁö ¾ÊÀ¸¸é ¾Æ¹«¸® ¿¹»µµµ ¿¹»Û ¾²·¹±âÀÏ »ÓÀÔ´Ï´Ù. <br>ÀúÈñ only keyboard shop¿¡¼­´Â <b>ÃÖÀúÀÇ °¡°Ý°ú ÃÖ°íÀÇ ¼º´ÉÀÇ À½Áú</b>·Î ¿©·¯ºÐ²² º¸´äÇÏ°Ú½À´Ï´Ù.<br><br>
-		<b>°¡¼ººñ Å°º¸µå only keyboard shop!</b> ¸¹ÀÌ ¾Ö¿ëÇØÁÖ½Ã±æ ºÎÅ¹µå¸³´Ï´Ù. °¨»çÇÕ´Ï´Ù.
+		ì €í¬ only keyboard shopì€,<br> ê°œë°œìžì˜ ì´ë¦„ì¸ ê¹€ìœ ì¼ì—ì„œ ìœ ì¼ì˜ ì´ë¦„ì„ ë”°ì„œ <b>only</b>ë¡œ ì§“ê²Œ ë˜ì—ˆìŠµë‹ˆë‹¤.<br>
+		ì˜†ì˜ ì‚¬ì§„ì€ ì €ì˜ ì‚¬ì§„ìž…ë‹ˆë‹¤.<br><br>
+		ìŒì•…ì— ìžˆì–´ì„œëŠ” <b>ê°ì„±</b>ì´ ë§¤ìš° ì¤‘ìš”í•©ë‹ˆë‹¤. <br>ì €í¬ only keyboard shopì—ì„œëŠ” ê°ì„±ì„ ë‹ëŠ” <b>ì•„ë¦„ë‹¤ìš´ ë””ìžì¸</b>ìœ¼ë¡œ ì—¬ëŸ¬ë¶„ì„ ë•ê² ìŠµë‹ˆë‹¤.<br><br>
+		ë˜í•œ ì†Œë¦¬ê°€ ì¢‹ì§€ ì•Šìœ¼ë©´ ì•„ë¬´ë¦¬ ì˜ˆë»ë„ ì˜ˆìœ ì“°ë ˆê¸°ì¼ ë¿ìž…ë‹ˆë‹¤. <br>ì €í¬ only keyboard shopì—ì„œëŠ” <b>ìµœì €ì˜ ê°€ê²©ê³¼ ìµœê³ ì˜ ì„±ëŠ¥ì˜ ìŒì§ˆ</b>ë¡œ ì—¬ëŸ¬ë¶„ê»˜ ë³´ë‹µí•˜ê² ìŠµë‹ˆë‹¤.<br><br>
+		<b>ê°€ì„±ë¹„ í‚¤ë³´ë“œ only keyboard shop!</b> ë§Žì´ ì• ìš©í•´ì£¼ì‹œê¸¸ ë¶€íƒë“œë¦½ë‹ˆë‹¤. ê°ì‚¬í•©ë‹ˆë‹¤.
 		
 		
 		

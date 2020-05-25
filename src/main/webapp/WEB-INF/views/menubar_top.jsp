@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,8 +46,8 @@
         Community
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/onlyKeyboardShop/freeboard">ÀÚÀ¯°Ô½ÃÆÇ</a>
-        <a class="dropdown-item" href="/onlyKeyboardShop/notice">°øÁö»çÇ×</a>
+        <a class="dropdown-item" href="/onlyKeyboardShop/freeboard">ìžìœ ê²Œì‹œíŒ</a>
+        <a class="dropdown-item" href="/onlyKeyboardShop/notice">ê³µì§€ì‚¬í•­</a>
       </div>
     </li>
   </ul>

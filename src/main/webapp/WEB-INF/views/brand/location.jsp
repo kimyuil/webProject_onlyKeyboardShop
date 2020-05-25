@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +18,8 @@
 
 	<div style="width: 50%; float:left;">
 		 <div class="btn-group">
-			<button type="button" class="btn btn-dark" onclick="javascript:move(14124500.590359,4503100.7639686,13);" >È¸»çÀ§Ä¡</button>
-  			<button type="button" class="btn btn-dark" onclick="javascript:move(14146300.590359,4527600.7639686,13);" >°³¹ßÀÚ ÇÐ±³</button>
+			<button type="button" class="btn btn-dark" onclick="javascript:move(14124500.590359,4503100.7639686,13);" >íšŒì‚¬ìœ„ì¹˜</button>
+  			<button type="button" class="btn btn-dark" onclick="javascript:move(14146300.590359,4527600.7639686,13);" >ê°œë°œìž í•™êµ</button>
    
 		</div>
 		 <div id="vmap" style="width:100%;height:400px;left:0px;top:0px"></div>
@@ -50,18 +50,18 @@
 		  x : 126.882, //14123900.590359,4503100.7639686,13
 		  y : 37.458,
 		  epsg : "EPSG:4326",
-		  title : 'È¸»çÀ§Ä¡',
-		  contents : 'ÀúÈñ Áý±ÙÃ³·Î Ç¥½ÃÇß½À´Ï´Ù.',
+		  title : 'íšŒì‚¬ìœ„ì¹˜',
+		  contents : 'ì €í¬ ì§‘ê·¼ì²˜ë¡œ í‘œì‹œí–ˆìŠµë‹ˆë‹¤.',
 		  iconUrl : 'http://map.vworld.kr/images/ol3/marker_blue.png', 
 		  text : {
-		      offsetX: 0.5, //À§Ä¡¼³Á¤
-		      offsetY: 20,   //À§Ä¡¼³Á¤
+		      offsetX: 0.5, //ìœ„ì¹˜ì„¤ì •
+		      offsetY: 20,   //ìœ„ì¹˜ì„¤ì •
 		      font: '12px Calibri,sans-serif',
 		      fill: {color: '#000'},
 		      stroke: {color: '#fff', width: 2},
-		      text: 'È¸»çÀ§Ä¡'
+		      text: 'íšŒì‚¬ìœ„ì¹˜'
 		  },
-		  attr: {"id":"maker01","name":"¼Ó¼º¸í1"}    
+		  attr: {"id":"maker01","name":"ì†ì„±ëª…1"}    
 		 };
 		 markerLayer.addMarker(vw.ol3.markerOption);
 		 
@@ -69,18 +69,18 @@
 				  x : 127.0776, //14123900.590359,4503100.7639686,13
 				  y : 37.63090,
 				  epsg : "EPSG:4326",
-				  title : 'ÇÐ±³À§Ä¡',
-				  contents : 'Á¦°¡ Á¹¾÷ÇÑ ÇÐ±³ÀÔ´Ï´Ù.',
+				  title : 'í•™êµìœ„ì¹˜',
+				  contents : 'ì œê°€ ì¡¸ì—…í•œ í•™êµìž…ë‹ˆë‹¤.',
 				  iconUrl : 'http://map.vworld.kr/images/ol3/marker_blue.png', 
 				  text : {
-				      offsetX: 0.5, //À§Ä¡¼³Á¤
-				      offsetY: 20,   //À§Ä¡¼³Á¤
+				      offsetX: 0.5, //ìœ„ì¹˜ì„¤ì •
+				      offsetY: 20,   //ìœ„ì¹˜ì„¤ì •
 				      font: '12px Calibri,sans-serif',
 				      fill: {color: '#000'},
 				      stroke: {color: '#fff', width: 2},
-				      text: 'ÇÐ±³À§Ä¡'
+				      text: 'í•™êµìœ„ì¹˜'
 				  },
-				  attr: {"id":"maker01","name":"¼Ó¼º¸í1"}    
+				  attr: {"id":"maker01","name":"ì†ì„±ëª…1"}    
 				 };
 				 markerLayer.addMarker(vw.ol3.markerOption);
 		 
@@ -94,12 +94,12 @@
 		  
 		 var z = z;
 		 var pan = ol.animation.pan({
-		  duration : 3000, //3ÃÊ°£¿¡´Ï¸ÞÀÌ¼ÇÀ¸·Î À§Ä¡ÀÌµ¿
+		  duration : 3000, //3ì´ˆê°„ì—ë‹ˆë©”ì´ì…˜ìœ¼ë¡œ ìœ„ì¹˜ì´ë™
 		  source : (vmap.getView().getCenter())
 		 });
 		 vmap.beforeRender(pan);
 		 vmap.getView().setCenter(_center);
-		 setTimeout("fnMoveZoom()", 4000);//4ÃÊÈÄ 15¸¸Å­ zoom
+		 setTimeout("fnMoveZoom()", 4000);//4ì´ˆí›„ 15ë§Œí¼ zoom
 		 
 		 
 		}
@@ -107,7 +107,7 @@
 		function fnMoveZoom() {
 		  zoom = vmap.getView().getZoom();
 		  if (16 > zoom) {
-		  vmap.getView().setZoom(15); //¼ýÀÚ°¡ Å¬¼ö·Ï zoom
+		  vmap.getView().setZoom(15); //ìˆ«ìžê°€ í´ìˆ˜ë¡ zoom
 		  }
 			   
 		};
@@ -117,16 +117,16 @@
 	</div>
 	
 	<div style="width: 48%; float:right; margin-top: 20px; ">
-		<h2>¿À½Ã´Â ±æ</h2>
+		<h2>ì˜¤ì‹œëŠ” ê¸¸</h2>
 		<br>
-		ÀúÈñ only keyboard shopÀÇ È¸»çÀ§Ä¡´Â,<br> °³¹ßÀÚÀÎ <u>Á¦°¡ »ç´Â °÷ ÁÖº¯</u>À¸·Î Ç¥½ÃÇØ µÎ¾ú½À´Ï´Ù.<br>
-		¿·ÀÇ Áöµµ¿¡ ¸¶Ä¿¸¦ Ç¥½ÃÇØ µÎ¾ú½À´Ï´Ù.<br><br>
-		ÀúÈñ È¸»çÀÇ À§Ä¡´Â ±¤¸íÂÊÀ¸·Î, <b>Ã¶»ê¿ª</b>¿¡¼­ ¹ö½º·Î ÀÌµ¿ÇÒ ¼ö ÀÖ½À´Ï´Ù. <br>
-		¸¹Àº ¹ö½º ³ë¼±µéÀÌ ÀúÈñ È¸»ç¸¦ °æÀ¯ÇÏ°í ÀÖ½À´Ï´Ù. ±×·¡¼­ <b>±³ÅëÀÌ Æí¸®</b>ÇÕ´Ï´Ù.<br><br>
-		Ãß°¡ÀûÀ¸·Î Á¦°¡ Á¹¾÷ÇÑ ÇÐ±³ À§Ä¡µµ Ç¥½ÃÇØ µÎ¾ú½À´Ï´Ù.. <br>
-		Àú´Â <b>¼­¿ï°úÇÐ±â¼ú´ëÇÐ±³¸¦ Á¹¾÷</b>ÇÏ¿´½À´Ï´Ù.<br>
-		<u>¿ÞÂÊ »ó´ÜÀÇ ¹öÆ°</u>À» ÅëÇØ¼­ ÇØ´ç À§Ä¡·Î ÀÌµ¿ÇÏ½Ç ¼ö ÀÖ½À´Ï´Ù.<br><br>
-		<b>°¡¼ººñ Å°º¸µå only keyboard shop!</b> ¸¹ÀÌ ¾Ö¿ëÇØÁÖ½Ã±æ ºÎÅ¹µå¸³´Ï´Ù. °¨»çÇÕ´Ï´Ù.
+		ì €í¬ only keyboard shopì˜ íšŒì‚¬ìœ„ì¹˜ëŠ”,<br> ê°œë°œìžì¸ <u>ì œê°€ ì‚¬ëŠ” ê³³ ì£¼ë³€</u>ìœ¼ë¡œ í‘œì‹œí•´ ë‘ì—ˆìŠµë‹ˆë‹¤.<br>
+		ì˜†ì˜ ì§€ë„ì— ë§ˆì»¤ë¥¼ í‘œì‹œí•´ ë‘ì—ˆìŠµë‹ˆë‹¤.<br><br>
+		ì €í¬ íšŒì‚¬ì˜ ìœ„ì¹˜ëŠ” ê´‘ëª…ìª½ìœ¼ë¡œ, <b>ì² ì‚°ì—­</b>ì—ì„œ ë²„ìŠ¤ë¡œ ì´ë™í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. <br>
+		ë§Žì€ ë²„ìŠ¤ ë…¸ì„ ë“¤ì´ ì €í¬ íšŒì‚¬ë¥¼ ê²½ìœ í•˜ê³  ìžˆìŠµë‹ˆë‹¤. ê·¸ëž˜ì„œ <b>êµí†µì´ íŽ¸ë¦¬</b>í•©ë‹ˆë‹¤.<br><br>
+		ì¶”ê°€ì ìœ¼ë¡œ ì œê°€ ì¡¸ì—…í•œ í•™êµ ìœ„ì¹˜ë„ í‘œì‹œí•´ ë‘ì—ˆìŠµë‹ˆë‹¤.. <br>
+		ì €ëŠ” <b>ì„œìš¸ê³¼í•™ê¸°ìˆ ëŒ€í•™êµë¥¼ ì¡¸ì—…</b>í•˜ì˜€ìŠµë‹ˆë‹¤.<br>
+		<u>ì™¼ìª½ ìƒë‹¨ì˜ ë²„íŠ¼</u>ì„ í†µí•´ì„œ í•´ë‹¹ ìœ„ì¹˜ë¡œ ì´ë™í•˜ì‹¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.<br><br>
+		<b>ê°€ì„±ë¹„ í‚¤ë³´ë“œ only keyboard shop!</b> ë§Žì´ ì• ìš©í•´ì£¼ì‹œê¸¸ ë¶€íƒë“œë¦½ë‹ˆë‹¤. ê°ì‚¬í•©ë‹ˆë‹¤.
 		
 	</div>
 

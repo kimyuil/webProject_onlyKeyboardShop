@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -22,11 +22,11 @@
 	<div style="width:100px; display:inline-block;"></div>
 
 	<div style="width:35%; display:inline-block; text-align:left;">
-		<h2>${dto.pName}</h2>
+		<a href="/onlyKeyboardShop/productPage?category=${category}&pId=${dto.pId}"><h2>${dto.pName}</h2></a>
 		<br>
 		<h4>${dto.pBreifComment}</h4>
-		∞°∞› : <b>${dto.pPrice}</b> (πËº€∫Ò : ${dto.pDeliveryPrice} ) <br><br>
-		ªÛººº≥∏Ì : ${dto.pInformation}
+		Í∞ÄÍ≤© : <b>${dto.pPrice}</b> (Î∞∞ÏÜ°ÎπÑ : ${dto.pDeliveryPrice} ) <br><br>
+		ÏÉÅÏÑ∏ÏÑ§Î™Ö : ${dto.pInformation} / ÏÉâÏÉÅ : ${dto.pColors} 
 		<br><br>
 		
 	</div>
