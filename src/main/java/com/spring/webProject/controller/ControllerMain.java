@@ -34,16 +34,7 @@ public class ControllerMain {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	///test
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test(Locale locale, Model model) {
-		command = new TestCommand();
-		command.execute(sqlSession,model);
-		System.out.println("test ½ÇÇà");
-		//mainDao=new TestDao();
-		return "home";
-	}
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -113,7 +104,6 @@ public class ControllerMain {
 		
 		System.out.println(model.toString());
 		
-		
 		if (category.equals("61keyboard"))
 			return "product/61keyboard/61product";
 		else if (category.equals("76keyboard"))
@@ -123,7 +113,7 @@ public class ControllerMain {
 	}
 	
 	@RequestMapping(value = "/buyPage", method = RequestMethod.POST)
-	public String buyPage(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
+	public String buyPage(HttpServletRequest request, Model model) {
 		System.out.println("buy page");
 		
 		command = new BuyPageCommand();
