@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.webProject.dao.IUserDao">
+
+<select resultType="String" id="idCheck" >
+	select uId from user where uId=#{id}
+</select>
+
+<insert id="joinUser" parameterType="com.spring.webProject.dto.UserDto">
+  insert into user
+  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{uIsPerchased},#{uIsReceived},#{uDelivery},#{uInterestedList},#{uisAdmin})
+  <!-- ,#{uIsPerchased},#{uIsReceived},#{uDelivery},#{uInterestedList}, -->
+</insert>
+
+<!-- String idCheck(String id); -->
+
+<!-- 
+<select id="listProduct" resultType="com.spring.webProject.dto.ProductDto">
+	select * from product where pCategory = #{param1}
+</select>
+
+<select id="getProduct" resultType="com.spring.webProject.dto.ProductDto">
+	select * from product where pId = #{param1}
+</select>
+ -->
+	
+
+
+</mapper>

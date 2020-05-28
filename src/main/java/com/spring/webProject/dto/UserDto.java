@@ -8,7 +8,7 @@ public class UserDto {
 	String uPw;
 	String uName;
 	String uPhone;//- 들어와도 빼야함
-	String uBirth;//YYYY-MM-DD
+	String uBirth;//YYYY-MM-DDs string
 	String uGender; //남자 or 여자 
 	String uEmail;
 	String uAdress;
