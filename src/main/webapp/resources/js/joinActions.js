@@ -1,6 +1,57 @@
 /**
  * 
  */
+function moveFocus(num,fromform,toform){
+  var str = fromform.value.length;
+  if(str == num) {
+    toform.focus();
+  }   
+}
+
+
+  
+ $(document).ready(function(){
+	  $("#id").keyup(function(){
+		  $("#result").text("아이디를 확인해주십시오.");
+			 $("#result").attr("style", "color:#000");
+			 
+			 $("#submit").attr("disabled", "disabled");
+			 sessionStorage.removeItem("idCheck");
+			 
+	  });
+	});
+
+$(document).on("click", "#idCheckButton", function(){
+	
+	var id = document.getElementById("id");
+	var temp = "uId=";
+	var query = temp.concat(id.value);
+	
+	//alert(query);
+const xhr = new XMLHttpRequest();
+	
+	xhr.open('POST','idCheck');
+	
+	xhr.onreadystatechange=function(){
+	
+		if(xhr.responseText === 'fail'){
+			document.querySelector('#result').style.color = "#fc1c03";
+			document.querySelector('#result').innerHTML ="중복된 값이 있습니다";
+			$('#submit').attr("disabled","disabled");
+			sessionStorage.removeItem("idCheck");
+		}
+		else{
+			document.querySelector("#result").style.color = "#0377fc";
+			document.querySelector('#result').innerHTML ="인증되었습니다";
+			$('#submit').removeAttr("disabled","disabled");
+			sessionStorage.setItem("idCheck","ok");
+		}
+	}
+	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+	xhr.send(query);
+	});
+
+ 
 function validate() {
        var re = /^[a-zA-Z0-9]{4,12}$/ // 아이디와 패스워드가 적합한지 검사할 정규식
        //var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -21,6 +72,11 @@ function validate() {
 
        if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
            return false;
+       }
+       
+       if(sessionStorage.getItem("idCheck")==null){
+    	   alert("id중복검사를 해주세요");
+    	   return false;
        }
 
        if(!check(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
@@ -99,6 +155,7 @@ function validate() {
            var text = 20+y+"-"+m+"-"+d; 
            joinForm.submitBirth.value=text;
        }
+       sessionStorage.removeItem("idCheck");
        alert("회원가입에 성공하였습니다. 로그인화면으로 이동합니다.");
        
  }
@@ -113,69 +170,7 @@ function validate() {
        //return false;
  }
  
- function idCheck(){
-	
-	var id = document.getElementById("id");
-	var temp = "uId=";
-	var query = temp.concat(id.value);
-	
-	//alert(query);
-	
-	const xhr = new XMLHttpRequest();
-	xhr.open('POST','idCheck');
-	xhr.onreadystatechange=function(){
-//		alert(xhr.responseText);
-		if(xhr.responseText === 'fail'){
-			document.querySelector('#result').innerHTML ="중복된 값이 있습니다"; 
-			//document.getElementById("result").value = "중복된 값이 있습니다";
-		}
-		else{
-			document.querySelector('#result').innerHTML ="인증되었습니다";
-			//document.getElementById("result").value = "인증되었습니다.";
-		}
-			
-		//document.getElementById("result").value = ;
-	}
-	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	xhr.send(query);
-	
-//	  document.ajax({
-//	   url : "idCheck", //idCheck 일지 /idCheck일지 확인해봐야함
-//	   type : "post",
-//	   data : query,
-//	   success : function(data) {
-//	   
-//	    if(data == "fail") {
-//	     $("#result").text("사용 불가");
-//	     $("#result").attr("style", "color:#f00");    
-//	    } else {
-//	     $("#result").text("사용 가능");
-//	     $("#result").attr("style", "color:#00f");
-//	    }
-//	   }
-//	  });  // ajax 끝
- }
- 
- //수정중
- $("#idCheckButton").click(function(){
-  alert("check");
-  var query = uId=$("#id").val();
-  
-  $.ajax({
-   url : "idCheck", //idCheck 일지 /idCheck일지 확인해봐야함
-   type : "post",
-   data : query,
-   success : function(data) {
-   
-    if(data == "fail") {
-     $("#result").text("사용 불가");
-     $("#result").attr("style", "color:#f00");    
-    } else {
-     $("#result").text("사용 가능");
-     $("#result").attr("style", "color:#00f");
-    }
-   }
-  });  // ajax 끝
- });
- 
- 
+// $(document).on("click",".mydiv",function(){
+//	 alert("hello");
+// });
+// 

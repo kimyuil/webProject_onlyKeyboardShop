@@ -6,7 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
-<script src="/onlyKeyboardShop/resources/js/joinAction.js"></script>
+<script src="/onlyKeyboardShop/resources/js/joinActions.js"></script>
+<script>
+
+
+ </script>
 
 </head>
 <body>
@@ -15,6 +19,7 @@
 <h2 align="center">회원 가입</h2>
 <br>
 <div style="width:300px; margin:0 auto; " >
+
 <form onsubmit="return validate();" method="post" name="joinForm" action="join" >
 
 	<div class="form-row">
@@ -51,13 +56,13 @@
     
     <div class="row">
     	<div class="col">
-      		<input type="text" class="form-control" id="phone1" placeholder="010">
+      		<input type="text" class="form-control" id="phone1" placeholder="010" onKeyUp="javascript:moveFocus(3,this,document.getElementById('phone2'))" >
     	</div>
     	<div class="col">
-      		<input type="text" class="form-control" id="phone2" placeholder="1234">
+      		<input type="text" class="form-control" id="phone2" placeholder="1234" onKeyUp="javascript:moveFocus(4,this,document.getElementById('phone3'))">
     	</div>
     	<div class="col">
-      		<input type="text" class="form-control" id="phone3" placeholder="5678">
+      		<input type="text" class="form-control" id="phone3" placeholder="5678" onKeyUp="javascript:moveFocus(4,this,document.getElementById('birth'))">
     	</div>
     	<input type="hidden" id="submitPhone" name="uPhone">
   </div>
@@ -65,7 +70,7 @@
   </div>
   <div class="form-group">
     <label for="birth">주민등록번호 앞자리</label> <!-- 폼을 바꿔야 하지 않나? -->
-    <input type="text" class="form-control" id="birth" placeholder="ex) 950101">
+    <input type="text" class="form-control" id="birth" placeholder="ex) 950101" onKeyUp="javascript:moveFocus(6,this,document.getElementById('gender'))">
     <input type="hidden" class="form-control" id="submitBirth" name="uBirth">
   </div>
   <div class="form-group">
@@ -93,7 +98,7 @@
   </div>
   
   <br>
-  <button type="submit" class="btn btn-info btn-block">회원가입</button>
+  <button type="submit" class="btn btn-info btn-block" id="submit" disabled="disabled">회원가입</button>
   <br>
   
 </form>
