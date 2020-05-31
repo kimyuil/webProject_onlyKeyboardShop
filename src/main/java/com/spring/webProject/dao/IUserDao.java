@@ -7,4 +7,6 @@ public interface IUserDao {
 	void joinUser(UserDto user);
 	
 	String idCheck(String id);
+	
+	String loginAction(String uId, String uPw);
 }

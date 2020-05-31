@@ -4,6 +4,16 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<script>
+function checkSession(){
+	sessionStorage.setItem("hi","hi");
+	
+}
+function checkSession2(){
+	
+	alert(sessionStorage.length);
+}
+</script>
 <title>Insert title here</title>
 
 <style type="text/css">
@@ -31,6 +41,9 @@ a:hover {text-decoration: underline; color: red;}
 	<div align="center"> <b>tistory</b> : 
 	<a href="https://only61.tistory.com/">https://only61.tistory.com/</a> </div>
 	</div>
+<br><br><br><br>
+<button onClick="javascript:checkSession()">세션확인</button>
+<button onClick="javascript:checkSession2()">세션확인</button>
 <br><br><br><br>
 
 

@@ -7,8 +7,6 @@ function moveFocus(num,fromform,toform){
     toform.focus();
   }   
 }
-
-
   
  $(document).ready(function(){
 	  $("#id").keyup(function(){

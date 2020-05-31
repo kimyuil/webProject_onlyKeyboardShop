@@ -1,8 +1,14 @@
 package com.spring.webProject.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class UserDto{
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+public class UserSecurityDto implements UserDetails {
+	
 	String uId;
 	String uPw;
 	String uName;
@@ -18,6 +24,48 @@ public class UserDto{
 	//int uisAdmin; //0은 일반user 1은 admin
 	int enabled;
 	String authority;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		 ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+	        auth.add(new SimpleGrantedAuthority(authority));
+	        return auth;
+	}
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return uPw;
+	}
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return uId;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		if(enabled==1) 
+			return true;
+		else
+			return false;
+	}
+	
 	
 	
 	public String getuId() {
@@ -92,12 +140,12 @@ public class UserDto{
 	public void setuInterestedList(String uInterestedList) {
 		this.uInterestedList = uInterestedList;
 	}
-	public int getEnabled() {
-		return enabled;
-	}
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
-	}
+//	public int getEnabled() { isEnabled 메소드와 겹치니 익셉션을 던지더라.. ㅜㅜ
+//		return enabled;
+//	}
+//	public void setEnabled(int enabled) {
+//		this.enabled = enabled;
+//	}
 	public String getAuthority() {
 		return authority;
 	}
@@ -105,11 +153,5 @@ public class UserDto{
 		this.authority = authority;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+
 }

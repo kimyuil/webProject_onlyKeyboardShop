@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,20 +13,17 @@
 <h2 align="center">login page</h2>
 <br><br>
 <div style="width:300px; margin:0 auto; " >
-<form>
+<form method="post" action="<c:url value="j_spring_security_check"/>">
   <div class="form-group">
-    <label for="exampleInputEmail1">ID</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter ID">
-    <small id="emailHelp" class="form-text text-muted">id를 입력하세요.</small>
+    <label for="id">ID</label>
+    <input type="text" class="form-control" id="id" placeholder="Enter ID" name="uId">
+    <small id="idHelp" class="form-text text-muted">id를 입력하세요.</small>
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="pw">Password</label>
+    <input type="password" class="form-control" id="pw" placeholder="Password" name="uPw">
   </div>
-  <!-- <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div> -->
+  <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
   <br>
   <button type="submit" class="btn btn-primary btn-block">Login</button>
   <br>
@@ -38,6 +36,16 @@
   
 </form>
 </div>
+<div style="width:300px; height:40px; margin:0 auto; " ></div>
+<div style="width:400px; margin:0 auto; text-align: center; " >
+<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+    <font color="red" >
+        <p>아이디 또는 비밀번호가 맞지 않습니다.</p>
+        <c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
+    </font>
+</c:if>
+</div>
+
 
 <br><br><br>
 <br><br><br>

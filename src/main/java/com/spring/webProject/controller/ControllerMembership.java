@@ -20,6 +20,7 @@ import com.spring.webProject.command.BuyPageCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.JoinCommand;
+import com.spring.webProject.command.LoginCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.TestCommand;
@@ -69,7 +70,7 @@ public class ControllerMembership {
 		return "redirect:login";
 	}
 	
-	@ResponseBody
+	@ResponseBody  //ajax
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
 	public String join(HttpServletRequest request, Model model) {
 		System.out.println("inCheck");
@@ -88,12 +89,48 @@ public class ControllerMembership {
 		else
 			return "fail";
 
-//		if(result == null) 즉 중복되는 아이디가 없다면
-//			model.addAttribute("result", 1);
-//		else
-//			model.addAttribute("result", 0);
-		
-
-	//	return "redirect:login";
 	}
+	
+//	@ResponseBody  //ajax
+	@RequestMapping(value = "/loginAction", method = RequestMethod.POST)
+	public String loginAction(HttpServletRequest request, Model model) {
+		System.out.println("loginAction");
+//		command = new LoginCommand();
+//		
+//		model.addAttribute("uId",request.getParameter("uId"));
+//		model.addAttribute("uPw",request.getParameter("uPw"));
+//		command.execute(sqlSession, model);
+//		
+//		Map<String, Object> map = model.asMap();
+//		String uName = (String)map.get("uName");
+//		
+//		if(uName==null) //로그인 결과가 없을때
+//			return "fail";
+//		else
+//			return "success";
+		return "home";
+				
+	}
+	
+	@RequestMapping(value = "/errorPage", method = RequestMethod.GET)
+	public String errorPageView(Locale locale, Model model) {
+		System.out.println("errorPageView");
+		
+		return "membership/errorPage";
+	}
+
+	@RequestMapping(value = "/member/test", method = RequestMethod.GET)
+	public String memberTest(Model model) {
+		System.out.println("memberTest");
+		
+		return "membership/memberTest";
+	}
+
+	@RequestMapping(value = "/admin/test", method = RequestMethod.GET)
+	public String adminTest(Model model) {
+		System.out.println("adminTest");
+		
+		return "membership/adminTest";
+	}
+	
 }

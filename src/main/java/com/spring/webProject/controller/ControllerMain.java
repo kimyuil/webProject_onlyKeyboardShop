@@ -43,6 +43,11 @@ public class ControllerMain {
 		
 		return "home";
 	}
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home2(Locale locale, Model model) {
+		
+		return "home";
+	}
 	
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String about(Locale locale, Model model) {
@@ -135,7 +140,6 @@ public class ControllerMain {
 		System.out.println("notice");
 		return "community/notice";
 	}
-	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {

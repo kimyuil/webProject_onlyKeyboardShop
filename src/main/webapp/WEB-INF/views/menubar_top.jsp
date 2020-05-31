@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,15 +56,32 @@
   
   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
   	<ul class="navbar-nav ml-auto">
+  	<sec:authorize access="isAnonymous()">
   		<li class="nav-item">
   			<a class="nav-link" href="/onlyKeyboardShop/login">login</a>
   		</li>
+  	</sec:authorize>
+  	
+  	<sec:authorize access="isAuthenticated()">
+  		 <li class="nav-item">
+  			<span class="navbar-text"><b><sec:authentication property="principal.uName"/></b>님, 반갑습니다!</span>
+  		</li> 
+  		<li class="nav-item">
+  			<a class="nav-link" href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+  		</li>
+  	</sec:authorize>
+			
+			
+ 		
   		<li class="nav-item">
   			<a class="nav-link" href="/onlyKeyboardShop/mypage">mypage</a>
   		</li>
   	</ul>
   </div>
 </nav>
+<form id="logout-form" action="j_spring_security_logout" method="POST" style="display:none;"> 
+   				<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+			</form>
 <br>
 
 </body>

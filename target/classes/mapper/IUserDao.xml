@@ -11,9 +11,13 @@
 
 <insert id="joinUser" parameterType="com.spring.webProject.dto.UserDto">
   insert into user
-  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{uIsPerchased},#{uIsReceived},#{uDelivery},#{uInterestedList},#{uisAdmin})
-  <!-- ,#{uIsPerchased},#{uIsReceived},#{uDelivery},#{uInterestedList}, -->
+  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{uIsPerchased},#{uIsReceived},#{uDelivery},#{uInterestedList},#{enabled},#{authority})
 </insert>
+
+<select resultType="String" id="loginAction" >
+	select uName from user where uId=#{param1} and uPw=#{param2}
+</select>
+
 
 <!-- String idCheck(String id); -->
 
