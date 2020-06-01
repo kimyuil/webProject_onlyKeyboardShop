@@ -12,5 +12,12 @@
 	select * from product where pId = #{param1}
 </select>
 
+<select id="getBookmarkList" resultType="String">
+	select uInterestedList from user where uId = #{uId}
+</select>
+
+<update id="addBookmark">
+	update user set uInterestedList=#{pIdAdd} where uId = #{uId}
+</update>
 
 </mapper>

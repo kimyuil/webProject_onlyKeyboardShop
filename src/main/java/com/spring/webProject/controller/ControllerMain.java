@@ -2,6 +2,7 @@ package com.spring.webProject.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.webProject.command.AddBookmarkCommand;
 import com.spring.webProject.command.BuyPageCommand;
 import com.spring.webProject.command.ICommand;
+import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.TestCommand;
@@ -34,7 +38,6 @@ public class ControllerMain {
 	@Autowired
 	private SqlSession sqlSession;
 	
-
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -49,6 +52,7 @@ public class ControllerMain {
 		return "home";
 	}
 	
+	//brand
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String about(Locale locale, Model model) {
 		System.out.println("about");
@@ -60,6 +64,8 @@ public class ControllerMain {
 		return "brand/location";
 	}
 	
+	
+	//product 관련 요청들
 	
 	@RequestMapping(value = "/88keyboard", method = RequestMethod.GET)
 	public String keyboard88(Locale locale, Model model) {
@@ -117,6 +123,29 @@ public class ControllerMain {
 			return "product/88keyboard/88product";
 	}
 	
+	@ResponseBody  //ajax
+	@RequestMapping(value = "/addBookmark", method = RequestMethod.POST)
+	public String addBookmark(HttpServletRequest request, Model model) {
+		System.out.println("addBookmark");
+		
+		command = new AddBookmarkCommand();
+		
+		String uId = request.getParameter("uId");
+		String pId = request.getParameter("pId");
+		model.addAttribute("uId", uId);
+		model.addAttribute("pId", pId);
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String) map.get("result");
+		
+		return result;
+//		if(result == "success")
+//			return "success";
+//		else
+//			return result;
+	}
+	
 	@RequestMapping(value = "/buyPage", method = RequestMethod.POST)
 	public String buyPage(HttpServletRequest request, Model model) {
 		System.out.println("buy page");
@@ -126,10 +155,10 @@ public class ControllerMain {
 		return "home";
 	}
 	
+
 	
 	
-	
-	
+	//community
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)
 	public String freeboard(Locale locale, Model model) {
 		System.out.println("freeboard");
@@ -141,15 +170,6 @@ public class ControllerMain {
 		return "community/notice";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Locale locale, Model model) {
-		System.out.println("login");
-		return "membership/login";
-	}
-	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String mypage(Locale locale, Model model) {
-		System.out.println("mypage");
-		return "membership/mypage";
-	}
+	
 	
 }

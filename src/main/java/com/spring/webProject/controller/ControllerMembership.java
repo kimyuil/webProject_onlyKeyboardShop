@@ -48,6 +48,18 @@ public class ControllerMembership {
 		return "home";
 	}
 	
+	//페이지이동
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Locale locale, Model model) {
+		System.out.println("login");
+		return "membership/login";
+	}
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String mypage(Locale locale, Model model) {
+		System.out.println("mypage");
+		return "membership/mypage";
+	}
+	
 	//id찾기
 	@RequestMapping(value = "/findIdView", method = RequestMethod.GET)
 	public String findIdView(Locale locale, Model model) {

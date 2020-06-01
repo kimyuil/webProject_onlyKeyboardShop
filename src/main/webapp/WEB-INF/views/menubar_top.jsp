@@ -63,7 +63,7 @@
   	</sec:authorize>
   	
   	<sec:authorize access="isAuthenticated()">
-  		 <li class="nav-item">
+  		<li class="nav-item">
   			<span class="navbar-text"><b><sec:authentication property="principal.uName"/></b>님, 반갑습니다!</span>
   		</li> 
   		<li class="nav-item">

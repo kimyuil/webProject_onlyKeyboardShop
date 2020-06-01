@@ -1,21 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-<script src="/onlyKeyboardShop/resources/js/productAction.js"></script>
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><meta charset="EUC-KR">
+  
 <title>Insert title here</title>
+
+<sec:authentication property="principal.username" var="currentUserName"/>
+
+<sec:authorize access="isAnonymous()">
+<script language=javaScript src="/onlyKeyboardShop/resources/js/productActionInvalid.js"></script>
+</sec:authorize>
+
+
+<sec:authorize access="isAuthenticated()">
+<script language=javaScript src="/onlyKeyboardShop/resources/js/productActionValid.js"></script>
+</sec:authorize>
+	
 </head>
 
 <body>
 
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
 <br>
-<h1 align="center">${product.pName}</h1>
+<h1 align="center" id="pId" value="${product.pId}">${product.pName}</h1>
 <br><br><br>
 <div style="clear:both;"></div>
 
@@ -28,9 +41,9 @@
 
 	<div style="width:400px; display:inline-block;text-align:left; "> <!-- 오른쪽 정보 -->
 	
-	<button class="btn btn-light" onclick="javascript:loginCheck()"> 북마크하기 </button> <!-- user정보변경 / 로긴체크js-->
+	<button class="btn btn-light" id="bookMark" value="${currentUserName}"> 북마크하기 </button> <!-- user정보변경 / 로긴체크js-->
 	<br><br>
-	<form action="buyPage"  method="post"> <!-- hidden으로 user id도 보내야함. -->
+	<form action="buyPage"  method="post" id="buyForm" onsubmit="return formLoginCheck()"> <!-- hidden으로 user id도 보내야함. -->
 		<input type="hidden" name="pId" value="${product.pId}"/>
 		<h4>${product.pName}</h4>
 		<p>category : ${product.pCategory}</p>
@@ -51,7 +64,7 @@
 		</div>
 	</form>
 		<div style="float:left;">	
-		<button class="btn btn-light" onclick="javascript:loginCheck()">장바구니</button> <!-- user정보변경 / 로긴체크js-->
+		<button class="btn btn-light" id="basket">장바구니</button> <!-- user정보변경 / 로긴체크js-->
 		</div>
 		
 	

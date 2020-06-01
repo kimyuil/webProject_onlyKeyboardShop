@@ -96,7 +96,8 @@
     <input type="text" class="form-control" autocomplete="false" id="adress" name="uAdress" placeholder="경기도 광명시">
     <small id="emailHelp" class="form-text text-muted">간단히 입력하셔도 됩니다</small>
   </div>
-  
+  <input type="hidden" name="enabled" value="1"/>
+  <input type="hidden" name="authority" value="ROLE_MEMBER"/>
   <br>
   <button type="submit" class="btn btn-info btn-block" id="submit" disabled="disabled">회원가입</button>
   <br>
