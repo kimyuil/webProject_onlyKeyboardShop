@@ -67,12 +67,10 @@
   			<span class="navbar-text"><b><sec:authentication property="principal.uName"/></b>님, 반갑습니다!</span>
   		</li> 
   		<li class="nav-item">
-  			<a class="nav-link" href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+  			<a class="nav-link" href="#" onclick="document.getElementById('logout-form').submit(); alert('로그아웃 되었습니다');">로그아웃</a>
   		</li>
   	</sec:authorize>
-			
-			
- 		
+			 		
   		<li class="nav-item">
   			<a class="nav-link" href="/onlyKeyboardShop/mypage">mypage</a>
   		</li>

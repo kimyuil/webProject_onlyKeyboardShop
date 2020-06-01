@@ -18,19 +18,17 @@
 	select uName from user where uId=#{param1} and uPw=#{param2}
 </select>
 
-
-<!-- String idCheck(String id); -->
-
-<!-- 
-<select id="listProduct" resultType="com.spring.webProject.dto.ProductDto">
-	select * from product where pCategory = #{param1}
+<select resultType="String" id="findId" >
+	select uId from user where uEmail=#{param1} and uName=#{param2}
 </select>
 
-<select id="getProduct" resultType="com.spring.webProject.dto.ProductDto">
-	select * from product where pId = #{param1}
+<select resultType="String" id="findPw" >
+	select uId from user where uEmail=#{param1} and uId=#{param2}
 </select>
- -->
 	
+<update id="renewPw">
+	update user set uPw = #{pw} where uId=#{id}
+</update>
 
 
 </mapper>

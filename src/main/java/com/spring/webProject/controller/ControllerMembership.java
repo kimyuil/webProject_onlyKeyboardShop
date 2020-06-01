@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.webProject.command.BuyPageCommand;
+import com.spring.webProject.command.FindIdCommand;
+import com.spring.webProject.command.FindPwCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.JoinCommand;
 import com.spring.webProject.command.LoginCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
+import com.spring.webProject.command.RenewPwCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.dto.UserDto;
 
@@ -45,14 +48,59 @@ public class ControllerMembership {
 		return "home";
 	}
 	
-	
-	@RequestMapping(value = "/findMembership", method = RequestMethod.GET)
-	public String findMembership(Locale locale, Model model) {
-		System.out.println("findMembership");
+	//id찾기
+	@RequestMapping(value = "/findIdView", method = RequestMethod.GET)
+	public String findIdView(Locale locale, Model model) {
+		System.out.println("findIdView");
 		
-		return "membership/findIdPw";
+		return "membership/findId";
+	}
+	@RequestMapping(value = "/findId", method = RequestMethod.POST)
+	public String findId(HttpServletRequest request, Model model) {
+		System.out.println("findId");
+		command = new FindIdCommand();
+		model.addAttribute("email",request.getParameter("email") );
+		model.addAttribute("name",request.getParameter("name") );
+		
+		command.execute(sqlSession, model);
+		
+		return "membership/findResultId";
 	}
 	
+	//pw찾기
+	@RequestMapping(value = "/findPwView", method = RequestMethod.GET)
+	public String findPwView(Locale locale, Model model) {
+		System.out.println("findPwView");
+		
+		return "membership/findPw";
+	}
+	@RequestMapping(value = "/findPw", method = RequestMethod.POST)
+	public String findPw(HttpServletRequest request, Model model) {
+		System.out.println("findPw");
+		
+		command = new FindPwCommand();
+		model.addAttribute("email",request.getParameter("email") );
+		model.addAttribute("id",request.getParameter("id") );
+		
+		command.execute(sqlSession, model);
+		
+		return "membership/findResultPw";
+	}
+	@RequestMapping(value = "/renewPw", method = RequestMethod.POST)
+	public String renewPw(HttpServletRequest request, Model model) {
+		System.out.println("findPw");
+		
+		command = new RenewPwCommand();
+		model.addAttribute("pw",request.getParameter("uPw") );
+		model.addAttribute("id",request.getParameter("id") );//미정
+				
+		command.execute(sqlSession, model);
+		
+		return "membership/login";//미정
+	}
+	
+	
+	//회원가입
 	@RequestMapping(value = "/joinView", method = RequestMethod.GET)
 	public String joinView(Locale locale, Model model) {
 		System.out.println("joinView");
@@ -91,34 +139,17 @@ public class ControllerMembership {
 
 	}
 	
-//	@ResponseBody  //ajax
-	@RequestMapping(value = "/loginAction", method = RequestMethod.POST)
-	public String loginAction(HttpServletRequest request, Model model) {
-		System.out.println("loginAction");
-//		command = new LoginCommand();
-//		
-//		model.addAttribute("uId",request.getParameter("uId"));
-//		model.addAttribute("uPw",request.getParameter("uPw"));
-//		command.execute(sqlSession, model);
-//		
-//		Map<String, Object> map = model.asMap();
-//		String uName = (String)map.get("uName");
-//		
-//		if(uName==null) //로그인 결과가 없을때
-//			return "fail";
-//		else
-//			return "success";
-		return "home";
-				
-	}
 	
+	
+	//권한 잘못 들어왔을때
 	@RequestMapping(value = "/errorPage", method = RequestMethod.GET)
 	public String errorPageView(Locale locale, Model model) {
 		System.out.println("errorPageView");
 		
 		return "membership/errorPage";
 	}
-
+	
+	// 권한 테스트를 위한 임시 매핑
 	@RequestMapping(value = "/member/test", method = RequestMethod.GET)
 	public String memberTest(Model model) {
 		System.out.println("memberTest");

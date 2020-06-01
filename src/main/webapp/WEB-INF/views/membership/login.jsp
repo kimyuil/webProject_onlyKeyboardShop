@@ -8,6 +8,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<c:if test="${pwChange=='ok'}" >
+<script>
+alert("성공적으로 변경되었습니다. 다시 로그인해주시기 바랍니다");
+</script>
+
+</c:if>
+
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
 <br>
 <h2 align="center">login page</h2>
@@ -28,7 +36,7 @@
   <button type="submit" class="btn btn-primary btn-block">Login</button>
   <br>
   <div style="float:left;">
-  	<a href="/onlyKeyboardShop/findMembership">id/pw 찾기</a>
+  	<a href="/onlyKeyboardShop/findIdView">id찾기</a>/<a href="/onlyKeyboardShop/findPwView">pw찾기</a>
   </div>
   <div style="float:right;">
   <a href="/onlyKeyboardShop/joinView">회원가입하기</a>

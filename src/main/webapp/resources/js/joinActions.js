@@ -1,6 +1,9 @@
 /**
  * 
  */
+document.write("<script src='/onlyKeyboardShop/resources/js/check.js'></script>");
+
+
 function moveFocus(num,fromform,toform){
   var str = fromform.value.length;
   if(str == num) {
@@ -77,15 +80,20 @@ function validate() {
     	   return false;
        }
 
-       if(!check(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-           return false;
-       }
-
-       if(joinForm.pw.value != joinForm.checkpw.value) {
-           alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-           pw.focus();
-           return false;
-       }
+       /*function pwCheck(re, pw, message, checkpw){ 
+    		if(!check(re,pw,message)) {
+    	        return false;
+    	    }
+    		
+    		if(pw.value != checkpw.value) {
+    	        alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
+    	        pw.focus();
+    	        return false;
+    	    }
+    		
+    	}*/
+       pwCheck(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력", joinForm.checkpw)
+  
        
        if(joinForm.name.value=="") {
            alert("이름을 입력해 주세요");
@@ -158,15 +166,8 @@ function validate() {
        
  }
 
- function check(re, what, message) {
-       if(re.test(what.value)) {
-           return true;
-       }
-       alert(message);
-       what.value = "";
-       what.focus();
-       //return false;
- }
+
+
  
 // $(document).on("click",".mydiv",function(){
 //	 alert("hello");
