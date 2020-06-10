@@ -50,7 +50,7 @@ const xhr = new XMLHttpRequest();
 	}
 	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	xhr.send(query);
-	});
+});
 
  
 function validate() {

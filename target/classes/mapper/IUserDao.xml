@@ -11,7 +11,7 @@
 
 <insert id="joinUser" parameterType="com.spring.webProject.dto.UserDto">
   insert into user
-  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{uIsPerchased},#{uIsReceived},#{uDelivery},#{uInterestedList},#{enabled},#{authority})
+  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{uInterestedList},#{enabled},#{authority})
 </insert>
 
 <select resultType="String" id="loginAction" >
@@ -30,5 +30,8 @@
 	update user set uPw = #{pw} where uId=#{id}
 </update>
 
+<select resultType="String" id="userCheck" >
+	select uId from user where uId=#{id} and uPw=#{pw}
+</select>
 
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@SuppressWarnings("serial")
 public class UserSecurityDto implements UserDetails {
 	
 	String uId;
@@ -17,9 +18,6 @@ public class UserSecurityDto implements UserDetails {
 	String uGender; //남자 or 여자 
 	String uEmail;
 	String uAdress;
-	int uIsPerchased; //구입여부
-	int uIsReceived; //받음여부
-	String uDelivery; //배송조회
 	String uInterestedList; //관심목록 ;로 구분해서 추가 및 제거 manager 필요
 	//int uisAdmin; //0은 일반user 1은 admin
 	int enabled;
@@ -115,24 +113,6 @@ public class UserSecurityDto implements UserDetails {
 	}
 	public void setuAdress(String uAdress) {
 		this.uAdress = uAdress;
-	}
-	public int getuIsPerchased() {
-		return uIsPerchased;
-	}
-	public void setuIsPerchased(int uIsPerchased) {
-		this.uIsPerchased = uIsPerchased;
-	}
-	public int getuIsReceived() {
-		return uIsReceived;
-	}
-	public void setuIsReceived(int uIsReceived) {
-		this.uIsReceived = uIsReceived;
-	}
-	public String getuDelivery() {
-		return uDelivery;
-	}
-	public void setuDelivery(String uDelivery) {
-		this.uDelivery = uDelivery;
 	}
 	public String getuInterestedList() {
 		return uInterestedList;

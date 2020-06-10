@@ -6,7 +6,7 @@ public class ProductDto {
 	String pBreifComment;
 	String pImageRoute;
 	int pPrice;
-	int pDeliveryPrice;
+	//int pDeliveryPrice;
 	String pExplainImageRoute;
 	int pSellingNum;
 	String pCategory;
@@ -46,12 +46,12 @@ public class ProductDto {
 	public void setpPrice(int pPrice) {
 		this.pPrice = pPrice;
 	}
-	public int getpDeliveryPrice() {
-		return pDeliveryPrice;
-	}
-	public void setpDeliveryPrice(int pDeliveryPrice) {
-		this.pDeliveryPrice = pDeliveryPrice;
-	}
+//	public int getpDeliveryPrice() {
+//		return pDeliveryPrice;
+//	}
+//	public void setpDeliveryPrice(int pDeliveryPrice) {
+//		this.pDeliveryPrice = pDeliveryPrice;
+//	}
 	public String getpExplainImageRoute() {
 		return pExplainImageRoute;
 	}

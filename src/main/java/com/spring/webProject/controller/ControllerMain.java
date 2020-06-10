@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.webProject.command.AddBasketCommand;
 import com.spring.webProject.command.AddBookmarkCommand;
-import com.spring.webProject.command.BuyPageCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
+import com.spring.webProject.command.PurchaseItemsCommand;
 import com.spring.webProject.command.TestCommand;
 
 
@@ -140,23 +141,69 @@ public class ControllerMain {
 		String result = (String) map.get("result");
 		
 		return result;
-//		if(result == "success")
-//			return "success";
-//		else
-//			return result;
+	}
+	/*
+	 * @ResponseBody //ajax
+	 * 
+	 * @RequestMapping(value = "/addBasket", method = RequestMethod.POST) public
+	 * String addBasket(HttpServletRequest request, Model model) {
+	 * System.out.println("addBasket");
+	 * 
+	 * command = new AddBasketCommand();
+	 * 
+	 * String uId = request.getParameter("uId"); String pId =
+	 * request.getParameter("pId"); model.addAttribute("uId", uId);
+	 * model.addAttribute("pId", pId); command.execute(sqlSession, model);
+	 * 
+	 * Map<String, Object> map = model.asMap(); String result = (String)
+	 * map.get("result");
+	 * 
+	 * return result; }
+	 */
+	
+	//구매페이지 (로그인필요) post(상품페이지에서)
+	@RequestMapping(value = "member/buyPage", method = RequestMethod.POST)
+	public String buyPost(HttpServletRequest request, Model model) {
+		System.out.println("buy POST");
+		return "product/buyPage";
+	}
+	//구매페이지 (로그인필요) get (장바구니에서 올때)
+	@RequestMapping(value = "member/buyPage", method = RequestMethod.GET)
+	public String buyGet(HttpServletRequest request, Model model) {
+		System.out.println("buy GET");
+		return "product/buyPage";
 	}
 	
-	@RequestMapping(value = "/buyPage", method = RequestMethod.POST)
-	public String buyPage(HttpServletRequest request, Model model) {
-		System.out.println("buy page");
-		
-		command = new BuyPageCommand();
-		
-		return "home";
-	}
 	
+	//구매페이지 (로그인필요) post(상품페이지에서)
+	@RequestMapping(value = "member/buyAction", method = RequestMethod.POST)
+	public String buyAction(HttpServletRequest request, Model model) {
+		System.out.println("buyAction test page");
+		
+		command = new PurchaseItemsCommand();
+ 
+		model.addAttribute("uId", request.getParameter("uId"));
+		model.addAttribute("uName", request.getParameter("uName"));
+		model.addAttribute("uAdress", request.getParameter("uAdress"));
+		model.addAttribute("uPhone", request.getParameter("uPhone"));
+		model.addAttribute("deliverMessage", request.getParameter("deliverMessage"));
+		model.addAttribute("pId", request.getParameter("pId"));
+		model.addAttribute("pName", request.getParameter("pName"));
+		model.addAttribute("pColor", request.getParameter("pColor"));
+		model.addAttribute("pImage", request.getParameter("pImage"));
+		model.addAttribute("pNumof", request.getParameter("pNumof"));
+		command.execute(sqlSession, model);
+		
+	
+		Map<String, Object> map = model.asMap();
+		String error = (String) map.get("error");
+		
+		if(error!=null) // 에러가 있으면
+			return "home";
+		else
+			return "product/buySuccess";
+	}
 
-	
 	
 	//community
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)
@@ -170,6 +217,11 @@ public class ControllerMain {
 		return "community/notice";
 	}
 	
-	
+	//temp 
+	@RequestMapping(value = "/temp", method = RequestMethod.GET)
+	public String tmp(Locale locale, Model model) {
+		System.out.println("temp");
+		return "product/buySuccess";
+	}
 	
 }

@@ -3,13 +3,9 @@
  */
 
 
-function formLoginCheck(){
-	alert("화면넘어가기");
-	return true;
-};
 
 
-$(document).on("click", "#bookMark", function(){
+$(document).on("click", "#bookMark", function(){ //북마크기능구현
 	
 	var uId = $('#bookMark').attr('value');
 	var pId = $('#pId').attr('value');
@@ -43,25 +39,7 @@ $(document).on("click", "#bookMark", function(){
 });
 
 
-/*$(document).on("click", "#bookMark", function(){
-	var value = document.getElementById("bookMark");
-	
-	alert("bookmark");
-	//alert($('#bookMark').attr('value')+"없나");
-	
-	//북마츠
-});
-*/
-$(document).on("click", "#basket", function(){
-	alert("basket");
-	//장바구니
-});
 
-function formLoginCheck(){
-	//어? 이건 ajax 할필요 없잖아. 그냥
-	alert("확인")
-	return true;
-};
 
 
 

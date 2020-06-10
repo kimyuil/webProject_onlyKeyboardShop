@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <!-- Brand -->
-  <a class="navbar-brand" href="/onlyKeyboardShop/">Only Keyboard</a>
+  <a class="navbar-brand" href="home">Only Keyboard</a>
 
   <!-- Links -->
   <ul class="navbar-nav">
@@ -27,8 +27,8 @@
         Brand
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/onlyKeyboardShop/about">about</a>
-        <a class="dropdown-item" href="/onlyKeyboardShop/location">location</a>
+        <a class="dropdown-item" href="about">about</a>
+        <a class="dropdown-item" href="location">location</a>
       </div>
     </li>
        <!-- Dropdown -->
@@ -37,9 +37,9 @@
         Product
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/onlyKeyboardShop/88keyboard">88Keyboard</a>
-        <a class="dropdown-item" href="/onlyKeyboardShop/76keyboard">76Keyboard</a>
-        <a class="dropdown-item" href="/onlyKeyboardShop/61keyboard">61Keyboard</a>
+        <a class="dropdown-item" href="88keyboard">88Keyboard</a>
+        <a class="dropdown-item" href="76keyboard">76Keyboard</a>
+        <a class="dropdown-item" href="61keyboard">61Keyboard</a>
       </div>
     </li>
        <!-- Dropdown -->
@@ -48,8 +48,8 @@
         Community
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/onlyKeyboardShop/freeboard">자유게시판</a>
-        <a class="dropdown-item" href="/onlyKeyboardShop/notice">공지사항</a>
+        <a class="dropdown-item" href="freeboard">자유게시판</a>
+        <a class="dropdown-item" href="notice">공지사항</a>
       </div>
     </li>
   </ul>
@@ -58,7 +58,7 @@
   	<ul class="navbar-nav ml-auto">
   	<sec:authorize access="isAnonymous()">
   		<li class="nav-item">
-  			<a class="nav-link" href="/onlyKeyboardShop/login">login</a>
+  			<a class="nav-link" href="login">login</a>
   		</li>
   	</sec:authorize>
   	
@@ -72,14 +72,15 @@
   	</sec:authorize>
 			 		
   		<li class="nav-item">
-  			<a class="nav-link" href="/onlyKeyboardShop/mypage">mypage</a>
+  			<a class="nav-link" href="mypage">mypage</a>
   		</li>
   	</ul>
   </div>
 </nav>
-<form id="logout-form" action="j_spring_security_logout" method="POST" style="display:none;"> 
-   				<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-			</form>
+<c:url value="/j_spring_security_logout" var="logoutUrl" />
+<form id="logout-form" action="${logoutUrl}" method="POST" style="display:none;"> 
+	<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+</form>
 <br>
 
 </body>

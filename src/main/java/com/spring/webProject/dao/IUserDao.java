@@ -17,4 +17,6 @@ public interface IUserDao {
 	String findPw(String email, String id);
 	
 	void renewPw(@Param("id") String id,@Param("pw") String pw);
+
+	String userCheck(@Param("id") String id,@Param("pw") String pw);
 }

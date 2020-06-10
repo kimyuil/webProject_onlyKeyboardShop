@@ -42,9 +42,7 @@ a:hover {text-decoration: underline; color: red;}
 	<a href="https://only61.tistory.com/">https://only61.tistory.com/</a> </div>
 	</div>
 <br><br><br><br>
-<button onClick="javascript:checkSession()">세션확인</button>
-<button onClick="javascript:checkSession2()">세션확인</button>
-<br><br><br><br>
+<br><br>
 
 
 

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.webProject.command.BuyPageCommand;
 import com.spring.webProject.command.FindIdCommand;
 import com.spring.webProject.command.FindPwCommand;
 import com.spring.webProject.command.ICommand;
@@ -27,6 +26,7 @@ import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.RenewPwCommand;
 import com.spring.webProject.command.TestCommand;
+import com.spring.webProject.command.UserCheckCommand;
 import com.spring.webProject.dto.UserDto;
 
 
@@ -111,6 +111,18 @@ public class ControllerMembership {
 		return "membership/login";//미정
 	}
 	
+	//로그아웃
+		@RequestMapping(value = "/member/home", method = RequestMethod.GET)
+		public String logout(Locale locale, Model model) {
+			System.out.println("logout");
+			return "home";
+		}
+		@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
+		public String logout2(Locale locale, Model model) {
+			System.out.println("logout2");
+			return "home";
+		}
+	
 	
 	//회원가입
 	@RequestMapping(value = "/joinView", method = RequestMethod.GET)
@@ -150,9 +162,7 @@ public class ControllerMembership {
 			return "fail";
 
 	}
-	
-	
-	
+		
 	//권한 잘못 들어왔을때
 	@RequestMapping(value = "/errorPage", method = RequestMethod.GET)
 	public String errorPageView(Locale locale, Model model) {
@@ -176,4 +186,40 @@ public class ControllerMembership {
 		return "membership/adminTest";
 	}
 	
+	//장바구니
+	@RequestMapping(value = "/basket", method = RequestMethod.GET)
+	public String basketShow(Model model) {
+		System.out.println("basketShow");
+		
+		return "membership/basketPage";
+	}
+	
+
+	@ResponseBody  //ajax
+	@RequestMapping(value = "/userCheck", method = RequestMethod.POST)
+	public String userCheck(HttpServletRequest request, Model model) {
+		System.out.println("userCheck");
+		
+		command = new UserCheckCommand();
+		
+		String id = request.getParameter("uId");
+		model.addAttribute("id", id);
+		String pw = request.getParameter("uPw");
+		model.addAttribute("pw", pw);
+		System.out.println(id+pw);
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		Integer result = (Integer) map.get("result");
+		
+		if(result == 1) {
+			System.out.println("success");
+			return "success";
+		}
+		else {
+			System.out.println("fail");
+			return "fail";
+		}
+
+	}
 }
