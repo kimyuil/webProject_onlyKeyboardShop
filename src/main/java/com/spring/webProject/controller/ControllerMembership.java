@@ -40,7 +40,7 @@ public class ControllerMembership {
 	
 	///test
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test(Locale locale, Model model) {
+	public String test(Locale locale, Model model)throws Exception {
 		command = new TestCommand();
 		command.execute(sqlSession,model);
 		System.out.println("test ½ÇÇà");
@@ -68,7 +68,7 @@ public class ControllerMembership {
 		return "membership/findId";
 	}
 	@RequestMapping(value = "/findId", method = RequestMethod.POST)
-	public String findId(HttpServletRequest request, Model model) {
+	public String findId(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("findId");
 		command = new FindIdCommand();
 		model.addAttribute("email",request.getParameter("email") );
@@ -87,7 +87,7 @@ public class ControllerMembership {
 		return "membership/findPw";
 	}
 	@RequestMapping(value = "/findPw", method = RequestMethod.POST)
-	public String findPw(HttpServletRequest request, Model model) {
+	public String findPw(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("findPw");
 		
 		command = new FindPwCommand();
@@ -99,7 +99,7 @@ public class ControllerMembership {
 		return "membership/findResultPw";
 	}
 	@RequestMapping(value = "/renewPw", method = RequestMethod.POST)
-	public String renewPw(HttpServletRequest request, Model model) {
+	public String renewPw(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("findPw");
 		
 		command = new RenewPwCommand();
@@ -133,7 +133,7 @@ public class ControllerMembership {
 	}
 	
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String join(UserDto user, Model model) {
+	public String join(UserDto user, Model model) throws Exception {
 		System.out.println("join");
 		command = new JoinCommand();
 		model.addAttribute("user",user);
@@ -144,7 +144,7 @@ public class ControllerMembership {
 	
 	@ResponseBody  //ajax
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
-	public String join(HttpServletRequest request, Model model) {
+	public String join(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("inCheck");
 		
 		command = new IdCheckCommand();
@@ -197,7 +197,7 @@ public class ControllerMembership {
 
 	@ResponseBody  //ajax
 	@RequestMapping(value = "/userCheck", method = RequestMethod.POST)
-	public String userCheck(HttpServletRequest request, Model model) {
+	public String userCheck(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("userCheck");
 		
 		command = new UserCheckCommand();

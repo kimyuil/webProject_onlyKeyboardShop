@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.spring.webProject.dto.AdditionalPrice" %>
-<%-- <%@ page import="java.util.*"%> --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,6 +33,18 @@ var deliveryPrice = <%=deliveryPirce%>;
 var numofIndex=0;
 var optionList=new Array(); //현재 선택된 옵션들의 "값"
 var indexList=new Array(); //현재 선택된 옵션들의 "index"들
+var stock = "${product.pStock}";
+
+$(document).ready(function(){
+	if(Number(stock)<=0){
+		$('#basket').attr('disabled',true);
+		$('#buyButton').attr('disabled',true);
+		$('#isSoldout').append("<span style='font-weight: bold;	color: red;	font-size: x-large;'>품절입니다</span>");
+	}
+	else{
+		$('#isSoldout').append("<span style='font-size: large;'>남은 재고 : "+stock+"</span>");
+	}
+})
 
 $(document).on("change", "#colorSelect", function(){ //옵션을 선택해야 결제진행
 	
@@ -44,10 +56,11 @@ $(document).on("change", "#colorSelect", function(){ //옵션을 선택해야 �
 			}
 		}
 	}
-	optionList.push($("#colorSelect option:selected").val());
-	indexList.push(numofIndex);
 	
 	if($("#colorSelect option:selected").val()!="none"){
+		
+		optionList.push($("#colorSelect option:selected").val());
+		indexList.push(numofIndex);
 		//alert($("#colorSelect option:selected").val());
 		$("#productDetails").append(
 			"<li id='item"+numofIndex+"' value='"+$("#colorSelect option:selected").val()+"'>"+
@@ -67,7 +80,6 @@ $(document).on("change", "#colorSelect", function(){ //옵션을 선택해야 �
 		numofIndex++;
 		$("#colorSelect option:eq(0)").prop("selected", true);
 		total();
-		
 	} 
 });		
 
@@ -117,57 +129,97 @@ function total(){
 	if(totalPrice!=0)
 		totalPrice+=deliveryPrice;
 	
-	$("#totalPrice").html(totalPrice+"원");
-	$("#totalNum").html(num+"개");
+	
+	if(Number(num)<=Number(stock)){
+		$("#totalNum").html(num+"개");
+		$("#totalPrice").html(totalPrice+"원");
+	}else{
+		$("#totalNum").html("<span style='color:red;'>"+num+"개 (재고 초과)</span>");
+		$("#totalPrice").html("<span style='color:red;'>"+totalPrice+"원</span>");
+	}
 }
 
-//장바구니를 누르면 세션으로.. 일단 되었다..
+//장바구니 로직.
 $(document).on("click", "#basket", function(){
 	
-	//JSON을 이용해 String 형식으로 만들어 SessionStorage에 저장
-	//sessionStorage.setItem("orderDetail", JSON.stringify(orderDetail));
-	//SessionStorage에서 가져와 JSON을 통해 변환
-	//var orderDetail = JSON.parse(sessionStorage.getItem("orderDetail"));
-	if (optionList[0] == null){
+	if (optionList[0] == null){ //옵션체크
 		alert("옵션을 선택해주세요");
 		return;
 	}
 	
-	for (var i=0;i < indexList.length ; i++){ //맨처음 눌렀을때
+	//수량체크
+	var num=0; //현재 구매페이지의 신청물량
+	var bascketNum=0; //장바구니에 담겨있는 물건의 물량
+	if(sessionStorage.getItem("basketItems")==null){ //처음 장바구니에 담을때
+		for (var i=0;i < indexList.length ; i++){ 
+			num = Number(num)+Number($('#numOf'+indexList[i]).val());
+		}
+		if(Number(num)>Number(stock)){
+			alert("재고 이상을 구매할 수 없습니다");
+			return;
+		}
+	}
+	else{//전에 담아둔 장바구니가 있을때
+		var checkItems = JSON.parse(sessionStorage.getItem("basketItems"));
 		
-		if(sessionStorage.getItem("basketItems")==null){
+		for(var i = 0 ; i < checkItems.length;i++){ //장바구니에 현 아이템이 몇개 담겼는지
+			if(checkItems[i].pId=="${product.pId}")
+				bascketNum = Number(bascketNum)+Number(checkItems[i].numOf);
+		}
+		for (var i=0;i < indexList.length ; i++){ //신청페이지에 담고자했던 아이템은 몇개인지
+			num = Number(num)+Number($('#numOf'+indexList[i]).val());
+		}
+		
+		
+		if( Number(bascketNum)+Number(num) >Number(stock)){
+			alert("재고 이상을 구매할 수 없습니다. 장바구니를 확인해주세요");
+			return;
+		}
+	}
+	
+	
+	
+	for (var i=0;i < indexList.length ; i++){ //세션에  품목넣기시작
+		
+		if(sessionStorage.getItem("basketItems")==null){//맨처음 장바구니를 눌렀떄
+			
 			var items = [];
 			
 			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
 					numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
-				items.push(item);
+			items.push(item);
 			
 			sessionStorage.setItem("basketItems", JSON.stringify(items));
 		} 
 		else{ //이전에 추가해둔 장바구니가 있을때.
+			
+						
 			var items = JSON.parse(sessionStorage.getItem("basketItems"));
 			
-			for(var j=0;j<items.length;j++){
-				if( items[j].name=="${product.pName}" && items[j].color== $('#item'+indexList[i]).attr('value')){
+			var flag=false;
+			for(var j=0;j<items.length;j++){ //중복검사. 같으면 개수를 더해주기
+				if( items[j].pId=="${product.pId}" && items[j].color== $('#item'+indexList[i]).attr('value')){
 					items[j].numOf = Number(items[i].numOf) + Number($('#numOf'+indexList[i]).val()); //개수더해주고
 					items[j].price = Number(items[i].price) + Number($('#thisPrice'+indexList[i]).attr('value'));
 					sessionStorage.setItem("basketItems", JSON.stringify(items));		
-					$("#myModal").modal();
-					return;
+					flag=true;
+					//return;
 				}
 			}
-		
+			if(flag==true){
+				continue;
+			}
+			
 			//이름, 이미지, 색상정보, 개수, 가격을 담은 객체
 			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
 				numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
-			items.push(item);
 			
+			items.push(item);
 			sessionStorage.setItem("basketItems", JSON.stringify(items));
+			
 		}
-		
-		
 	}
-	$("#myModal").modal();
+	$("#myModal").modal(); //장바구니 확인창
 });
 
 function gotoBasket(){
@@ -176,18 +228,52 @@ function gotoBasket(){
 
 function formLoginCheck(){//확인후 member/*로 이동시키면 됨.
 	
-	if (optionList[0] == null){
+	if (optionList[0] == null){ //옵션체크
 		alert("옵션을 선택해주세요");
 		return false;
 	}
-	else if("${currentUserName}"==null){
+	
+	
+	//수량체크
+	var num=0; //현재 구매페이지의 신청물량
+	var bascketNum=0; //장바구니에 담겨있는 물건의 물량
+	if(sessionStorage.getItem("basketItems")==null){ //처음 장바구니에 담을때
+		for (var i=0;i < indexList.length ; i++){ 
+			num = Number(num)+Number($('#numOf'+indexList[i]).val());
+		}
+		if(Number(num)>Number(stock)){
+			alert("재고 이상을 구매할 수 없습니다");
+			return false;
+		}
+	}
+	else{//전에 담아둔 장바구니가 있을때
+		var checkItems = JSON.parse(sessionStorage.getItem("basketItems"));
+		
+		for(var i = 0 ; i < checkItems.length;i++){ //장바구니에 현 아이템이 몇개 담겼는지
+			if(checkItems[i].pId=="${product.pId}")
+				bascketNum = Number(bascketNum)+Number(checkItems[i].numOf);
+		}
+		for (var i=0;i < indexList.length ; i++){ //신청페이지에 담고자했던 아이템은 몇개인지
+			num = Number(num)+Number($('#numOf'+indexList[i]).val());
+		}
+		
+		
+		if( Number(bascketNum)+Number(num) >Number(stock)){
+			alert("재고 이상을 구매할 수 없습니다. 장바구니를 확인해주세요");
+			return false;
+		}
+	}
+	
+	
+	if("${currentUserName}"==null){ //로그인체크
 		alert("로그인이 필요합니다")
 		return false;
 	}
 	
-	for (var i=0;i < indexList.length ; i++){ //장바구니가 빈 상태였을때
-		
-		if(sessionStorage.getItem("basketItems")==null){
+	
+	for (var i=0;i < indexList.length ; i++){ 
+		if(sessionStorage.getItem("basketItems")==null){//장바구니가 빈 상태였을때
+			
 			var items = [];
 			
 			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
@@ -197,27 +283,30 @@ function formLoginCheck(){//확인후 member/*로 이동시키면 됨.
 			sessionStorage.setItem("basketItems", JSON.stringify(items));
 		} 
 		else{ //이전에 추가해둔 장바구니가 있을때.
+			
 			var items = JSON.parse(sessionStorage.getItem("basketItems"));
 			
+		var flag=false;
 			for(var j=0;j<items.length;j++){
-				if( items[j].name=="${product.pName}" && items[j].color== $('#item'+indexList[i]).attr('value')){
-					items[j].numOf = Number(items[i].numOf) + Number($('#numOf'+indexList[i]).val()); //개수더해주고
-					items[j].price = Number(items[i].price) + Number($('#thisPrice'+indexList[i]).attr('value'));
+								
+				if( items[j].pId=="${product.pId}" && items[j].color== $('#item'+indexList[i]).attr('value')){
+					//alert("check 구매하기form내부임")
+					items[j].numOf = Number(items[j].numOf) + Number($('#numOf'+indexList[i]).val()); //개수더해주고
+					items[j].price = Number(items[j].price) + Number($('#thisPrice'+indexList[i]).attr('value'));
 					sessionStorage.setItem("basketItems", JSON.stringify(items));		
-					$("#myModal").modal();
-					return;
+					flag=true;
 				}
 			}
-		
+			if(flag==true){
+				continue;
+			}
+			
 			//이름, 이미지, 색상정보, 개수, 가격을 담은 객체
 			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
 				numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
 			items.push(item);
-			
 			sessionStorage.setItem("basketItems", JSON.stringify(items));
 		}
-		
-		
 	}
 		
 	return true;
@@ -249,15 +338,6 @@ sessionStorage.clear(); // 전체삭제 */
 <br><br><br>
 <div style="clear:both;"></div>
 
-<!-- <button type="button" class="btn btn-info btn-lg" id="myBtn">Open Modal</button>
-
-<script>
-$(document).ready(function(){
-    $("#myBtn").click(function(){
-        $("#myModal").modal();
-    });
-});
-</script> -->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -281,7 +361,7 @@ $(document).ready(function(){
  
 
 <div style="display:table; width:100%; ">
-<div style="display:table-cell; width:100%; text-align: center; "><!-- vertical-align: middle; -->
+<div style="display:table-cell; width:100%; text-align: center; ">
 	<div style="width:400px; display:inline-block; margin-top: 0; vertical-align: top;"> <!-- 왼쪽이미지 -->
 		<img src="${product.pImageRoute}" width="100%" style="vertical-align: top;" /> 
 	</div>
@@ -293,7 +373,9 @@ $(document).ready(function(){
 	<br><br>
 	<form action="member/buyPage"  method="post" id="buyForm" onsubmit="return formLoginCheck()"> <!-- hidden으로 user id도 보내야함. -->
 		<input type="hidden" id="pId" name="pId" value="${product.pId}"/>
-		<h4 id="pName" value="${product.pName}">${product.pName}</h4>
+		<h4 id="pName" value="${product.pName}" style="display: inline;">${product.pName}</h4>
+		&nbsp&nbsp&nbsp
+		<span id="isSoldout"></span>
 		<p>category : ${product.pCategory}</p>
 		<p>${product.pBreifComment}</p>
 		가격 : <b>${product.pPrice}</b> <br> 
@@ -319,7 +401,7 @@ $(document).ready(function(){
 		
 		<br>
 		<div style="float:left;">
-		<input type="submit" value="구매하기" class="btn btn-light" />
+		<input type="submit" value="구매하기" id="buyButton" class="btn btn-light" />
 		</div>
 	</form>
 		<div style="float:left; width:10px;">&nbsp</div>

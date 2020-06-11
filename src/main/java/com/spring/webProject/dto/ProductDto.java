@@ -10,7 +10,7 @@ public class ProductDto {
 	String pExplainImageRoute;
 	int pSellingNum;
 	String pCategory;
-	int pIsSoldOut;//0 is flase 1 is true
+	
 	String pInformation;
 	String pColors;
 	int pStock;
@@ -70,12 +70,7 @@ public class ProductDto {
 	public void setpCategory(String pCategory) {
 		this.pCategory = pCategory;
 	}
-	public int getpIsSoldOut() {
-		return pIsSoldOut;
-	}
-	public void setpIsSoldOut(int pIsSoldOut) {
-		this.pIsSoldOut = pIsSoldOut;
-	}
+	
 	public String getpInformation() {
 		return pInformation;
 	}

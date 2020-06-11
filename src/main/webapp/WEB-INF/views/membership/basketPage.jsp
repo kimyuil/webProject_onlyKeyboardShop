@@ -13,7 +13,7 @@
 
 $(document).ready(function(){
 	var items =JSON.parse(sessionStorage.getItem("basketItems"));
-	if(items[0] ==null){ //추가된 상품이 없습니다. 띄워주기
+	if(items==null || items[0] ==null){ //추가된 상품이 없습니다. 띄워주기
 		$('#empty').append(
 				"<div style="+
 				"'width:400px; height:300px; margin:0 auto; background-color: #d1d1d1; text-align: center; line-height: 300px; font-weight: bolder;font-size: x-large; '>"+

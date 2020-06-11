@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,7 +71,7 @@ public class ControllerMain {
 	//product 관련 요청들
 	
 	@RequestMapping(value = "/88keyboard", method = RequestMethod.GET)
-	public String keyboard88(Locale locale, Model model) {
+	public String keyboard88(Locale locale, Model model) throws Exception {
 		System.out.println("88keyboard");
 		model.addAttribute("category", "88keyboard");
 		command = new ProductCommand();
@@ -79,7 +81,7 @@ public class ControllerMain {
 		return "product/88keyboard/88category";
 	}
 	@RequestMapping(value = "/76keyboard", method = RequestMethod.GET)
-	public String keyboard76(Locale locale, Model model) {
+	public String keyboard76(Locale locale, Model model) throws Exception {
 		System.out.println("76keyboard");
 		
 		model.addAttribute("category", "76keyboard");
@@ -90,7 +92,7 @@ public class ControllerMain {
 		return "product/76keyboard/76category";
 	}
 	@RequestMapping(value = "/61keyboard", method = RequestMethod.GET)
-	public String keyboard61(Locale locale, Model model) {
+	public String keyboard61(Locale locale, Model model) throws Exception {
 		System.out.println("61keyboard");
 		
 		model.addAttribute("category", "61keyboard");
@@ -103,7 +105,7 @@ public class ControllerMain {
 		
 	
 	@RequestMapping(value = "/productPage", method = RequestMethod.GET)
-	public String productPage(HttpServletRequest request, Model model) {
+	public String productPage(HttpServletRequest request, Model model) throws Exception {
 		
 		System.out.println("productPage");
 		String category = request.getParameter("category");
@@ -126,7 +128,7 @@ public class ControllerMain {
 	
 	@ResponseBody  //ajax
 	@RequestMapping(value = "/addBookmark", method = RequestMethod.POST)
-	public String addBookmark(HttpServletRequest request, Model model) {
+	public String addBookmark(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("addBookmark");
 		
 		command = new AddBookmarkCommand();
@@ -176,8 +178,9 @@ public class ControllerMain {
 	
 	
 	//구매페이지 (로그인필요) post(상품페이지에서)
+	@Transactional
 	@RequestMapping(value = "member/buyAction", method = RequestMethod.POST)
-	public String buyAction(HttpServletRequest request, Model model) {
+	public String buyAction(HttpServletRequest request, Model model) throws RuntimeException {
 		System.out.println("buyAction test page");
 		
 		command = new PurchaseItemsCommand();
@@ -192,7 +195,13 @@ public class ControllerMain {
 		model.addAttribute("pColor", request.getParameter("pColor"));
 		model.addAttribute("pImage", request.getParameter("pImage"));
 		model.addAttribute("pNumof", request.getParameter("pNumof"));
+		
+		try {
 		command.execute(sqlSession, model);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());			
+		}
 		
 	
 		Map<String, Object> map = model.asMap();
@@ -203,7 +212,6 @@ public class ControllerMain {
 		else
 			return "product/buySuccess";
 	}
-
 	
 	//community
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)

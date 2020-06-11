@@ -20,4 +20,9 @@
 	update user set uInterestedList=#{pIdAdd} where uId = #{uId}
 </update>
 
+<update id="checkStockAddSelling">
+	update product set pStock=pStock-#{pNum}, pSellingNum=pSellingNum+#{pNum} where pId=#{pId} and pStock-#{pNum} > -1
+	
+</update>
+
 </mapper>

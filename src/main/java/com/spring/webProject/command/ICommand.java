@@ -4,5 +4,5 @@ import org.springframework.ui.Model;
 
 
 public interface ICommand {
-	public void execute(SqlSession sqlSession, Model model);
+	public void execute(SqlSession sqlSession, Model model) throws Exception;
 }

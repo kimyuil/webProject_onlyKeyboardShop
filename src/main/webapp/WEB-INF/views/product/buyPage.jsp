@@ -194,7 +194,7 @@ function validatePurchase(){
 			numOfs.push(items[i].numOf);
 			
 		}
-		alert(pIds);
+		
 		purchaseForm.pId.value=pIds;
 		purchaseForm.pName.value=names;
 		purchaseForm.pImage.value=images;
@@ -202,7 +202,7 @@ function validatePurchase(){
 		purchaseForm.pNumof.value=numOfs;
 	}
     
-    
+    sessionStorage.removeItem("basketItems");
     sessionStorage.removeItem("purchaseUserCheck");
     
 	return true;
