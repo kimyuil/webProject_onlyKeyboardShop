@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.webProject.dao.IReviewDao">
+
+<select id="listReview" resultType="com.spring.webProject.dto.ReviewBoardDto">
+	select * from review where pId=#{pId}
+</select>
+
+<select id="listLength" resultType="int">
+	select count(*) as total from review where pId=#{pid}
+</select>
+
+<insert id="writeReivew">
+
+</insert>
+
+<update id="modifyReivew">
+
+</update>
+
+<delete id="deleteReivew">
+
+</delete>
+<!-- <select id="listProduct" resultType="com.spring.webProject.dto.ProductDto">
+	select * from product where pCategory = #{param1}
+</select>
+
+<update id="addBookmark">
+	update user set uInterestedList=#{pIdAdd} where uId = #{uId}
+</update>
+ -->
+
+</mapper>

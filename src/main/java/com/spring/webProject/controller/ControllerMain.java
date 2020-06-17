@@ -1,6 +1,9 @@
 package com.spring.webProject.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -22,10 +25,15 @@ import com.spring.webProject.command.AddBasketCommand;
 import com.spring.webProject.command.AddBookmarkCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
+import com.spring.webProject.command.PageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.PurchaseItemsCommand;
+import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
+import com.spring.webProject.dto.PageDto;
+import com.spring.webProject.dto.ProductDto;
+import com.spring.webProject.dto.ReviewBoardDto;
 
 
 /**
@@ -163,13 +171,13 @@ public class ControllerMain {
 	 * return result; }
 	 */
 	
-	//구매페이지 (로그인필요) post(상품페이지에서)
+	//구매페이지이동 (로그인필요) post(상품페이지에서)
 	@RequestMapping(value = "member/buyPage", method = RequestMethod.POST)
 	public String buyPost(HttpServletRequest request, Model model) {
 		System.out.println("buy POST");
 		return "product/buyPage";
 	}
-	//구매페이지 (로그인필요) get (장바구니에서 올때)
+	//구매페이지이동 (로그인필요) get (장바구니에서 올때)
 	@RequestMapping(value = "member/buyPage", method = RequestMethod.GET)
 	public String buyGet(HttpServletRequest request, Model model) {
 		System.out.println("buy GET");
@@ -203,7 +211,7 @@ public class ControllerMain {
 			throw new RuntimeException(e.getMessage());			
 		}
 		
-	
+		
 		Map<String, Object> map = model.asMap();
 		String error = (String) map.get("error");
 		
@@ -212,6 +220,41 @@ public class ControllerMain {
 		else
 			return "product/buySuccess";
 	}
+	
+	  //ajax 후기 게시판 정보전송
+	@RequestMapping(value = "/reviewList", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> reviewList(HttpServletRequest request, Model model)throws Exception {
+		
+		System.out.println("reviewList");
+		
+		command = new ReviewListCommand();
+		
+		String pId = request.getParameter("pId");
+		model.addAttribute("pId", pId);
+		System.out.println(pId);
+		command.execute(sqlSession, model); //게시판 리스트를 받아옴
+		
+		
+		String page = request.getParameter("reviewPage"); //페이지정보
+		command = new PageCommand(Integer.parseInt(page));
+		command.execute(sqlSession, model);
+				
+		
+		Map<String, Object> map = model.asMap();
+				
+		ArrayList<ReviewBoardDto> reviews = (ArrayList<ReviewBoardDto>)map.get("reviews");//게시판리스트들
+		PageDto pageInfo = (PageDto)map.get("pageInfo");//페이징정보
+		
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("reviews", reviews);
+		result.put("pageInfo", pageInfo);
+		
+		return result;
+		
+	}
+
+	
+	
 	
 	//community
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)
@@ -225,11 +268,6 @@ public class ControllerMain {
 		return "community/notice";
 	}
 	
-	//temp 
-	@RequestMapping(value = "/temp", method = RequestMethod.GET)
-	public String tmp(Locale locale, Model model) {
-		System.out.println("temp");
-		return "product/buySuccess";
-	}
+	
 	
 }

@@ -28,12 +28,16 @@
 
 
 <script>
+//
 var originPrice = ${product.pPrice};
 var deliveryPrice = <%=deliveryPirce%>;
 var numofIndex=0;
 var optionList=new Array(); //현재 선택된 옵션들의 "값"
 var indexList=new Array(); //현재 선택된 옵션들의 "index"들
 var stock = "${product.pStock}";
+
+var reviewsList = new Array();
+var pageInfo;
 
 $(document).ready(function(){
 	if(Number(stock)<=0){
@@ -43,8 +47,129 @@ $(document).ready(function(){
 	}
 	else{
 		$('#isSoldout').append("<span style='font-size: large;'>남은 재고 : "+stock+"</span>");
-	}
+	}	
+	//1page의 list를 불러옴
+	
+	reviewList(1);//처음에 1페이지
+	showReviewList();
+	 
 })
+
+
+function showReviewList(){ //실질적인 출력 담당
+	$('#reviewTable').html(
+			'<tr>'+
+			'<td style="width:50px;text-align: center; background-color:#dedede" ><b>번호</b></td>'+
+			'<td style="width:80px;text-align: center;background-color:#dedede"><b>작성자</b></td>'+
+			'<td style="text-align: center;background-color:#dedede"><b>내용</b></td>'+
+			'<td style="width:100px; text-align: center;background-color:#dedede"><b>날짜</b></td>'+
+			'<td style="width:80px; text-align: center;background-color:#dedede"><b>별점</b></td>'+
+		'</tr>');
+	
+	var lastNum=0;
+	if(pageInfo.currentPageLastNum==pageInfo.lastPageNum){
+		lastNum=Number(pageInfo.currentPageLastNum)-1;
+	}
+	else{
+		lastNum = pageInfo.currentPageLastNum;
+	}
+	for(var i=pageInfo.currentPageFirstNum ; i<=lastNum ;i++){ //list 페이지 내용
+    	$('#reviewTable').append("<tr>"+
+    		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
+    		"<td style='text-align: center;'>"+reviewsList[i].uName+"</td>"+
+    		"<td>"+reviewsList[i].reContent+"</td>"+
+    		"<td style='text-align: center;'>"+reviewsList[i].reDate +"</td>"+
+    		"<td style='text-align: center;'><b>"+reviewsList[i].reGrade +"</b></td>"
+    	);
+   }
+ 
+	 var pageBlock = "";
+	 for(var j = pageInfo.blockStartNum; j <=pageInfo.blockLastNum; j++){
+		 pageBlock = pageBlock + "<a href='#review' onclick='renewPage("+Number(j)+")'>&nbsp"+j+"&nbsp</a>"; 
+	 }
+	 
+	 $('#reviewTable').append("<tr><td  colspan='5' align='center' style='background-color:#e6e6e6'>"+
+			 (pageInfo.blockStartNum != 1 ? "<a href='#review' onclick='renewPage("+(Number(pageInfo.blockStartNum)-1)+")'>이전&nbsp</a>": "")+
+			 pageBlock+
+			 (pageInfo.blockLastNum != pageInfo.realLastBlockNum ? "<a href='#review' onclick='renewPage("+(Number(pageInfo.blockLastNum)+1)+")'>&nbsp다음</a>":"")+
+	 " </td></tr>");
+ 
+}
+	
+function renewPage(page){ //이후 페이지 넘길때 페이지정보만! 가져온후 showReviewList 호출.
+	$.ajax({
+	    url: "/onlyKeyboardShop/reviewList",
+	    type: "POST",
+	    cache: false,
+	    dataType : "json",
+	    async: false,
+	    data: {"reviewPage" : page, "pId" : "${product.pId}"},
+	    success: function(data){
+	    	
+	    	pageInfo={blockStartNum:data.pageInfo.blockStartNum, blockLastNum:data.pageInfo.blockLastNum,
+	    			lastPageNum:data.pageInfo.lastPageNum, realLastBlockNum:data.pageInfo.realLastBlockNum,
+	    			currentPage:data.pageInfo.currentPage, currentPageFirstNum:data.pageInfo.currentPageFirstNum,
+	    			currentPageLastNum:data.pageInfo.currentPageLastNum};
+	      	
+	      	showReviewList();
+	    },
+	    
+	    error: function (request, status, error){   
+	    	alert("정보를 불러오는데 실패했습니다. 관리자에게 문의해주세요.");              
+	    }
+	  });
+	
+}
+
+function reviewList(page){ //초기 리스트와 초기 페이지정보를 저장해두기
+	$.ajax({
+	    url: "/onlyKeyboardShop/reviewList",
+	    type: "POST",
+	    cache: false,
+	    dataType : "json",
+	    async: false,
+	    data: {"reviewPage" : page, "pId" : "${product.pId}"},
+	    success: function(data){
+	    	
+	    	//후기게시판, 페이징정보 가져오기
+	    	for(var i =0;i<data.reviews.length;i++){
+	    		var grade;
+	    		switch(data.reviews[i].reGrade){
+	    		case 1:
+	    			grade="\★\☆\☆\☆\☆"; 
+	    			break;
+	    		case 2:
+	    			grade="\★\★\☆\☆\☆";
+	    			break;
+	    		case 3:
+	    			grade="\★\★\★\☆\☆";
+	    			break;
+	    		case 4:
+	    			grade="\★\★\★\★\☆";
+	    			break;
+	    		case 5:
+	    			grade="\★\★\★\★\★";
+	    			break;
+	    		}
+	    		
+	    		var item = {reId:data.reviews[i].reId, pId:data.reviews[i].pId, 
+	    		uId:data.reviews[i].uId, pName:data.reviews[i].pName, pColor:data.reviews[i].pColor, 
+	    		reDate:data.reviews[i].reDate,	uName:data.reviews[i].uName,  
+	    		reContent:data.reviews[i].reContent, reGrade:grade};
+	    		
+	    		reviewsList.push(item);
+	    	};
+	    	pageInfo={blockStartNum:data.pageInfo.blockStartNum, blockLastNum:data.pageInfo.blockLastNum,
+	    			lastPageNum:data.pageInfo.lastPageNum, realLastBlockNum:data.pageInfo.realLastBlockNum,
+	    			currentPage:data.pageInfo.currentPage, currentPageFirstNum:data.pageInfo.currentPageFirstNum,
+	    			currentPageLastNum:data.pageInfo.currentPageLastNum};
+	      	//alert(JSON.stringify(pageInfo));
+	    },
+	    
+	    
+	  });
+}
+
 
 $(document).on("change", "#colorSelect", function(){ //옵션을 선택해야 결제진행
 	
@@ -336,7 +461,7 @@ sessionStorage.clear(); // 전체삭제 */
 <br>
 <h1 align="center">${product.pName}</h1>
 <br><br><br>
-<div style="clear:both;"></div>
+<div style="clear:both; "></div>
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -358,7 +483,7 @@ sessionStorage.clear(); // 전체삭제 */
      </div>
   </div>
 </div>
- 
+
 
 <div style="display:table; width:100%; ">
 <div style="display:table-cell; width:100%; text-align: center; ">
@@ -433,9 +558,9 @@ sessionStorage.clear(); // 전체삭제 */
 	
 	<br><br><br>
 	
-	 <div class="container">
-	      <div class="row">
-	        <div class="col">
+<div class="container">
+<div class="row">
+<div class="col">
 	
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
@@ -446,17 +571,32 @@ sessionStorage.clear(); // 전체삭제 */
 	  </li>
 	</ul>
 	<div class="tab-content">
-	  <div class="tab-pane fade show active" id="review">
-	    <p>후기 게시판입니다. 별점을 매길 수 있습니다.</p>
+	  <div class="tab-pane fade show active" id="review"> <!-- 후기게시판 -->
+	  <br>
+	    <h3 align="center">REVIEW</h3>
+	  <br>  
+	    <table width="850" cellpadding="0" cellspacing="0" border="1" style="margin:0 auto;" id="reviewTable">
+		</table>
+		<br>
+		<h5 align="center">상품을 구매 후 솔직한 후기를 작성해주세요!</h5>
 	  </div>
-	  <div class="tab-pane fade" id="qna">
-	    <p>큐앤에이 게시판입니다. 질문을 할 수 있습니다.</p>
+
+	  <div class="tab-pane fade" id="qna"> <!-- Q&A게시판 -->
+	  
+	  <br>
+	    <h3 align="center">Q & A</h3>
+	  <br>  
+	    <table width="850" cellpadding="0" cellspacing="0" border="1" style="margin:0 auto;" id="qnaTable">
+		</table>
+		<br>
+		<h5 align="center">문의사항을 친절히 답변해 드립니다</h5>  
+	    
 	  </div>
 	</div>
 	
-	</div>
-	</div>
-	</div>
+</div>
+</div>
+</div>
 	
 	
 	<br><br><br>

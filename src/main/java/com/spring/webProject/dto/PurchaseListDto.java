@@ -7,6 +7,7 @@ public class PurchaseListDto {
 	public static String purchased = "purchased";
 	public static String shipping = "shipping";
 	public static String delivered = "delivered";
+	public static String writeReview = "writeReview";
 	// pImageRoute,
 	//purTime, state, uName, uAdress, uPhone, purMessage, pNum
 	
