@@ -1,6 +1,8 @@
 package com.spring.webProject.controller;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -16,17 +18,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.webProject.command.ChangePurchaseStateCommand;
 import com.spring.webProject.command.FindIdCommand;
 import com.spring.webProject.command.FindPwCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.JoinCommand;
 import com.spring.webProject.command.LoginCommand;
+import com.spring.webProject.command.OrderListCommand;
+import com.spring.webProject.command.PageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.RenewPwCommand;
+import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.command.UserCheckCommand;
+import com.spring.webProject.command.UserCheckDeliveryCommand;
+import com.spring.webProject.command.WriteReviewCommand;
+import com.spring.webProject.dto.PageDto;
+import com.spring.webProject.dto.PurchaseListDto;
+import com.spring.webProject.dto.ReviewBoardDto;
 import com.spring.webProject.dto.UserDto;
 
 
@@ -39,11 +50,11 @@ public class ControllerMembership {
 	private SqlSession sqlSession;
 	
 	///test
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test(Locale locale, Model model)throws Exception {
-		command = new TestCommand();
-		command.execute(sqlSession,model);
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public String test(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("test 실행");
+		
+		System.out.println(request.getParameter("param1"));
 		//mainDao=new TestDao();
 		return "home";
 	}
@@ -57,7 +68,7 @@ public class ControllerMembership {
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(Locale locale, Model model) {
 		System.out.println("mypage");
-		return "membership/mypage";
+		return "membership/mypage/mypage";
 	}
 	
 	//id찾기
@@ -171,21 +182,7 @@ public class ControllerMembership {
 		return "membership/errorPage";
 	}
 	
-	// 권한 테스트를 위한 임시 매핑
-	@RequestMapping(value = "/member/test", method = RequestMethod.GET)
-	public String memberTest(Model model) {
-		System.out.println("memberTest");
-		
-		return "membership/memberTest";
-	}
 
-	@RequestMapping(value = "/admin/test", method = RequestMethod.GET)
-	public String adminTest(Model model) {
-		System.out.println("adminTest");
-		
-		return "membership/adminTest";
-	}
-	
 	//장바구니
 	@RequestMapping(value = "/basket", method = RequestMethod.GET)
 	public String basketShow(Model model) {
@@ -195,7 +192,7 @@ public class ControllerMembership {
 	}
 	
 
-	@ResponseBody  //ajax
+	@ResponseBody  //ajax 구매할때 본인확인하는 작업
 	@RequestMapping(value = "/userCheck", method = RequestMethod.POST)
 	public String userCheck(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("userCheck");
@@ -221,5 +218,131 @@ public class ControllerMembership {
 			return "fail";
 		}
 
+	}
+	
+	//주문배송조회 들어가기
+	@RequestMapping(value = "/member/lookupOrder", method = RequestMethod.GET)
+	public String lookupOrder(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("lookupOrder");
+			
+		return "membership/mypage/lookupOrder";
+	}
+	  //ajax 후기 게시판 정보전송
+	@RequestMapping(value = "/getOrderList", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> reviewList(HttpServletRequest request, Model model)throws Exception {
+		
+		System.out.println("getOrderList");
+		
+		command = new OrderListCommand();
+		String uId = request.getParameter("uId");
+		System.out.println(uId);
+		model.addAttribute("uId", uId);
+		
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+				
+		ArrayList<PurchaseListDto> beforeList = (ArrayList<PurchaseListDto>)map.get("beforeCheckList");
+		ArrayList<PurchaseListDto> afterList = (ArrayList<PurchaseListDto>)map.get("afterCheckList");
+		
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("beforeList", beforeList);
+		result.put("afterList", afterList);
+		
+		return result;
+		
+	}//	
+	  //ajax 유저 발송완료 체크버튼
+	@RequestMapping(value = "/checkDelivery", method = RequestMethod.POST)
+	public @ResponseBody String checkDelivery(HttpServletRequest request, Model model)throws Exception {
+		
+		System.out.println("User check Delivery");
+		
+		command = new UserCheckDeliveryCommand();
+		String purId = request.getParameter("purId");
+		System.out.println(purId);
+		model.addAttribute("purId", purId);
+		
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+						
+		int result = (Integer)map.get("result");
+		System.out.println("result : "+result);
+		if(result==1)
+			return "sucess";
+		else
+			return null;
+	}
+	
+	//리뷰작성버튼클릭
+	@RequestMapping(value = "/writeReviewView", method = RequestMethod.GET)
+	public String writeReviewView(HttpServletRequest request,Model model) {
+		System.out.println("writeReviewView");
+			
+		model.addAttribute("pId",request.getParameter("pId"));
+		model.addAttribute("uId",request.getParameter("uId"));
+		model.addAttribute("pName",request.getParameter("pName"));
+		model.addAttribute("pColor",request.getParameter("pColor"));
+		model.addAttribute("uName",request.getParameter("uName"));
+		return "membership/mypage/writeReviewView";
+	}
+	
+	//트랜잭션해야함~~~
+	@RequestMapping(value = "/writeReview", method = RequestMethod.POST)
+	public String writeReview(HttpServletRequest request,Model model) throws Exception {
+		System.out.println("do writeReview");
+		
+		model.addAttribute("pId", request.getParameter("pId"));
+		model.addAttribute("uId", request.getParameter("uId"));
+		model.addAttribute("pName", request.getParameter("pName"));
+		model.addAttribute("pColor", request.getParameter("pColor"));
+		model.addAttribute("uName", request.getParameter("uName"));
+		model.addAttribute("reGrade", request.getParameter("reGrade"));
+		model.addAttribute("reContent", request.getParameter("reContent"));
+		
+		command = new WriteReviewCommand();
+		command.execute(sqlSession, model);
+		command = new ChangePurchaseStateCommand();
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		
+		int result = (Integer)map.get("result");
+		System.out.println("result : "+result);
+		if(result==1) {//success
+			model.addAttribute("submit",request.getParameter("submit"));//창닫기용
+			return "membership/mypage/writeReviewView";
+		}
+		else {
+			model.addAttribute("submit","fail");
+			return "membership/mypage/writeReviewView";
+		}
+			
+		
+		
+	}
+		
+	
+	//나의게시물
+	@RequestMapping(value = "/member/myboard", method = RequestMethod.GET)
+	public String myboard(Model model) {
+		System.out.println("myboard");
+		
+		return "membership/mypage/myboard";
+	}
+	//회원정보수정
+	@RequestMapping(value = "/member/modifyInfo", method = RequestMethod.GET)
+	public String modifyInfo(Model model) {
+		System.out.println("modifyInfo");
+		
+		return "membership/mypage/modifyInfo";
+	}
+	//회원탈퇴
+	@RequestMapping(value = "/member/deleteInfo", method = RequestMethod.GET)
+	public String deleteInfo(Model model) {
+		System.out.println("deleteInfo");
+		
+		return "membership/mypage/deleteInfo";
 	}
 }

@@ -3,13 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
-<p align="center">mypage</p>
-<br><br><br><br><br><br> hahaha <br>
+<br>
+<h2 align="center">회원탈퇴</h2>
+<br><br>
+hahaha
+<br><br><br><br><br><br><br>
 <%@ include file="/WEB-INF/views/infobar_bottom.jsp"%>
+
 </body>
 </html>

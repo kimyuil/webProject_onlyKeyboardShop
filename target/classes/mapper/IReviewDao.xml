@@ -14,7 +14,8 @@
 </select>
 
 <insert id="writeReivew">
-
+INSERT INTO review (pId, uId, pName, pColor, reDate, uName, reContent, reGrade) 
+VALUES (#{pId},#{uId},#{pName},#{pColor},now(),#{uName},#{reContent},#{reGrade});
 </insert>
 
 <update id="modifyReivew">

@@ -15,6 +15,16 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
  	values 
  	(#{uId},#{uName},#{uAdress},#{uPhone},#{pId},#{pName},#{pColor},#{pImage},#{pNumof},now(),#{deliverMessage},#{state});
  </insert>
+
+<select id="getUserPurchaseList" resultType="com.spring.webProject.dto.PurchaseListDto">
+	select * from purchaselist where userId = #{uId}
+</select>
+
+<update id="userCheckDelivery">
+	update purchaselist set state='checkedDelivery' where purId = #{purId}
+</update> 
+
+
  
 </mapper> 
 <!-- 

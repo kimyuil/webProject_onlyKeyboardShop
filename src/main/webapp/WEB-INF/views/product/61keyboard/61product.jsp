@@ -17,13 +17,13 @@
 
 
 <sec:authorize access="isAnonymous()">
-<script language=javaScript src="/onlyKeyboardShop/resources/js/productActionInvalid.js"></script>
+<script src="/onlyKeyboardShop/resources/js/productActionInvalid.js"></script>
 </sec:authorize>
  
 
 <sec:authorize access="isAuthenticated()">
 <sec:authentication property="principal.username" var="currentUserName"/> 
-<script language=javaScript src="/onlyKeyboardShop/resources/js/productActionValid.js"></script>
+<script src="/onlyKeyboardShop/resources/js/productActionValid.js"></script>
 </sec:authorize>
 
 
@@ -575,7 +575,7 @@ sessionStorage.clear(); // 전체삭제 */
 	  <br>
 	    <h3 align="center">REVIEW</h3>
 	  <br>  
-	    <table width="850" cellpadding="0" cellspacing="0" border="1" style="margin:0 auto;" id="reviewTable">
+	    <table width="850" cellpadding="5" cellspacing="0" border="1" style="margin:0 auto;" id="reviewTable">
 		</table>
 		<br>
 		<h5 align="center">상품을 구매 후 솔직한 후기를 작성해주세요!</h5>

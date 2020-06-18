@@ -21,13 +21,13 @@ public class UserDetailsCommand implements UserDetailsService {
 		UserSecurityDto user;
 		try {
 			user = UserSecurityDao.getUserById(username);
-			System.out.println("dao end..?");
+			
 			if(user==null) {
-				System.out.println("user null..");
+				
 				throw new UsernameNotFoundException(username);
 			}
 			else {
-				System.out.println("user is "+user.getuName());
+				
 				return user;
 			}
 		} catch (Exception e) {
