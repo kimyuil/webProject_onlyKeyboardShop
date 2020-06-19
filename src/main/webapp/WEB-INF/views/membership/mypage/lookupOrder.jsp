@@ -110,6 +110,10 @@ function showLists(){ //실질적인 출력 담당
     	);
 			
 	};
+	if(beforeList==null || beforeList.length==0){
+		$('#beforeList').append("<tr><td colspan='5'>구매한 상품이 없습니다.</td></tr>");
+	}
+	$('#beforeList').append("<tr><td colspan='5'>물건을 수령하셨다면, 배송확인을 눌러주세요!</td></tr>");
 	
  
 	$('#afterList').html(//after list 페이지 내용
@@ -178,8 +182,8 @@ function reviewWritePopup(index){
 	var item = afterList[index];//이거안됨. 걍 노가다 ㄱ	
 	
 	var popUrl = "/onlyKeyboardShop/writeReviewView?pId="+item.productId+"&uId="+item.userId+
-	"&pName="+item.pName+"&pColor="+item.pColor+"&uName="+item.uName;
-	var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;"; 
+	"&pName="+item.pName+"&pColor="+item.pColor+"&uName="+item.uName+"&purId="+item.purId;
+	var popOption = "width=450, height=360, resizable=no, scrollbars=no, status=no;"; 
 	var target = "rivewWriteView";
 	window.open(popUrl,"",popOption);
 	//window.open(popUrl,"",popOption);
@@ -194,72 +198,22 @@ function reviewWritePopup(index){
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
 <br>
 <h2 align="center">주문배송조회</h2>
-<br><br>
-
-<!-- select * from purchaselist where uId="" and state="" -->
-<br>
+<br><br><br>
 
 <div style='width:750px;margin:0 auto;'>
-<h4><b>구매한 상품</b></h4>
-<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="beforeList">
-	<%-- <tr>
-		<td style="width:50px;text-align: center;">No</td>
-		<td style="width:100px;text-align: center;">image</td>
-		<td>구매한 상품</td>
-		<td style="width:120px; text-align: center;">구매날짜</td>
-		<td style="width:80px;text-align: center;">배송조회</td>
-	</tr>
-	
-	<c:forEach items="${beforeCheckList}" var="beforeList" varStatus="status">
-	<tr>
-		<td style='text-align: center;'>${status.index+1}</td>
-		<td><img src="${beforeList.pImageRoute}" style="width:100%"/></td>
-		<td>
-			${beforeList.pName}(${beforeList.pColor})
-		</td>
-		<td style='text-align: center;'>${beforeList.purTime}</td>
-		<td style='text-align: center;' id="beforeListState" >${beforeList.state}</td>
-	</tr>
-	</c:forEach> --%>
-	<tr>
-	<td colspan="5">
-	hhhh
-	</td>
-	</tr>
-	
+	<h4><b>구매한 상품</b></h4>
+	<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="beforeList">
+	</table>
+</div>
 
-</table>
-</div>
 <br><br>
+
 <div style='width:750px;margin:0 auto;'>
-<h4><b>배송완료 제품 후기를 작성해주세요!</b></h4>
-<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="afterList">
-	<!-- <tr>
-		<td style="width:50px;text-align: center;">No</td>
-		<td style="width:100px;text-align: center;">image</td>
-		<td>구매한 상품</td>
-		<td style="width:120px; text-align: center;">구매날짜</td>
-		<td style="width:80px;text-align: center;">review</td>"checkedDelivery"인목록 보이기.후기버튼. "writeReview"후기작성완료상태
-	</tr> -->
-	
-	<%-- <c:forEach items="${afterCheckList}" var="afterList" varStatus="status">
-	<tr>
-		<td style='text-align: center;'>${status.index+1}</td>
-		<td ><img src="${afterList.pImageRoute}" style="width:100%"/></td>
-		<td>
-			${afterList.pName}${afterList.pColor}
-		</td>
-		<td style='text-align: center;'>${afterList.purTime}</td>
-		<td style='text-align: center;' id="afterListState">${afterList.state}</td>
-	</tr>
-	</c:forEach> --%>
-	<tr>
-	<td colspan="5">
-	hhhh
-	</td>
-	</tr>
-</table>
+	<h4><b>배송완료 제품 후기를 작성해주세요!</b></h4>
+	<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="afterList">
+	</table>
 </div>
+
 <br><br><br><br><br><br><br>
 <%@ include file="/WEB-INF/views/infobar_bottom.jsp"%>
 </body>

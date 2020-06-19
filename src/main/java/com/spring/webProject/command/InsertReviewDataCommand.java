@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.dao.IReviewDao;
 import com.spring.webProject.dto.ReviewBoardDto;
 
-public class WriteReviewCommand implements ICommand {
+@Transactional
+public class InsertReviewDataCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
@@ -28,7 +30,13 @@ public class WriteReviewCommand implements ICommand {
 		int result;
 		result = dao.writeReivew(pId,uId,pName,pColor,uName,reGrade,reContent);
 		
-		model.addAttribute("result", result);
+		if(result!=1){
+			model.addAttribute("result", "fail");
+			throw new RuntimeException("insert error");
+		}
+		else
+			model.addAttribute("result", "success");
+		
 	}
 
 }

@@ -14,6 +14,7 @@ var grade;
 $(document).ready(function(){
 	
 	if("${submit}"=="true"){
+		alert("작성이 완료되었습니다. 감사합니다");
 		self.close();
 	}
 	else if("${submit}"=="fail"){
@@ -32,7 +33,9 @@ $(document).ready(function(){
 });
 
 function reviewWrite(){
+	
 	if($('#reContent').val()==""){
+		alert("내용을 입력해주세요");
 		$('#reContent').focus();
 		return false;
 	}
@@ -95,6 +98,7 @@ function reviewWrite(){
 		</td>
 	</tr>
 </table>
+<input type="hidden" name="purId" id="purId" value="${purId}"/>
 <input type="hidden" name="pId" id="pId" value="${pId}"/>
 <input type="hidden" name="uId" id="uId" value="${uId}"/>
 <input type="hidden" name="pName" id="pName" value=" ${pName}"/>

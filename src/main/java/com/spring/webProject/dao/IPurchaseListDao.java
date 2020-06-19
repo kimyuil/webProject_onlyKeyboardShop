@@ -16,6 +16,7 @@ public interface IPurchaseListDao {
 	public ArrayList<PurchaseListDto> getUserPurchaseList(@Param("uId") String uId);
 	public int userCheckDelivery(@Param("purId") String purId);
 
-	public int changeUserState(String productId, String userId);
+	public int changeUserState(@Param("purId") String purId);
+	public String getStateByPurId(@Param("purId") String purId);
 
 }

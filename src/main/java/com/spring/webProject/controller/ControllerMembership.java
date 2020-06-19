@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import com.spring.webProject.command.JoinCommand;
 import com.spring.webProject.command.LoginCommand;
 import com.spring.webProject.command.OrderListCommand;
 import com.spring.webProject.command.PageCommand;
+import com.spring.webProject.command.PreventReWriteCheckCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.RenewPwCommand;
@@ -34,7 +36,9 @@ import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.command.UserCheckCommand;
 import com.spring.webProject.command.UserCheckDeliveryCommand;
-import com.spring.webProject.command.WriteReviewCommand;
+import com.spring.webProject.command.UserReviewListCommand;
+import com.spring.webProject.command.WriteReivewCommand;
+import com.spring.webProject.command.InsertReviewDataCommand;
 import com.spring.webProject.dto.PageDto;
 import com.spring.webProject.dto.PurchaseListDto;
 import com.spring.webProject.dto.ReviewBoardDto;
@@ -203,7 +207,7 @@ public class ControllerMembership {
 		model.addAttribute("id", id);
 		String pw = request.getParameter("uPw");
 		model.addAttribute("pw", pw);
-		System.out.println(id+pw);
+		//System.out.println(id+pw);
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
@@ -277,8 +281,21 @@ public class ControllerMembership {
 	
 	//리뷰작성버튼클릭
 	@RequestMapping(value = "/writeReviewView", method = RequestMethod.GET)
-	public String writeReviewView(HttpServletRequest request,Model model) {
+	public String writeReviewView(HttpServletRequest request,Model model) throws Exception {
 		System.out.println("writeReviewView");
+		
+		command = new PreventReWriteCheckCommand();
+		String purId = request.getParameter("purId");
+		model.addAttribute("purId",request.getParameter("purId"));
+		command.execute(sqlSession, model); //리뷰 중복작성을 확인
+		
+		Map<String, Object> map = model.asMap();
+		String resultState = (String)map.get("resultState");
+		
+		if (resultState.equals(PurchaseListDto.writeReview)) {
+			model.addAttribute("submit","true");//창닫기용
+			return "membership/mypage/writeReviewView";
+		}
 			
 		model.addAttribute("pId",request.getParameter("pId"));
 		model.addAttribute("uId",request.getParameter("uId"));
@@ -288,11 +305,13 @@ public class ControllerMembership {
 		return "membership/mypage/writeReviewView";
 	}
 	
-	//트랜잭션해야함~~~
+	//리뷰 작성후 db로 내용 삽입
+	@Transactional
 	@RequestMapping(value = "/writeReview", method = RequestMethod.POST)
-	public String writeReview(HttpServletRequest request,Model model) throws Exception {
+	public String writeReview(HttpServletRequest request,Model model) throws RuntimeException {
 		System.out.println("do writeReview");
 		
+		model.addAttribute("purId", request.getParameter("purId"));
 		model.addAttribute("pId", request.getParameter("pId"));
 		model.addAttribute("uId", request.getParameter("uId"));
 		model.addAttribute("pName", request.getParameter("pName"));
@@ -301,16 +320,21 @@ public class ControllerMembership {
 		model.addAttribute("reGrade", request.getParameter("reGrade"));
 		model.addAttribute("reContent", request.getParameter("reContent"));
 		
-		command = new WriteReviewCommand();
-		command.execute(sqlSession, model);
-		command = new ChangePurchaseStateCommand();
-		command.execute(sqlSession, model);
+		command = new WriteReivewCommand();
+		try {
+			
+			command.execute(sqlSession, model);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());			
+		}
+		
 		
 		Map<String, Object> map = model.asMap();
 		
-		int result = (Integer)map.get("result");
+		String result = (String)map.get("result");
 		System.out.println("result : "+result);
-		if(result==1) {//success
+		if(result=="success") {//success
 			model.addAttribute("submit",request.getParameter("submit"));//창닫기용
 			return "membership/mypage/writeReviewView";
 		}
@@ -318,19 +342,40 @@ public class ControllerMembership {
 			model.addAttribute("submit","fail");
 			return "membership/mypage/writeReviewView";
 		}
-			
-		
 		
 	}
 		
 	
-	//나의게시물
+	//나의게시물 /userReviewList
 	@RequestMapping(value = "/member/myboard", method = RequestMethod.GET)
 	public String myboard(Model model) {
-		System.out.println("myboard");
-		
+		System.out.println("myboard");	
 		return "membership/mypage/myboard";
 	}
+	//나의 리뷰리스트 불러오기
+	@ResponseBody
+	@RequestMapping(value = "/userReviewList", method = RequestMethod.POST)
+	public Map<String, Object> userReviewList(HttpServletRequest request, Model model) throws Exception{
+		System.out.println("userReviewList");
+		
+		command = new UserReviewListCommand();
+		
+		String id = request.getParameter("uId");
+		model.addAttribute("uId", id);
+		command.execute(sqlSession, model);
+		
+		
+		
+		  Map<String, Object> map = model.asMap();
+
+		  ArrayList<ReviewBoardDto> reviewList = (ArrayList<ReviewBoardDto>)map.get("reviews");
+		  Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		  result.put("reviews", reviewList);
+		  return result;
+	}
+	
+	
+	
 	//회원정보수정
 	@RequestMapping(value = "/member/modifyInfo", method = RequestMethod.GET)
 	public String modifyInfo(Model model) {

@@ -3,11 +3,13 @@ package com.spring.webProject.command;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.dao.IPurchaseListDao;
 import com.spring.webProject.dao.IReviewDao;
 
+@Transactional
 public class ChangePurchaseStateCommand implements ICommand {
 
 	@Override
@@ -16,11 +18,21 @@ public class ChangePurchaseStateCommand implements ICommand {
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String productId = (String) map.get("pId");//userId, productId
-		String userId = (String) map.get("uId");
+		String purId = (String) map.get("purId");//userId, productId
+		//System.out.println(purId);
 		
 		int result;
-		result = dao.changeUserState(productId,userId);
+		result = dao.changeUserState(purId);
+		
+		if(result!=1) {
+			model.addAttribute("result", "fail");
+			throw new RuntimeException("stateChange error");
+		}
+		else
+			model.addAttribute("result", "success");
+			
+		
+			
 	}
 
 }

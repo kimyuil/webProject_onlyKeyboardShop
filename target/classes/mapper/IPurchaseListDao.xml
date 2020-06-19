@@ -20,10 +20,17 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
 	select * from purchaselist where userId = #{uId}
 </select>
 
+<select id="getStateByPurId" resultType="String">
+	select state from purchaselist where purId = #{purId}
+</select>
+
 <update id="userCheckDelivery">
 	update purchaselist set state='checkedDelivery' where purId = #{purId}
 </update> 
 
+<update id="changeUserState">
+	update purchaselist set state='writeReview' where purId = #{purId}  
+</update> 
 
  
 </mapper> 

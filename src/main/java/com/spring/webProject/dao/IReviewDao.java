@@ -9,9 +9,11 @@ public interface IReviewDao {
 			@Param("pName") String pName,	@Param("pColor") String pColor,
 			@Param("uName") String uName,@Param("reGrade") String reGrade,@Param("reContent") String reContent);
 	public ArrayList<ReviewBoardDto> listReview(@Param("pId")String pid);
+	public ArrayList<ReviewBoardDto> userListReview(@Param("uId")String uId);
 	public int modifyReivew();
 	public int deleteReivew();
 	public int listLength(@Param("pid")String pid);
+	
 	
 	
 	 
