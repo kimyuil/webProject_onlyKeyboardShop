@@ -19,4 +19,6 @@ public interface IPurchaseListDao {
 	public int changeUserState(@Param("purId") String purId);
 	public String getStateByPurId(@Param("purId") String purId);
 
+	public int reChangeUserState(@Param("purId") String purId); //when delete
+
 }

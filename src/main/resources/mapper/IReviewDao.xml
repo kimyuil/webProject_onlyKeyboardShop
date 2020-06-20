@@ -18,16 +18,20 @@
 </select>
 
 <insert id="writeReivew">
-INSERT INTO review (pId, uId, pName, pColor, reDate, uName, reContent, reGrade) 
-VALUES (#{pId},#{uId},#{pName},#{pColor},now(),#{uName},#{reContent},#{reGrade});
+INSERT INTO review (pId, uId, pName, pColor, reDate, uName, reContent, reGrade, purId) 
+VALUES (#{pId},#{uId},#{pName},#{pColor},now(),#{uName},#{reContent},#{reGrade},#{purId});
 </insert>
 
-<update id="modifyReivew">
 
+<select id="getUserReviewOneItem" resultType="com.spring.webProject.dto.ReviewBoardDto">
+	select * from review where reId=#{reId}
+</select>
+<update id="modifyReivew">
+	update review set reContent=#{reContent},reGrade=#{reGrade} where reId = #{reId}
 </update>
 
 <delete id="deleteReivew">
-
+	delete from review where reId=#{reId}
 </delete>
 <!-- <select id="listProduct" resultType="com.spring.webProject.dto.ProductDto">
 	select * from product where pCategory = #{param1}

@@ -155,7 +155,7 @@ function reviewList(page){ //초기 리스트와 초기 페이지정보를 저�
 	    		var item = {reId:data.reviews[i].reId, pId:data.reviews[i].pId, 
 	    		uId:data.reviews[i].uId, pName:data.reviews[i].pName, pColor:data.reviews[i].pColor, 
 	    		reDate:data.reviews[i].reDate,	uName:data.reviews[i].uName,  
-	    		reContent:data.reviews[i].reContent, reGrade:grade};
+	    		reContent:data.reviews[i].reContent, reGrade:grade, purId:data.reviews[i].purId};
 	    		
 	    		reviewsList.push(item);
 	    	};

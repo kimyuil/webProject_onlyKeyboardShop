@@ -26,9 +26,10 @@ public class InsertReviewDataCommand implements ICommand {
 		String uName = (String) map.get("uName");
 		String reGrade = (String) map.get("reGrade");
 		String reContent = (String) map.get("reContent");
+		String purId = (String) map.get("purId");
 		
 		int result;
-		result = dao.writeReivew(pId,uId,pName,pColor,uName,reGrade,reContent);
+		result = dao.writeReivew(pId,uId,pName,pColor,uName,reGrade,reContent,purId);
 		
 		if(result!=1){
 			model.addAttribute("result", "fail");

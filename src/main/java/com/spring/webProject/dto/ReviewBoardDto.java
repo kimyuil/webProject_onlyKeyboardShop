@@ -6,20 +6,29 @@ import java.util.Date;
 public class ReviewBoardDto {
 //reId, pId, uId, pName, pColor, pDate, uName, reTitle, reContent, reGrade
 	int reId;
+	int purId;
 	int pId;
 	String uId;
 	String pName;
 	String pColor;
 	String reDate; 
 	String uName;
-	
 	String reContent; //200ÀÚ
 	int reGrade; //ÆòÁ¡ 1~5
+	
+	
 	public int getReId() {
 		return reId;
 	}
 	public void setReId(int reId) {
 		this.reId = reId;
+	}
+	
+	public int getPurId() {
+		return purId;
+	}
+	public void setPurId(int purId) {
+		this.purId = purId;
 	}
 	public int getpId() {
 		return pId;

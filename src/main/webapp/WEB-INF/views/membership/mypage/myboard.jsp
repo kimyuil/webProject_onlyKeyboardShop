@@ -25,6 +25,7 @@ $(document).ready(function(){
 });
 
 function getReviewList(){
+	reviewsList=[];
 	$.ajax({
 	    url: "/onlyKeyboardShop/userReviewList",
 	    type: "POST",
@@ -58,7 +59,7 @@ function getReviewList(){
 	    		var item = {reId:data.reviews[i].reId, pId:data.reviews[i].pId, 
 	    		uId:data.reviews[i].uId, pName:data.reviews[i].pName, pColor:data.reviews[i].pColor, 
 	    		reDate:data.reviews[i].reDate,	uName:data.reviews[i].uName,  
-	    		reContent:data.reviews[i].reContent, reGrade:grade};
+	    		reContent:data.reviews[i].reContent, reGrade:grade, purId:data.reviews[i].purId};
 	    		
 	    		reviewsList.push(item);
 	    	};
@@ -85,18 +86,47 @@ function showReviewList(){ //실질적인 출력 담당
     		"<td style='text-align: center;'>"+reviewsList[i].reDate +"</td>"+
     		"<td style='text-align: center;'><b>"+reviewsList[i].reGrade +"</b></td>"+
     		"<td style='text-align: center;'>"+
-    		"<button class='btn btn-outline-primary' onclick='modifyReview("+i+")'>수정</button>&nbsp"+
-    		"<button class='btn btn-outline-secondary'>삭제</button></td>"+
+    		"<button class='btn btn-outline-primary' onclick='reviewWritePopup("+i+")'>수정</button>&nbsp"+
+    		"<button class='btn btn-outline-secondary' onclick='removeReview("+i+")'>삭제</button></td>"+
     		"</tr>"
     	);
    }
 }
 
+
+function reviewWritePopup(index){
+	var item=reviewsList[index];
+		
+	var popUrl = "/onlyKeyboardShop/modifyReviewView?reId="+item.reId;
+	var popOption = "width=450, height=360, resizable=no, scrollbars=no, status=no;"; 
+	window.open(popUrl,"",popOption);
+	//window.open(popUrl,"",popOption);	
+}
+
+function removeReview(index){
+	var remove = confirm("정말 삭제하시겠습니까?");
+	if(remove == false)
+		return;
+			
+	var item=reviewsList[index];
+	 $.ajax({
+	    url: "/onlyKeyboardShop/deleteUserReview",
+	    type: "POST",
+	    cache: false,
+	    async: false,
+	    data: {"reId" : item.reId, "purId" : item.purId},
+	    success: function(data){
+	    	alert("삭제되었습니다 ");
+	    	getReviewList();
+	    	showReviewList();
+	    } 
+	});
+}
 function modifyReview(index){
 	var item=reviewsList[index];
 	//alert(item.reId);
 	$.ajax({
-	    url: "/onlyKeyboardShop/userReviewList",
+	    url: "/onlyKeyboardShop/modifyUserReview",
 	    type: "POST",
 	    cache: false,
 	    dataType : "json",

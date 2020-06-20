@@ -30,6 +30,10 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
 
 <update id="changeUserState">
 	update purchaselist set state='writeReview' where purId = #{purId}  
+</update>
+
+<update id="reChangeUserState">
+	update purchaselist set state='checkedDelivery' where purId = #{purId}  
 </update> 
 
  
