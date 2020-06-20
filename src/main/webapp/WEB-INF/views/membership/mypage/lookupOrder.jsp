@@ -67,13 +67,23 @@ function getList(){ //초기 리스트와 초기 페이지정보를 저장해두
 	    	
 	    	//after list 받아오기
 	    	for(var i =0;i<data.afterList.length;i++){
+	    		var state;
+	    		switch(data.afterList[i].state){
+	    		case "checkedDelivery":
+	    			state="<button class='btn btn-dark' "+
+	    			"onClick='reviewWritePopup("+i+")'>후기쓰기</button>"; 
+	    			break;
+	    		case "writeReview":
+	    			state="리뷰작성<br> 감사합니다!";
+	    			break;
+	    		};
 	    		var date = new Date(data.afterList[i].purTime);
 	    		var dateString = date_to_str(date);
 	    		
 	    		var item = {purId:data.afterList[i].purId, userId:data.afterList[i].userId, 
 	    		productId:data.afterList[i].productId, pName:data.afterList[i].pName, pColor:data.afterList[i].pColor, 
 	    		pImageRoute:data.afterList[i].pImageRoute,	purTime:dateString,  
-	    		uName:data.afterList[i].uName, state:data.afterList[i].state,
+	    		uName:data.afterList[i].uName, state:state,
 	    		uAdress:data.afterList[i].uAdress,uPhone:data.afterList[i].uPhone,
 	    		purMessage:data.afterList[i].purMessage,pNum:data.afterList[i].pNum};
 	    	
@@ -137,10 +147,9 @@ function showLists(){ //실질적인 출력 담당
 		'</td>'+
 		'<td style="text-align: center;">'+afterList[i].purTime+'</td>'+
 		
-		'<td style="text-align: center;" ><button class="btn btn-dark" '+
-		'onClick="reviewWritePopup('+i+')">후기쓰기</button></td>'+		
+		'<td style="text-align: center;" >'+afterList[i].state+'</td>'+		
 	'</tr>'
-	   	);//'+obj+'
+	   	);
    }
 	$('#afterList').append("<tr><td colspan='5'>수정 및 삭제는 mypage > 나의게시글 메뉴에서 가능합니다</td></tr>");
 }

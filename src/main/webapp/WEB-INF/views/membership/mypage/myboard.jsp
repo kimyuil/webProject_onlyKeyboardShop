@@ -70,11 +70,12 @@ function getReviewList(){
 function showReviewList(){ //실질적인 출력 담당
 	$('#reviewTable').html(
 			'<tr>'+
-			'<td style="width:50px;text-align: center; background-color:#dedede" ><b>no</b></td>'+
+			'<td style="width:35px;text-align: center; background-color:#dedede" ><b>no</b></td>'+
+			'<td style="width:75px; text-align: center;background-color:#dedede"><b>상품명</b></td>'+
 			'<td style="text-align: center;background-color:#dedede"><b>내용</b></td>'+
 			'<td style="width:100px; text-align: center;background-color:#dedede"><b>날짜</b></td>'+
 			'<td style="width:80px; text-align: center;background-color:#dedede"><b>별점</b></td>'+
-			'<td style="width:140px; text-align: center;background-color:#dedede"><b>버튼</b></td>'+
+			'<td style="width:140px; text-align: center;background-color:#dedede"><b>--</b></td>'+
 		'</tr>');
 	
 	var lastNum=0;
@@ -82,7 +83,8 @@ function showReviewList(){ //실질적인 출력 담당
 	for(var i=0 ; i<reviewsList.length ;i++){ //list 페이지 내용
     	$('#reviewTable').append("<tr>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
-    		"<td><a href='#'>"+reviewsList[i].reContent+"</a></td>"+
+    		"<td style='text-align: center;'><a href='/onlyKeyboardShop/productPage?&pId="+reviewsList[i].pId+"'>"+reviewsList[i].pName+"</a></td>"+
+    		"<td>"+reviewsList[i].reContent+"</td>"+
     		"<td style='text-align: center;'>"+reviewsList[i].reDate +"</td>"+
     		"<td style='text-align: center;'><b>"+reviewsList[i].reGrade +"</b></td>"+
     		"<td style='text-align: center;'>"+

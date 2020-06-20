@@ -26,13 +26,11 @@ public class OrderListCommand implements ICommand {
 		
 		totalList = dao.getUserPurchaseList(uId);
 		for(int i = 0 ; i < totalList.size(); i++) { //사용자 구매확정누른후(후기를 쓸수 있음)
-			if(totalList.get(i).getState().equals(PurchaseListDto.checkedDelivery)) {
+			if(totalList.get(i).getState().equals(PurchaseListDto.checkedDelivery)||
+					totalList.get(i).getState().equals(PurchaseListDto.writeReview)) {
 				afterCheckList.add(totalList.get(i));
 			}
-			else if(totalList.get(i).getState().equals(PurchaseListDto.purchased)||
-					totalList.get(i).getState().equals(PurchaseListDto.shipping)||
-					totalList.get(i).getState().equals(PurchaseListDto.delivered)
-					){ //사용자 구매확정버튼 누르기전
+			else { //사용자 구매확정버튼 누르기전
 				beforeCheckList.add(totalList.get(i));
 			}
 		}

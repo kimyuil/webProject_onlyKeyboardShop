@@ -84,9 +84,8 @@ public class ControllerMain {
 		model.addAttribute("category", "88keyboard");
 		command = new ProductCommand();
 		command.execute(sqlSession, model);
-		System.out.println(model.toString());
-		
-		return "product/88keyboard/88category";
+				
+		return "product/keyboard/category";
 	}
 	@RequestMapping(value = "/76keyboard", method = RequestMethod.GET)
 	public String keyboard76(Locale locale, Model model) throws Exception {
@@ -95,9 +94,8 @@ public class ControllerMain {
 		model.addAttribute("category", "76keyboard");
 		command = new ProductCommand();
 		command.execute(sqlSession, model);
-		System.out.println(model.toString());
 		
-		return "product/76keyboard/76category";
+		return "product/keyboard/category";
 	}
 	@RequestMapping(value = "/61keyboard", method = RequestMethod.GET)
 	public String keyboard61(Locale locale, Model model) throws Exception {
@@ -106,9 +104,8 @@ public class ControllerMain {
 		model.addAttribute("category", "61keyboard");
 		command = new ProductCommand();
 		command.execute(sqlSession, model);
-		System.out.println(model.toString());
-		
-		return "product/61keyboard/61category";
+				
+		return "product/keyboard/category";
 	}
 		
 	
@@ -116,22 +113,14 @@ public class ControllerMain {
 	public String productPage(HttpServletRequest request, Model model) throws Exception {
 		
 		System.out.println("productPage");
-		String category = request.getParameter("category");
 		String pId = request.getParameter("pId");
 		
 		model.addAttribute("pId", pId); //pid 전달
 		command = new ProductPageCommand();
 		command.execute(sqlSession, model);
 		
+		return "product/keyboard/product";
 		
-		System.out.println(model.toString());
-		
-		if (category.equals("61keyboard"))
-			return "product/61keyboard/61product";
-		else if (category.equals("76keyboard"))
-			return "product/76keyboard/76product";
-		else
-			return "product/88keyboard/88product";
 	}
 	
 	@ResponseBody  //ajax
@@ -151,26 +140,7 @@ public class ControllerMain {
 		String result = (String) map.get("result");
 		
 		return result;
-	}
-	/*
-	 * @ResponseBody //ajax
-	 * 
-	 * @RequestMapping(value = "/addBasket", method = RequestMethod.POST) public
-	 * String addBasket(HttpServletRequest request, Model model) {
-	 * System.out.println("addBasket");
-	 * 
-	 * command = new AddBasketCommand();
-	 * 
-	 * String uId = request.getParameter("uId"); String pId =
-	 * request.getParameter("pId"); model.addAttribute("uId", uId);
-	 * model.addAttribute("pId", pId); command.execute(sqlSession, model);
-	 * 
-	 * Map<String, Object> map = model.asMap(); String result = (String)
-	 * map.get("result");
-	 * 
-	 * return result; }
-	 */
-	
+	}	
 	//구매페이지이동 (로그인필요) post(상품페이지에서)
 	@RequestMapping(value = "member/buyPage", method = RequestMethod.POST)
 	public String buyPost(HttpServletRequest request, Model model) {
