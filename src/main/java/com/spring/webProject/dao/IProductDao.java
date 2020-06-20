@@ -9,10 +9,6 @@ import com.spring.webProject.dto.ProductDto;
 public interface IProductDao {
 	public ArrayList<ProductDto> listProduct(String category);
 	public ProductDto getProduct(String pId);
-	public void addBookmark(@Param("uId") String uId, @Param("pIdAdd") String pIdAdd);
-	public String getBookmarkList(@Param("uId") String uId);
 	public int checkStockAddSelling(@Param("pId") String pid,@Param("pNum") String pnum);
-	
-	
 
 } 

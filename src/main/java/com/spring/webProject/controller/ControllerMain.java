@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.webProject.command.AddBasketCommand;
-import com.spring.webProject.command.AddBookmarkCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.PageCommand;
@@ -123,24 +121,7 @@ public class ControllerMain {
 		
 	}
 	
-	@ResponseBody  //ajax
-	@RequestMapping(value = "/addBookmark", method = RequestMethod.POST)
-	public String addBookmark(HttpServletRequest request, Model model)throws Exception {
-		System.out.println("addBookmark");
-		
-		command = new AddBookmarkCommand();
-		
-		String uId = request.getParameter("uId");
-		String pId = request.getParameter("pId");
-		model.addAttribute("uId", uId);
-		model.addAttribute("pId", pId);
-		command.execute(sqlSession, model);
-		
-		Map<String, Object> map = model.asMap();
-		String result = (String) map.get("result");
-		
-		return result;
-	}	
+
 	//구매페이지이동 (로그인필요) post(상품페이지에서)
 	@RequestMapping(value = "member/buyPage", method = RequestMethod.POST)
 	public String buyPost(HttpServletRequest request, Model model) {

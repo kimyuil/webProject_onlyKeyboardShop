@@ -18,7 +18,7 @@ public class UserSecurityDto implements UserDetails {
 	String uGender; //남자 or 여자 
 	String uEmail;
 	String uAdress;
-	String uInterestedList; //관심목록 ;로 구분해서 추가 및 제거 manager 필요
+	//String uInterestedList;  구현X
 	//int uisAdmin; //0은 일반user 1은 admin
 	int enabled;
 	String authority;
@@ -114,12 +114,12 @@ public class UserSecurityDto implements UserDetails {
 	public void setuAdress(String uAdress) {
 		this.uAdress = uAdress;
 	}
-	public String getuInterestedList() {
-		return uInterestedList;
-	}
-	public void setuInterestedList(String uInterestedList) {
-		this.uInterestedList = uInterestedList;
-	}
+//	public String getuInterestedList() { 구현X
+//		return uInterestedList;
+//	}
+//	public void setuInterestedList(String uInterestedList) {
+//		this.uInterestedList = uInterestedList;
+//	}
 //	public int getEnabled() { isEnabled 메소드와 겹치니 익셉션을 던지더라.. ㅜㅜ
 //		return enabled;
 //	}

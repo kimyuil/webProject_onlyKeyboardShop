@@ -12,17 +12,13 @@
 	select * from product where pId = #{param1}
 </select>
 
-<select id="getBookmarkList" resultType="String">
+<!-- <select id="getBookmarkList" resultType="String">
 	select uInterestedList from user where uId = #{uId}
-</select>
-
-<update id="addBookmark">
-	update user set uInterestedList=#{pIdAdd} where uId = #{uId}
-</update>
+</select> -->
 
 <update id="checkStockAddSelling">
-	update product set pStock=pStock-#{pNum}, pSellingNum=pSellingNum+#{pNum} where pId=#{pId} and pStock-#{pNum} > -1
-	
+	update product set pStock=pStock-#{pNum}, pSellingNum=pSellingNum+#{pNum} 
+	where pId=#{pId} and pStock-#{pNum} > -1
 </update>
 
 </mapper>

@@ -11,7 +11,7 @@
 
 <insert id="joinUser" parameterType="com.spring.webProject.dto.UserDto">
   insert into user
-  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{uInterestedList},#{enabled},#{authority})
+  values (#{uId},#{uPw},#{uName},#{uPhone},#{uBirth},#{uGender},#{uEmail},#{uAdress},#{enabled},#{authority})
 </insert>
 
 <select resultType="String" id="loginAction" >

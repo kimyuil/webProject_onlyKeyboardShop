@@ -131,16 +131,16 @@ public class ControllerMembership {
 	}
 	
 	//로그아웃
-		@RequestMapping(value = "/member/home", method = RequestMethod.GET)
-		public String logout(Locale locale, Model model) {
-			System.out.println("logout");
-			return "home";
-		}
-		@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-		public String logout2(Locale locale, Model model) {
-			System.out.println("logout2");
-			return "home";
-		}
+	@RequestMapping(value = "/member/home", method = RequestMethod.GET)
+	public String logout(Locale locale, Model model) {
+		System.out.println("logout");
+		return "home";
+	}
+	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
+	public String logout2(Locale locale, Model model) {
+		System.out.println("logout2");
+		return "home";
+	}
 	
 	
 	//회원가입
@@ -211,7 +211,7 @@ public class ControllerMembership {
 		model.addAttribute("id", id);
 		String pw = request.getParameter("uPw");
 		model.addAttribute("pw", pw);
-		//System.out.println(id+pw);
+		
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();

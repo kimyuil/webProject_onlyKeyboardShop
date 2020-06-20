@@ -14,16 +14,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><meta charset="EUC-KR">
   
 <title>Insert title here</title>
-
-
-<sec:authorize access="isAnonymous()">
-<script src="/onlyKeyboardShop/resources/js/productActionInvalid.js"></script>
-</sec:authorize>
  
 
 <sec:authorize access="isAuthenticated()">
 <sec:authentication property="principal.username" var="currentUserName"/> 
-<script src="/onlyKeyboardShop/resources/js/productActionValid.js"></script>
 </sec:authorize>
 
 
@@ -56,7 +50,7 @@ $(document).ready(function(){
 })
 
 
-function showReviewList(){ //실질적인 출력 담당
+function showReviewList(){ //후기 게시판 뿌려주는 메소드
 	$('#reviewTable').html(
 			'<tr>'+
 			'<td style="width:50px;text-align: center; background-color:#dedede" ><b>번호</b></td>'+
@@ -121,7 +115,7 @@ function renewPage(page){ //이후 페이지 넘길때 페이지정보만! 가�
 	
 }
 
-function reviewList(page){ //초기 리스트와 초기 페이지정보를 저장해두기
+function reviewList(page){ //후기 게시판 리스트와 초기 페이지정보를 저장해두기 처음한번 실행
 	$.ajax({
 	    url: "/onlyKeyboardShop/reviewList",
 	    type: "POST",
@@ -197,7 +191,8 @@ $(document).on("change", "#colorSelect", function(){ //옵션을 선택해야 �
 			"<div style='float:right;'>		&nbsp<button style='margin-top: 10px' id='removeSelected"+numofIndex+"' onclick='removeItem(this.id)' >x</button>&nbsp</div>"+
 			
 			"<div style='float:right;  line-height: 50px'>"+
-			"<input type='number' id='numOf"+numofIndex+"' value='1' name='numOf' min='1' onchange='numChange(this.id)' style='width:60px; height:30px; vertical-align: middle; display:inline-block;'/></div>"+
+			"<input type='number' id='numOf"+numofIndex+
+			"' value='1' name='numOf' min='1' onchange='numChange(this.id)' style='width:60px; height:30px; vertical-align: middle; display:inline-block;'/></div>"+
 			
 			"<div style='height:50px'></div><hr>"+"</li>"																			
 			
@@ -351,7 +346,7 @@ function gotoBasket(){
 	 location.href="/onlyKeyboardShop/basket";
 }
 
-function formLoginCheck(){//확인후 member/*로 이동시키면 됨.
+function formLoginCheck(){//확인후 member/*로 이동시키면 됨. spring security
 	
 	if (optionList[0] == null){ //옵션체크
 		alert("옵션을 선택해주세요");
@@ -437,18 +432,6 @@ function formLoginCheck(){//확인후 member/*로 이동시키면 됨.
 	return true;
 };
 
-/* var sessionData = "mineItRecord";
-sessionStorage.setItem("mineSession", sessionData ); // 저장
-sessionStorage.getItem("mineSession"); // mineItRecord
-sessionStorage.length; // 1
-sessionStorage.key(0); // mineItRecord
-sessionStorage.removeItem("mineSession"); // 삭제
-sessionStorage.clear(); // 전체삭제 */
-
-//JSON을 이용해 String 형식으로 만들어 SessionStorage에 저장
-//sessionStorage.setItem("orderDetail", JSON.stringify(orderDetail));
-//SessionStorage에서 가져와 JSON을 통해 변환
-//var orderDetail = JSON.parse(sessionStorage.getItem("orderDetail"));
 
 </script>
 	
@@ -494,8 +477,7 @@ sessionStorage.clear(); // 전체삭제 */
 
 	<div style="width:400px; display:inline-block;text-align:left; "> <!-- 오른쪽 정보 -->
 	
-	<button class="btn btn-light" id="bookMark" value="${currentUserName}"> 북마크하기 </button><small style='vertical-align: bottom; color:gray;'>(로그인필요)</small> <!-- username은 id-->
-	<br><br>
+	
 	<form action="member/buyPage"  method="post" id="buyForm" onsubmit="return formLoginCheck()"> <!-- hidden으로 user id도 보내야함. -->
 		<input type="hidden" id="pId" name="pId" value="${product.pId}"/>
 		<h4 id="pName" value="${product.pName}" style="display: inline;">${product.pName}</h4>
