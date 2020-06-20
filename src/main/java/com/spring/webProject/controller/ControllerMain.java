@@ -74,7 +74,7 @@ public class ControllerMain {
 	}
 	
 	
-	//product 관련 요청들
+	//product
 	
 	@RequestMapping(value = "/88keyboard", method = RequestMethod.GET)
 	public String keyboard88(Locale locale, Model model) throws Exception {
@@ -120,92 +120,7 @@ public class ControllerMain {
 		return "product/keyboard/product";
 		
 	}
-	
-
-	//구매페이지이동 (로그인필요) post(상품페이지에서)
-	@RequestMapping(value = "member/buyPage", method = RequestMethod.POST)
-	public String buyPost(HttpServletRequest request, Model model) {
-		System.out.println("buy POST");
-		return "product/buyPage";
-	}
-	//구매페이지이동 (로그인필요) get (장바구니에서 올때)
-	@RequestMapping(value = "member/buyPage", method = RequestMethod.GET)
-	public String buyGet(HttpServletRequest request, Model model) {
-		System.out.println("buy GET");
-		return "product/buyPage";
-	}
-	
-	
-	//구매페이지 (로그인필요) post(상품페이지에서)
-	@Transactional
-	@RequestMapping(value = "member/buyAction", method = RequestMethod.POST)
-	public String buyAction(HttpServletRequest request, Model model) throws RuntimeException {
-		System.out.println("buyAction test page");
 		
-		command = new PurchaseItemsCommand();
- 
-		model.addAttribute("uId", request.getParameter("uId"));
-		model.addAttribute("uName", request.getParameter("uName"));
-		model.addAttribute("uAdress", request.getParameter("uAdress"));
-		model.addAttribute("uPhone", request.getParameter("uPhone"));
-		model.addAttribute("deliverMessage", request.getParameter("deliverMessage"));
-		model.addAttribute("pId", request.getParameter("pId"));
-		model.addAttribute("pName", request.getParameter("pName"));
-		model.addAttribute("pColor", request.getParameter("pColor"));
-		model.addAttribute("pImage", request.getParameter("pImage"));
-		model.addAttribute("pNumof", request.getParameter("pNumof"));
-		
-		try {
-		command.execute(sqlSession, model);
-		}
-		catch(Exception e) {
-			throw new RuntimeException(e.getMessage());			
-		}
-		
-		
-		Map<String, Object> map = model.asMap();
-		String error = (String) map.get("error");
-		
-		if(error!=null) // 에러가 있으면
-			return "home";
-		else
-			return "product/buySuccess";
-	}
-	
-	  //ajax 후기 게시판 정보전송
-	@RequestMapping(value = "/reviewList", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> reviewList(HttpServletRequest request, Model model)throws Exception {
-		
-		System.out.println("reviewList");
-		
-		command = new ReviewListCommand();
-		
-		String pId = request.getParameter("pId");
-		model.addAttribute("pId", pId);
-		System.out.println(pId);
-		command.execute(sqlSession, model); //게시판 리스트를 받아옴
-		
-		
-		String page = request.getParameter("reviewPage"); //페이지정보
-		command = new PageCommand(Integer.parseInt(page));
-		command.execute(sqlSession, model);
-				
-		
-		Map<String, Object> map = model.asMap();
-				
-		ArrayList<ReviewBoardDto> reviews = (ArrayList<ReviewBoardDto>)map.get("reviews");//게시판리스트들
-		PageDto pageInfo = (PageDto)map.get("pageInfo");//페이징정보
-		
-		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
-		result.put("reviews", reviews);
-		result.put("pageInfo", pageInfo);
-		
-		return result;
-		
-	}
-
-	
-	
 	
 	//community
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)
@@ -217,6 +132,18 @@ public class ControllerMain {
 	public String notice(Locale locale, Model model) {
 		System.out.println("notice");
 		return "community/notice";
+	}
+	
+	//membership
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Locale locale, Model model) {
+		System.out.println("login");
+		return "membership/login";
+	}
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String mypage(Locale locale, Model model) {
+		System.out.println("mypage");
+		return "membership/mypage/mypage";
 	}
 	
 	
