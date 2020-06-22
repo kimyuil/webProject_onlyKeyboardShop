@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
-import com.spring.webProject.command.PageCommand;
+import com.spring.webProject.command.ReviewPageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.PurchaseItemsCommand;

@@ -5,22 +5,23 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.ui.Model;
 
+import com.spring.webProject.dao.IQNADao;
 import com.spring.webProject.dao.IReviewDao;
 import com.spring.webProject.dto.PageDto;
 
-public class PageCommand implements ICommand {
+public class QNAPageCommand implements ICommand {
 	
 	int page; 
 	
-	public PageCommand(int p) {
+	public QNAPageCommand(int p) {
 		// TODO Auto-generated constructor stub
 		page = p;
-	}	
+	}
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
 		// TODO Auto-generated method stub
-		IReviewDao dao = sqlSession.getMapper(IReviewDao.class);
+		IQNADao dao = sqlSession.getMapper(IQNADao.class);
 		
 		Map<String, Object> map = model.asMap();
 		String pId = (String) map.get("pId");
@@ -58,6 +59,7 @@ public class PageCommand implements ICommand {
 		pageInfo.setRealLastBlockNum(realLastBlockNum);//이게 더 쓸모있는.
 		
 		model.addAttribute("pageInfo", pageInfo);
+
 	}
 
 }

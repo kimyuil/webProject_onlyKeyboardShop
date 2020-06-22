@@ -12,10 +12,6 @@
 	select * from product where pId = #{param1}
 </select>
 
-<!-- <select id="getBookmarkList" resultType="String">
-	select uInterestedList from user where uId = #{uId}
-</select> -->
-
 <update id="checkStockAddSelling">
 	update product set pStock=pStock-#{pNum}, pSellingNum=pSellingNum+#{pNum} 
 	where pId=#{pId} and pStock-#{pNum} > -1

@@ -31,7 +31,7 @@ import com.spring.webProject.command.JoinCommand;
 import com.spring.webProject.command.LoginCommand;
 import com.spring.webProject.command.ModifyReivewCommand;
 import com.spring.webProject.command.OrderListCommand;
-import com.spring.webProject.command.PageCommand;
+import com.spring.webProject.command.ReviewPageCommand;
 import com.spring.webProject.command.PreventReWriteCheckCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;

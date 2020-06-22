@@ -21,17 +21,30 @@
 </sec:authorize>
 
 
-<script>
-//
-var originPrice = ${product.pPrice};
-var deliveryPrice = <%=deliveryPirce%>;
-var numofIndex=0;
-var optionList=new Array(); //현재 선택된 옵션들의 "값"
-var indexList=new Array(); //현재 선택된 옵션들의 "index"들
-var stock = "${product.pStock}";
 
+<script>
+//장바구니 선택시 사용될 변수들 (basketAction.js)
+var numofIndex=0;
+var optionList=new Array(); //현재 선택된 옵션들의 "값" ex)블랙, 화이트 등
+var indexList=new Array(); //현재 선택된 옵션들의 "index"들
+
+var currentUserName = "${currentUserName}" //로그인 되있을때 id값
+
+//product info
+var deliveryPrice = <%=deliveryPirce%>;
+var originPrice = ${product.pPrice};
+var stock = "${product.pStock}";
+var pid = "${product.pId}";
+var pName = "${product.pName}";
+var pImageRoute ="${product.pImageRoute}";
+
+//review table용 
 var reviewsList = new Array();
 var pageInfo;
+
+//q&a table 용
+var qnaList = new Array();
+var QpageInfo;
 
 $(document).ready(function(){
 	if(Number(stock)<=0){
@@ -46,394 +59,161 @@ $(document).ready(function(){
 	
 	reviewList(1);//처음에 1페이지
 	showReviewList();
-	 
+	
+	QNAList(1); //처음에 1페이지
+	showQNAList();
 })
 
 
-function showReviewList(){ //후기 게시판 뿌려주는 메소드
-	$('#reviewTable').html(
+function showQNAList(){ //후기 게시판 뿌려주는 메소드
+	$('#qnaTable').html(
 			'<tr>'+
 			'<td style="width:50px;text-align: center; background-color:#dedede" ><b>번호</b></td>'+
 			'<td style="width:80px;text-align: center;background-color:#dedede"><b>작성자</b></td>'+
-			'<td style="text-align: center;background-color:#dedede"><b>내용</b></td>'+
+			'<td style="text-align: center;background-color:#dedede"><b>제목</b></td>'+
 			'<td style="width:100px; text-align: center;background-color:#dedede"><b>날짜</b></td>'+
-			'<td style="width:80px; text-align: center;background-color:#dedede"><b>별점</b></td>'+
+			'<td style="width:100px; text-align: center;background-color:#dedede"><b>답변</b></td>'+
 		'</tr>');
 	
 	var lastNum=0;
-	if(pageInfo.currentPageLastNum==pageInfo.lastPageNum){
-		lastNum=Number(pageInfo.currentPageLastNum)-1;
+	if(QpageInfo.currentPageLastNum==QpageInfo.lastPageNum){
+		lastNum=Number(QpageInfo.currentPageLastNum)-1;
 	}
 	else{
-		lastNum = pageInfo.currentPageLastNum;
+		lastNum = QpageInfo.currentPageLastNum;
 	}
-	for(var i=pageInfo.currentPageFirstNum ; i<=lastNum ;i++){ //list 페이지 내용
-    	$('#reviewTable').append("<tr>"+
+	
+	for(var i=QpageInfo.currentPageFirstNum ; i<=lastNum ;i++){ //list 페이지 내용
+    	$('#qnaTable').append("<tr class='tr"+i+"'>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
-    		"<td style='text-align: center;'>"+reviewsList[i].uName+"</td>"+
-    		"<td>"+reviewsList[i].reContent+"</td>"+
-    		"<td style='text-align: center;'>"+reviewsList[i].reDate +"</td>"+
-    		"<td style='text-align: center;'><b>"+reviewsList[i].reGrade +"</b></td>"
+    		"<td style='text-align: center;'>"+qnaList[i].uName+"</td>"+
+    		"<td><a href='javascript:void(0)' onclick='showContent("+i+")'>"+qnaList[i].qnaTitle+"</a></td>"+
+    		"<td style='text-align: center;'>"+qnaList[i].qnaDate +"</td>"+
+    		"<td style='text-align: center;'>"+qnaList[i].isAnswered +"</td></tr>"
     	);
    }
  
 	 var pageBlock = "";
-	 for(var j = pageInfo.blockStartNum; j <=pageInfo.blockLastNum; j++){
-		 pageBlock = pageBlock + "<a href='#review' onclick='renewPage("+Number(j)+")'>&nbsp"+j+"&nbsp</a>"; 
+	 for(var j = QpageInfo.blockStartNum; j <=QpageInfo.blockLastNum; j++){
+		 pageBlock = pageBlock + "<a href='#qna' onclick='renewQPage("+Number(j)+")'>&nbsp"+j+"&nbsp</a>"; 
 	 }
 	 
-	 $('#reviewTable').append("<tr><td  colspan='5' align='center' style='background-color:#e6e6e6'>"+
-			 (pageInfo.blockStartNum != 1 ? "<a href='#review' onclick='renewPage("+(Number(pageInfo.blockStartNum)-1)+")'>이전&nbsp</a>": "")+
+	 $('#qnaTable').append("<tr><td  colspan='5' align='center' style='background-color:#e6e6e6'>"+
+			 (QpageInfo.blockStartNum != 1 ? "<a href='#qna' onclick='renewQPage("+(Number(QpageInfo.blockStartNum)-1)+")'>이전&nbsp</a>": "")+
 			 pageBlock+
-			 (pageInfo.blockLastNum != pageInfo.realLastBlockNum ? "<a href='#review' onclick='renewPage("+(Number(pageInfo.blockLastNum)+1)+")'>&nbsp다음</a>":"")+
-	 " </td></tr>");
+			 (QpageInfo.blockLastNum != QpageInfo.realLastBlockNum ? "<a href='#qna' onclick='renewQPage("+(Number(QpageInfo.blockLastNum)+1)+")'>&nbsp다음</a>":"")+
+	 " </td></tr>"); 
  
 }
-	
-function renewPage(page){ //이후 페이지 넘길때 페이지정보만! 가져온후 showReviewList 호출.
+
+function renewQPage(page){ //이후 페이지 넘길때 페이지정보만! 가져온후 showQNAList 호출.
 	$.ajax({
-	    url: "/onlyKeyboardShop/reviewList",
+	    url: "/onlyKeyboardShop/qnaList",
 	    type: "POST",
 	    cache: false,
 	    dataType : "json",
 	    async: false,
-	    data: {"reviewPage" : page, "pId" : "${product.pId}"},
+	    data: {"qnaPage" : page, "pId" : pid},
 	    success: function(data){
 	    	
-	    	pageInfo={blockStartNum:data.pageInfo.blockStartNum, blockLastNum:data.pageInfo.blockLastNum,
-	    			lastPageNum:data.pageInfo.lastPageNum, realLastBlockNum:data.pageInfo.realLastBlockNum,
-	    			currentPage:data.pageInfo.currentPage, currentPageFirstNum:data.pageInfo.currentPageFirstNum,
-	    			currentPageLastNum:data.pageInfo.currentPageLastNum};
+	    	QpageInfo={blockStartNum:data.QpageInfo.blockStartNum, blockLastNum:data.QpageInfo.blockLastNum,
+	    			lastPageNum:data.QpageInfo.lastPageNum, realLastBlockNum:data.QpageInfo.realLastBlockNum,
+	    			currentPage:data.QpageInfo.currentPage, currentPageFirstNum:data.QpageInfo.currentPageFirstNum,
+	    			currentPageLastNum:data.QpageInfo.currentPageLastNum};
 	      	
-	      	showReviewList();
+	    	showQNAList();
 	    },
 	    
 	    error: function (request, status, error){   
 	    	alert("정보를 불러오는데 실패했습니다. 관리자에게 문의해주세요.");              
 	    }
 	  });
-	
 }
 
-function reviewList(page){ //후기 게시판 리스트와 초기 페이지정보를 저장해두기 처음한번 실행
+function QNAList(page){ //QNA 게시판 리스트와 초기 페이지정보를 저장해두기 처음한번 실행
 	$.ajax({
-	    url: "/onlyKeyboardShop/reviewList",
+	    url: "/onlyKeyboardShop/qnaList",
 	    type: "POST",
 	    cache: false,
 	    dataType : "json",
 	    async: false,
-	    data: {"reviewPage" : page, "pId" : "${product.pId}"},
+	    data: {"qnaPage" : page, "pId" : pid},
 	    success: function(data){
 	    	
 	    	//후기게시판, 페이징정보 가져오기
-	    	for(var i =0;i<data.reviews.length;i++){
-	    		var grade;
-	    		switch(data.reviews[i].reGrade){
-	    		case 1:
-	    			grade="\★\☆\☆\☆\☆"; 
-	    			break;
-	    		case 2:
-	    			grade="\★\★\☆\☆\☆";
-	    			break;
-	    		case 3:
-	    			grade="\★\★\★\☆\☆";
-	    			break;
-	    		case 4:
-	    			grade="\★\★\★\★\☆";
-	    			break;
-	    		case 5:
-	    			grade="\★\★\★\★\★";
-	    			break;
-	    		}
+	    	for(var i =0;i<data.qnas.length;i++){
 	    		
-	    		var item = {reId:data.reviews[i].reId, pId:data.reviews[i].pId, 
-	    		uId:data.reviews[i].uId, pName:data.reviews[i].pName, pColor:data.reviews[i].pColor, 
-	    		reDate:data.reviews[i].reDate,	uName:data.reviews[i].uName,  
-	    		reContent:data.reviews[i].reContent, reGrade:grade, purId:data.reviews[i].purId};
+	    		var isSecret=false;
+	    		var isAnswered="답변대기중";
+	    		if (data.qnas[i].isSecret==1) isSecret=true;
+	    		if (data.qnas[i].isAnswered==1) isAnswered="<b>답변완료</b>";
 	    		
-	    		reviewsList.push(item);
+	    		var date = new Date(data.qnas[i].qnaDate);
+	    		var dateString = date_to_str(date);
+	    		
+	    		var item = {qnaId:data.qnas[i].qnaId, uId:data.qnas[i].uId, 
+	    		pId:data.qnas[i].pId, pName:data.qnas[i].pName, qnaTitle:data.qnas[i].qnaTitle, 
+	    		qnaContent:data.qnas[i].qnaContent,	qnaDate:dateString,  
+	    		isSecret:isSecret, isAnswered: isAnswered,
+	    		qnaAnswer:data.qnas[i].qnaAnswer, uName:data.qnas[i].uName};
+	    		
+	    		qnaList.push(item);
 	    	};
-	    	pageInfo={blockStartNum:data.pageInfo.blockStartNum, blockLastNum:data.pageInfo.blockLastNum,
-	    			lastPageNum:data.pageInfo.lastPageNum, realLastBlockNum:data.pageInfo.realLastBlockNum,
-	    			currentPage:data.pageInfo.currentPage, currentPageFirstNum:data.pageInfo.currentPageFirstNum,
-	    			currentPageLastNum:data.pageInfo.currentPageLastNum};
-	      	//alert(JSON.stringify(pageInfo));
+	    	QpageInfo={blockStartNum:data.QpageInfo.blockStartNum, blockLastNum:data.QpageInfo.blockLastNum,
+	    			lastPageNum:data.QpageInfo.lastPageNum, realLastBlockNum:data.QpageInfo.realLastBlockNum,
+	    			currentPage:data.QpageInfo.currentPage, currentPageFirstNum:data.QpageInfo.currentPageFirstNum,
+	    			currentPageLastNum:data.QpageInfo.currentPageLastNum};
 	    },
 	    
 	    
 	  });
 }
 
+function date_to_str(format){
+    var year = format.getFullYear();
+    var month = format.getMonth() + 1;
+    if(month<10) month = '0' + month;
+    var date = format.getDate();
+	if(date<10) date = '0' + date;
+    var hour = format.getHours();
+    if(hour<10) hour = '0' + hour;
+    var min = format.getMinutes();
+    if(min<10) min = '0' + min;
+    var sec = format.getSeconds();
+    if(sec<10) sec = '0' + sec;
+	return year + "-" + month + "-" + date; // + " " + hour + ":" + min + ":" + sec
+}
 
-$(document).on("change", "#colorSelect", function(){ //옵션을 선택해야 결제진행
+function showContent(id){
 	
-	if(optionList!=null){
-	for( var i = 0 ; i < optionList.length ; i++){  //중복검사
-		if($("#colorSelect option:selected").val() == optionList[i]){
-			alert("이미 선택한 옵션입니다");
-			return;
-			}
+	if($('.tr'+id).attr('content')==undefined){
+		if(qnaList[id].isAnswered=="<b>답변완료</b>"){
+			$('.tr'+id).after("<tr><td colspan='5' style='height:100px;'>"+qnaList[id].qnaContent+
+			"<br><br>"+qnaList[id].qnaAnswer+"</td></tr>");
 		}
-	}
-	
-	if($("#colorSelect option:selected").val()!="none"){
+		else{
+			$('.tr'+id).after("<tr><td colspan='5' style='height:100px;'>"+qnaList[id].qnaContent+"</td></tr>");
+		}
+		$('.tr'+id).attr('content',"true");
+	}	
+	else if($('.tr'+id).attr('content')=="true"){
 		
-		optionList.push($("#colorSelect option:selected").val());
-		indexList.push(numofIndex);
-		//alert($("#colorSelect option:selected").val());
-		$("#productDetails").append(
-			"<li id='item"+numofIndex+"' value='"+$("#colorSelect option:selected").val()+"'>"+
-			"<div style='float:left;'><b>${product.pName}</b><br>"+$("#colorSelect option:selected").val()+"</div>"+
-			
-			"<div style='float:right;  line-height: 50px'>"+
-			"<span style='vertical-align: middle;' id='thisPrice"+numofIndex+"' value='"+originPrice+"'>"+originPrice+"원</span>	</div>"+
-			
-			"<div style='float:right;'>		&nbsp<button style='margin-top: 10px' id='removeSelected"+numofIndex+"' onclick='removeItem(this.id)' >x</button>&nbsp</div>"+
-			
-			"<div style='float:right;  line-height: 50px'>"+
-			"<input type='number' id='numOf"+numofIndex+
-			"' value='1' name='numOf' min='1' onchange='numChange(this.id)' style='width:60px; height:30px; vertical-align: middle; display:inline-block;'/></div>"+
-			
-			"<div style='height:50px'></div><hr>"+"</li>"																			
-			
-		);				
-		numofIndex++;
-		$("#colorSelect option:eq(0)").prop("selected", true);
-		total();
+		$('.tr'+id).next('tr').hide();
+		$('.tr'+id).attr('content',"false");
+	}
+	else if($('.tr'+id).attr('content')=="false") {
+		
+		$('.tr'+id).next('tr').show();
+		$('.tr'+id).attr('content',"true");
 	} 
-});		
-
-function removeItem(thisid){
-	var id=thisid.substring(14);
-	var itemId="item".concat(id); //<li>태그의 id
 	
-	var content = $("#"+itemId).attr('value'); //배열에서의 "값" 지우기
-	const idx = optionList.indexOf(content);
-	if (idx > -1) optionList.splice(idx, 1);
-				
-	content = id; //배열에서의 "인덱스" 지우기
-				
-	const idx2 = indexList.indexOf(Number(content));
-	if (idx2 > -1) indexList.splice(idx2, 1);
-			
-	$("#colorSelect option:eq(0)").prop("selected", true);//selectbox 초기화
-	$("#"+itemId).remove();//실제 요소지우기
-	//numofIndex=Number(id);
-	total();
 }
-
-function numChange(thisid){
-	var id=thisid.substring(5);
-	var priceId="thisPrice".concat(id);
-	var Price= originPrice;//$("#"+priceId).attr('value');
-	var num = $("#"+thisid).val();
-	Price *= num; //개수를 올린만큼 가격도 곱해져서 출력하기
-	$("#"+priceId).html(Price+"원");
-	//출력만 하지말고 value 값도 바꿔줘야함.
-	$("#"+priceId).attr('value',Price);
-	total();
-}
-
-function total(){
-	var num=0;
-	Number(num);
-	for (var i=0;i < indexList.length ; i++){ 
-		num = Number(num) + Number($('#numOf'+indexList[i]).val());
-	}
-	
-	var totalPrice=0;
-	Number(totalPrice);
-	for (var i=0;i < indexList.length ; i++){
-		totalPrice = Number(totalPrice) + Number($('#thisPrice'+indexList[i]).attr('value')); 
-	}
-	if(totalPrice!=0)
-		totalPrice+=deliveryPrice;
-	
-	
-	if(Number(num)<=Number(stock)){
-		$("#totalNum").html(num+"개");
-		$("#totalPrice").html(totalPrice+"원");
-	}else{
-		$("#totalNum").html("<span style='color:red;'>"+num+"개 (재고 초과)</span>");
-		$("#totalPrice").html("<span style='color:red;'>"+totalPrice+"원</span>");
-	}
-}
-
-//장바구니 로직.
-$(document).on("click", "#basket", function(){
-	
-	if (optionList[0] == null){ //옵션체크
-		alert("옵션을 선택해주세요");
-		return;
-	}
-	
-	//수량체크
-	var num=0; //현재 구매페이지의 신청물량
-	var bascketNum=0; //장바구니에 담겨있는 물건의 물량
-	if(sessionStorage.getItem("basketItems")==null){ //처음 장바구니에 담을때
-		for (var i=0;i < indexList.length ; i++){ 
-			num = Number(num)+Number($('#numOf'+indexList[i]).val());
-		}
-		if(Number(num)>Number(stock)){
-			alert("재고 이상을 구매할 수 없습니다");
-			return;
-		}
-	}
-	else{//전에 담아둔 장바구니가 있을때
-		var checkItems = JSON.parse(sessionStorage.getItem("basketItems"));
-		
-		for(var i = 0 ; i < checkItems.length;i++){ //장바구니에 현 아이템이 몇개 담겼는지
-			if(checkItems[i].pId=="${product.pId}")
-				bascketNum = Number(bascketNum)+Number(checkItems[i].numOf);
-		}
-		for (var i=0;i < indexList.length ; i++){ //신청페이지에 담고자했던 아이템은 몇개인지
-			num = Number(num)+Number($('#numOf'+indexList[i]).val());
-		}
-		
-		
-		if( Number(bascketNum)+Number(num) >Number(stock)){
-			alert("재고 이상을 구매할 수 없습니다. 장바구니를 확인해주세요");
-			return;
-		}
-	}
-	
-	
-	
-	for (var i=0;i < indexList.length ; i++){ //세션에  품목넣기시작
-		
-		if(sessionStorage.getItem("basketItems")==null){//맨처음 장바구니를 눌렀떄
-			
-			var items = [];
-			
-			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
-					numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
-			items.push(item);
-			
-			sessionStorage.setItem("basketItems", JSON.stringify(items));
-		} 
-		else{ //이전에 추가해둔 장바구니가 있을때.
-			
-						
-			var items = JSON.parse(sessionStorage.getItem("basketItems"));
-			
-			var flag=false;
-			for(var j=0;j<items.length;j++){ //중복검사. 같으면 개수를 더해주기
-				if( items[j].pId=="${product.pId}" && items[j].color== $('#item'+indexList[i]).attr('value')){
-					items[j].numOf = Number(items[i].numOf) + Number($('#numOf'+indexList[i]).val()); //개수더해주고
-					items[j].price = Number(items[i].price) + Number($('#thisPrice'+indexList[i]).attr('value'));
-					sessionStorage.setItem("basketItems", JSON.stringify(items));		
-					flag=true;
-					//return;
-				}
-			}
-			if(flag==true){
-				continue;
-			}
-			
-			//이름, 이미지, 색상정보, 개수, 가격을 담은 객체
-			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
-				numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
-			
-			items.push(item);
-			sessionStorage.setItem("basketItems", JSON.stringify(items));
-			
-		}
-	}
-	$("#myModal").modal(); //장바구니 확인창
-});
-
-function gotoBasket(){
-	 location.href="/onlyKeyboardShop/basket";
-}
-
-function formLoginCheck(){//확인후 member/*로 이동시키면 됨. spring security
-	
-	if (optionList[0] == null){ //옵션체크
-		alert("옵션을 선택해주세요");
-		return false;
-	}
-	
-	
-	//수량체크
-	var num=0; //현재 구매페이지의 신청물량
-	var bascketNum=0; //장바구니에 담겨있는 물건의 물량
-	if(sessionStorage.getItem("basketItems")==null){ //처음 장바구니에 담을때
-		for (var i=0;i < indexList.length ; i++){ 
-			num = Number(num)+Number($('#numOf'+indexList[i]).val());
-		}
-		if(Number(num)>Number(stock)){
-			alert("재고 이상을 구매할 수 없습니다");
-			return false;
-		}
-	}
-	else{//전에 담아둔 장바구니가 있을때
-		var checkItems = JSON.parse(sessionStorage.getItem("basketItems"));
-		
-		for(var i = 0 ; i < checkItems.length;i++){ //장바구니에 현 아이템이 몇개 담겼는지
-			if(checkItems[i].pId=="${product.pId}")
-				bascketNum = Number(bascketNum)+Number(checkItems[i].numOf);
-		}
-		for (var i=0;i < indexList.length ; i++){ //신청페이지에 담고자했던 아이템은 몇개인지
-			num = Number(num)+Number($('#numOf'+indexList[i]).val());
-		}
-		
-		
-		if( Number(bascketNum)+Number(num) >Number(stock)){
-			alert("재고 이상을 구매할 수 없습니다. 장바구니를 확인해주세요");
-			return false;
-		}
-	}
-	
-	
-	if("${currentUserName}"==null){ //로그인체크
-		alert("로그인이 필요합니다")
-		return false;
-	}
-	
-	
-	for (var i=0;i < indexList.length ; i++){ 
-		if(sessionStorage.getItem("basketItems")==null){//장바구니가 빈 상태였을때
-			
-			var items = [];
-			
-			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
-					numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
-				items.push(item);
-			
-			sessionStorage.setItem("basketItems", JSON.stringify(items));
-		} 
-		else{ //이전에 추가해둔 장바구니가 있을때.
-			
-			var items = JSON.parse(sessionStorage.getItem("basketItems"));
-			
-		var flag=false;
-			for(var j=0;j<items.length;j++){
-								
-				if( items[j].pId=="${product.pId}" && items[j].color== $('#item'+indexList[i]).attr('value')){
-					//alert("check 구매하기form내부임")
-					items[j].numOf = Number(items[j].numOf) + Number($('#numOf'+indexList[i]).val()); //개수더해주고
-					items[j].price = Number(items[j].price) + Number($('#thisPrice'+indexList[i]).attr('value'));
-					sessionStorage.setItem("basketItems", JSON.stringify(items));		
-					flag=true;
-				}
-			}
-			if(flag==true){
-				continue;
-			}
-			
-			//이름, 이미지, 색상정보, 개수, 가격을 담은 객체
-			var item = {pId:"${product.pId}",name:"${product.pName}",image:"${product.pImageRoute}",color:$('#item'+indexList[i]).attr('value'),
-				numOf:$('#numOf'+indexList[i]).val(),price: $('#thisPrice'+indexList[i]).attr('value')};
-			items.push(item);
-			sessionStorage.setItem("basketItems", JSON.stringify(items));
-		}
-	}
-		
-	return true;
-};
-
 
 </script>
+
+<script src="/onlyKeyboardShop/resources/js/optionSelectAction.js"></script>
+<script src="/onlyKeyboardShop/resources/js/basketPurchaseAction.js"></script>
+<script src="/onlyKeyboardShop/resources/js/reviewAction.js"></script>
 	
 </head>
 
@@ -561,6 +341,7 @@ function formLoginCheck(){//확인후 member/*로 이동시키면 됨. spring se
 		</table>
 		<br>
 		<h5 align="center">상품을 구매 후 솔직한 후기를 작성해주세요!</h5>
+		<small>mypage -> 구매목록 페이지에서 작성할 수 있습니다</small>
 	  </div>
 
 	  <div class="tab-pane fade" id="qna"> <!-- Q&A게시판 -->
@@ -568,7 +349,7 @@ function formLoginCheck(){//확인후 member/*로 이동시키면 됨. spring se
 	  <br>
 	    <h3 align="center">Q & A</h3>
 	  <br>  
-	    <table width="850" cellpadding="0" cellspacing="0" border="1" style="margin:0 auto;" id="qnaTable">
+	    <table width="850" cellpadding="5" cellspacing="0" border="1" style="margin:0 auto;" id="qnaTable">
 		</table>
 		<br>
 		<h5 align="center">문의사항을 친절히 답변해 드립니다</h5>  

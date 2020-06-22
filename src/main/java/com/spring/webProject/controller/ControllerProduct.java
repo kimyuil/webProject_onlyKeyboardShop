@@ -23,15 +23,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
-import com.spring.webProject.command.PageCommand;
+import com.spring.webProject.command.ReviewPageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.PurchaseItemsCommand;
+import com.spring.webProject.command.QNAListCommand;
+import com.spring.webProject.command.QNAPageCommand;
 import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.command.UserCheckCommand;
 import com.spring.webProject.dto.PageDto;
 import com.spring.webProject.dto.ProductDto;
+import com.spring.webProject.dto.QNABoardDto;
 import com.spring.webProject.dto.ReviewBoardDto;
 
 
@@ -109,12 +112,12 @@ public class ControllerProduct {
 		
 		String pId = request.getParameter("pId");
 		model.addAttribute("pId", pId);
-		System.out.println(pId);
+		
 		command.execute(sqlSession, model); //게시판 리스트를 받아옴
 		
 		
 		String page = request.getParameter("reviewPage"); //페이지정보
-		command = new PageCommand(Integer.parseInt(page));
+		command = new ReviewPageCommand(Integer.parseInt(page));
 		command.execute(sqlSession, model);
 				
 		
@@ -157,6 +160,39 @@ public class ControllerProduct {
 			return "fail";
 		}
 
+	}
+	
+	
+	//ajax 후기 게시판 정보전송
+	@RequestMapping(value = "/qnaList", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> qnaList(HttpServletRequest request, Model model)throws Exception {
+		
+		System.out.println("qnaList");
+		
+		command = new QNAListCommand();
+		
+		String pId = request.getParameter("pId");
+		model.addAttribute("pId", pId);
+		
+		command.execute(sqlSession, model); //게시판 리스트를 받아옴
+		
+		
+		String page = request.getParameter("qnaPage"); //페이지정보
+		command = new QNAPageCommand(Integer.parseInt(page));
+		command.execute(sqlSession, model);
+				
+		
+		Map<String, Object> map = model.asMap();
+				
+		ArrayList<QNABoardDto> qnas = (ArrayList<QNABoardDto>)map.get("qnas");//게시판리스트들
+		PageDto pageInfo = (PageDto)map.get("pageInfo");//페이징정보
+				
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("qnas", qnas);
+		result.put("QpageInfo", pageInfo);
+		
+		return result;
+		
 	}
 
 	
