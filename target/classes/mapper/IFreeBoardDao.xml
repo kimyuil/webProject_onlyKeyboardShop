@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.webProject.dao.IFreeBoardDao">
+
+
+ <select id="getBoardsList" resultType="com.spring.webProject.dto.FreeBoardDto">
+	select * from freeboard
+</select>
+<select id="listLength" resultType="int">
+	select count(*) as total from freeboard
+</select>
+<select id="getBoardContent" resultType="com.spring.webProject.dto.FreeBoardDto">
+	select * from freeboard where fbId=#{fbId}
+</select>
+<!--
+getBoardContent
+<select id="getProduct" resultType="com.spring.webProject.dto.ProductDto">
+	select * from product where pId = #{param1}
+</select>
+
+<update id="checkStockAddSelling">
+	update product set pStock=pStock-#{pNum}, pSellingNum=pSellingNum+#{pNum} 
+	where pId=#{pId} and pStock-#{pNum} > -1
+</update>
+ -->
+</mapper>

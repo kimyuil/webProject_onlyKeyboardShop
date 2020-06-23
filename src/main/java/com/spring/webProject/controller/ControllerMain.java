@@ -125,13 +125,11 @@ public class ControllerMain {
 	//community
 	@RequestMapping(value = "/freeboard", method = RequestMethod.GET)
 	public String freeboard(Locale locale, Model model) {
-		System.out.println("freeboard");
-		return "community/freeboard";
+		return "redirect:freeboardList";
 	}
 	@RequestMapping(value = "/notice", method = RequestMethod.GET)
 	public String notice(Locale locale, Model model) {
-		System.out.println("notice");
-		return "community/notice";
+		return "redirect:noticeList";
 	}
 	
 	//membership
