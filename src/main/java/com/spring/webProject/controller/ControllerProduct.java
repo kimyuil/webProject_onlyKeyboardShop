@@ -246,7 +246,10 @@ public class ControllerProduct {
 		model.addAttribute("qnaId", request.getParameter("qnaId"));
 		model.addAttribute("qnaTitle", request.getParameter("qnaTitle"));
 		model.addAttribute("qnaContent", request.getParameter("qnaContent"));
-		model.addAttribute("isSecret", request.getParameter("isSecret"));
+		if(request.getParameter("isSecret")==null)
+			model.addAttribute("isSecret", "0");
+		else		
+			model.addAttribute("isSecret", request.getParameter("isSecret"));
 		
 		command = new ModifyQnaCommand();
 		command.execute(sqlSession, model);

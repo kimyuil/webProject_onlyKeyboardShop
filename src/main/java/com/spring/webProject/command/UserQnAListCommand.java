@@ -1,5 +1,6 @@
 package com.spring.webProject.command;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,8 +8,10 @@ import org.springframework.ui.Model;
 
 import com.spring.webProject.dao.IQNADao;
 import com.spring.webProject.dao.IReviewDao;
+import com.spring.webProject.dto.QNABoardDto;
+import com.spring.webProject.dto.ReviewBoardDto;
 
-public class ModifyQnaCommand implements ICommand {
+public class UserQnAListCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
@@ -16,19 +19,12 @@ public class ModifyQnaCommand implements ICommand {
 		IQNADao dao = sqlSession.getMapper(IQNADao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String qnaId = (String) map.get("qnaId");
-		String qnaTitle = (String) map.get("qnaTitle");
-		String qnaContent = (String) map.get("qnaContent");
-		String isSecret = (String) map.get("isSecret");
+		String uId = (String) map.get("uId");
 		
-		int result = dao.modifyQnA(qnaId,qnaTitle,qnaContent,isSecret);
+		ArrayList<QNABoardDto> qnas = new ArrayList<QNABoardDto>();
+		qnas = dao.userListQnA(uId);
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
-		
+		model.addAttribute("qnas", qnas);
 	}
 
 }

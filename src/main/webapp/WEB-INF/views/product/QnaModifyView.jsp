@@ -28,7 +28,9 @@ function qnaSubmit(){
 	else
 		$('#secretCheck').val('0');
 	
-	
+	if("${isFromMypage}"=="true")
+		$('#qnaSubmit').attr('action','/onlyKeyboardShop/userModifyQna');
+		
 	//alert($('#qnaSubmit').secretCheck.value);
 	return true;
 }
@@ -54,7 +56,7 @@ function qnaSubmit(){
     <div class="col-sm-2">Check Secret</div>
     <div class="col-sm-10">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="secretCheck" name="isSecret" vlaue="notOn">
+        <input class="form-check-input" type="checkbox" id="secretCheck" name="isSecret">
         <label class="form-check-label" for="secretCheck">
           	비밀글 여부
         </label>

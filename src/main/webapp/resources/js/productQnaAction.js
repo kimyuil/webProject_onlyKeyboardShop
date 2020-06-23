@@ -1,37 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html>
-
-
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<sec:authorize access="isAuthenticated()">
-<sec:authentication property="principal.username" var="currentUserName"/> 
-</sec:authorize>
-
-<script>
-var reviewsList = new Array();
-var qnaList = new Array();
-
-var currentUserName= "${currentUserName}"
-
-$(document).ready(function(){
-	getReviewList();
-	showReviewList();
-	
-	QNAList();
-	showQNAList()
-});
-
-
-function showQNAList(){ //qna 게시판 뿌려주는 메소드
+/**
+ * 
+ */
+function showQNAList(){ //후기 게시판 뿌려주는 메소드
 	$('#qnaTable').html(
 			'<tr>'+
 			'<td style="width:50px;text-align: center; background-color:#dedede" ><b>번호</b></td>'+
@@ -41,9 +11,26 @@ function showQNAList(){ //qna 게시판 뿌려주는 메소드
 			'<td style="width:100px; text-align: center;background-color:#dedede"><b>답변</b></td>'+
 		'</tr>');
 	
+	var lastNum=0;
+	if(QpageInfo.currentPageLastNum==QpageInfo.lastPageNum){
+		lastNum=Number(QpageInfo.currentPageLastNum)-1;
+	}
+	else{
+		lastNum = QpageInfo.currentPageLastNum;
+	}
 	
-	for(var i=0 ; i<qnaList.length ;i++){ //list 페이지 내용
-				
+	for(var i=QpageInfo.currentPageFirstNum ; i<=lastNum ;i++){ //list 페이지 내용
+		if(qnaList[i].isSecret==1 && currentUserName!=qnaList[i].uId){
+			$('#qnaTable').append("<tr class='tr"+i+"'>"+
+		    		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
+		    		"<td style='text-align: center; color:gray;'>비공개</td>"+
+		    		"<td style='color:gray;'>비공개입니다</td>"+
+		    		"<td style='text-align: center;'>"+qnaList[i].qnaDate +"</td>"+
+		    		"<td style='text-align: center;'>"+qnaList[i].isAnswered +"</td></tr>"
+		    	);
+			continue;
+		}
+		
     	$('#qnaTable').append("<tr class='tr"+i+"'>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
     		"<td style='text-align: center;'>"+qnaList[i].uName+"</td>"+
@@ -51,18 +38,53 @@ function showQNAList(){ //qna 게시판 뿌려주는 메소드
     		"<td style='text-align: center;'>"+qnaList[i].qnaDate +"</td>"+
     		"<td style='text-align: center;'>"+qnaList[i].isAnswered +"</td></tr>"
     	);
-   } 
+   }
+ 
+	 var pageBlock = "";
+	 for(var j = QpageInfo.blockStartNum; j <=QpageInfo.blockLastNum; j++){
+		 pageBlock = pageBlock + "<a href='#qna' onclick='renewQPage("+Number(j)+")'>&nbsp"+j+"&nbsp</a>"; 
+	 }
+	 
+	 $('#qnaTable').append("<tr><td  colspan='5' align='center' style='background-color:#e6e6e6'>"+
+			 (QpageInfo.blockStartNum != 1 ? "<a href='#qna' onclick='renewQPage("+(Number(QpageInfo.blockStartNum)-1)+")'>이전&nbsp</a>": "")+
+			 pageBlock+
+			 (QpageInfo.blockLastNum != QpageInfo.realLastBlockNum ? "<a href='#qna' onclick='renewQPage("+(Number(QpageInfo.blockLastNum)+1)+")'>&nbsp다음</a>":"")+
+	 " </td></tr>"); 
+ 
 }
 
-
-function QNAList(){ //QNA 게시판 리스트
+function renewQPage(page){ //이후 페이지 넘길때 페이지정보만! 가져온후 showQNAList 호출.
 	$.ajax({
-	    url: "/onlyKeyboardShop/userQnaList",
+	    url: "/onlyKeyboardShop/qnaList",
 	    type: "POST",
 	    cache: false,
 	    dataType : "json",
 	    async: false,
-	    data: {"uId" : currentUserName},
+	    data: {"qnaPage" : page, "pId" : pid},
+	    success: function(data){
+	    	
+	    	QpageInfo={blockStartNum:data.QpageInfo.blockStartNum, blockLastNum:data.QpageInfo.blockLastNum,
+	    			lastPageNum:data.QpageInfo.lastPageNum, realLastBlockNum:data.QpageInfo.realLastBlockNum,
+	    			currentPage:data.QpageInfo.currentPage, currentPageFirstNum:data.QpageInfo.currentPageFirstNum,
+	    			currentPageLastNum:data.QpageInfo.currentPageLastNum};
+	      	
+	    	showQNAList();
+	    },
+	    
+	    error: function (request, status, error){   
+	    	alert("정보를 불러오는데 실패했습니다. 관리자에게 문의해주세요.");              
+	    }
+	  });
+}
+
+function QNAList(page){ //QNA 게시판 리스트와 초기 페이지정보를 저장해두기 처음한번 실행
+	$.ajax({
+	    url: "/onlyKeyboardShop/qnaList",
+	    type: "POST",
+	    cache: false,
+	    dataType : "json",
+	    async: false,
+	    data: {"qnaPage" : page, "pId" : pid},
 	    success: function(data){
 	    	
 	    	//후기게시판, 페이징정보 가져오기
@@ -84,7 +106,13 @@ function QNAList(){ //QNA 게시판 리스트
 	    		
 	    		qnaList.push(item);
 	    	};
-	    },	    
+	    	QpageInfo={blockStartNum:data.QpageInfo.blockStartNum, blockLastNum:data.QpageInfo.blockLastNum,
+	    			lastPageNum:data.QpageInfo.lastPageNum, realLastBlockNum:data.QpageInfo.realLastBlockNum,
+	    			currentPage:data.QpageInfo.currentPage, currentPageFirstNum:data.QpageInfo.currentPageFirstNum,
+	    			currentPageLastNum:data.QpageInfo.currentPageLastNum};
+	    },
+	    
+	    
 	  });
 }
 
@@ -108,10 +136,7 @@ function showContent(id){ //toggle content view
 	if($('.tr'+id).attr('content')==undefined){
 		if(qnaList[id].isAnswered=="<b>답변완료</b>"){ //답변이 달렸을때
 			$('.tr'+id).after("<tr><td colspan='5' style='height:100px;'>"+qnaList[id].qnaContent+
-			"<br><br><b>답변</b><hr>"+qnaList[id].qnaAnswer+"<br>"+
-			"<div align='right'>"+
-			"<button class='btn btn-dark btn-sm' onclick='deleteQnA("+id+")'>삭제</button></div>"+
-			"</td></tr>");
+			"<br><br><b>답변</b><hr>"+qnaList[id].qnaAnswer+"<br></td></tr>");
 		} 
 		else{ 
 			$('.tr'+id).after(
@@ -138,7 +163,10 @@ function showContent(id){ //toggle content view
 }
 
 function modifyQnA(id){
-	
+	if(qnaList[id].uId!=currentUserName){
+		alert("본인만 수정이 가능합니다");
+		return;
+	}
 	$('#QnaModifyView').append(
 			"<input type='hidden' name='qnaId' value='"+qnaList[id].qnaId+"'/>"+
 			"<input type='hidden' name='pId' value='"+qnaList[id].pId+"'/>"+
@@ -151,86 +179,16 @@ function modifyQnA(id){
 }
 
 function deleteQnA(id){
-	
+	if(qnaList[id].uId!=currentUserName){
+		alert("본인만 삭제가 가능합니다");
+		return;
+	}
 	var check = confirm("정말삭제하시겠습니까?");
 	if(check == false)
 		return;
 	$('#DeleteQna').append(
-			"<input type='hidden' name='qnaId' value='"+qnaList[id].qnaId+"'/>"			
+			"<input type='hidden' name='qnaId' value='"+qnaList[id].qnaId+"'/>"+
+			"<input type='hidden' name='pId' value='"+qnaList[id].pId+"'/>"
 			);
 	$('#DeleteQna').submit();
 }
-
-
-</script>
-
-<script src="/onlyKeyboardShop/resources/js/myboard/myboardReview.js"></script>
-<script src="/onlyKeyboardShop/resources/js/myboard/myboardQnA.js"></script>
-</head>
-<body>
-<%@ include file="/WEB-INF/views/menubar_top.jsp"%>
-<br>
-<h2 align="center">나의게시물</h2>
-<br><br><br>
-
-
-<div style='width:750px;margin:0 auto;'>
-	<h4><b>작성한 후기</b></h4>
-	<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="reviewTable">
-	<tr><td>1</td><td>2</td></tr>
-	<%-- <tr>
-		<td style="width:50px;text-align: center;">No</td>
-		<td style="width:100px;text-align: center;">image</td>
-		<td>구매한 상품</td>
-		<td style="width:120px; text-align: center;">구매날짜</td>
-		<td style="width:80px;text-align: center;">배송조회</td>
-	</tr>
-	
-	<c:forEach items="${beforeCheckList}" var="beforeList" varStatus="status">
-	<tr>
-		<td style='text-align: center;'>${status.index+1}</td>
-		<td><img src="${beforeList.pImageRoute}" style="width:100%"/></td>
-		<td>
-			${beforeList.pName}(${beforeList.pColor})
-		</td>
-		<td style='text-align: center;'>${beforeList.purTime}</td>
-		<td style='text-align: center;' id="beforeListState" >${beforeList.state}</td>
-	</tr>
-	</c:forEach> --%>
-	</table>
-</div>
-
-<br><br>
-
-<div style='width:750px;margin:0 auto;' >
-	<h4><b>Q&A</b></h4>
-	<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="qnaTable">
-	</table>
-</div>
-<form id="QnaModifyView" method="post" action="userModifyQnaView"></form>
-<form id="DeleteQna" method="post" action="/onlyKeyboardShop/userDeleteQna"></form>
-
-<br><br>
-
-<div style='width:750px;margin:0 auto;'>
-	<h4><b>자유게시판 게시글</b></h4>
-	<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="afterList">
-	<tr><td>1</td><td>2</td></tr>
-	</table>
-</div>
-
-<br><br>
-
-<div style='width:750px;margin:0 auto;'>
-	<h4><b>자유게시판 댓글</b></h4>
-	<table style='width:100%' cellpadding="5" cellspacing="0" border="1" id="afterList">
-	<tr><td>1</td><td>2</td></tr>
-
-	</table>
-</div>
-
-<br><br><br><br><br><br><br>
-<%@ include file="/WEB-INF/views/infobar_bottom.jsp"%>
-
-</body>
-</html>

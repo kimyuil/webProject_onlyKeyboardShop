@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.webProject.command.ChangePurchaseStateCommand;
+import com.spring.webProject.command.DeleteQnaCommand;
 import com.spring.webProject.command.DeleteUserReviewCommand;
 import com.spring.webProject.command.FindIdCommand;
 import com.spring.webProject.command.FindPwCommand;
@@ -29,6 +30,7 @@ import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.JoinCommand;
 import com.spring.webProject.command.LoginCommand;
+import com.spring.webProject.command.ModifyQnaCommand;
 import com.spring.webProject.command.ModifyReivewCommand;
 import com.spring.webProject.command.OrderListCommand;
 import com.spring.webProject.command.ReviewPageCommand;
@@ -40,17 +42,19 @@ import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.command.UserCheckCommand;
 import com.spring.webProject.command.UserCheckDeliveryCommand;
+import com.spring.webProject.command.UserQnAListCommand;
 import com.spring.webProject.command.UserReviewListCommand;
 import com.spring.webProject.command.WriteReivewCommand;
 import com.spring.webProject.command.InsertReviewDataCommand;
 import com.spring.webProject.dto.PageDto;
 import com.spring.webProject.dto.PurchaseListDto;
+import com.spring.webProject.dto.QNABoardDto;
 import com.spring.webProject.dto.ReviewBoardDto;
 import com.spring.webProject.dto.UserDto;
 
 
 @Controller
-public class ControllerMypagBoard {
+public class ControllerMypageBoard {
 
 	ICommand command;
 	
@@ -155,5 +159,77 @@ public class ControllerMypagBoard {
 		
 	}
 	
+	//나의 Q&A 리스트 불러오기
+	@ResponseBody
+	@RequestMapping(value = "/userQnaList", method = RequestMethod.POST)
+	public Map<String, Object> userQnaList(HttpServletRequest request, Model model) throws Exception{
+		System.out.println("userQnaList");
+		
+		command = new UserQnAListCommand();
+		
+		String id = request.getParameter("uId");
+		model.addAttribute("uId", id);
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+
+		ArrayList<QNABoardDto> qnaList = (ArrayList<QNABoardDto>)map.get("qnas");
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("qnas", qnaList);
+		return result;
+	}
+	//qna수정버튼클릭 
+	@RequestMapping(value = "/member/userModifyQnaView", method = RequestMethod.POST)
+	public String userModifyQnaView(HttpServletRequest request,Model model) throws Exception {
+		System.out.println("userModifyQnaView");
+		
+		//command = new GetUserReviewOneItemCommand();
+		model.addAttribute("qnaId", request.getParameter("qnaId"));
+		model.addAttribute("pId", request.getParameter("pId"));
+		model.addAttribute("pName", request.getParameter("pName"));
+		model.addAttribute("qnaTitle", request.getParameter("qnaTitle"));
+		model.addAttribute("qnaContent", request.getParameter("qnaContent"));
+		model.addAttribute("isSecret", request.getParameter("isSecret"));
+		model.addAttribute("isFromMypage", "true");
+		//update from qna set title=~,content=~ isSecret=~ where qnaId = !
+		
+		return "product/QnaModifyView";
+		
+		//command.execute(sqlSession, model); //이전에 작성한 리뷰정보 가져오기
+	}
+	
+	//Q&A DB 테이블로 update
+	@RequestMapping(value = "/userModifyQna", method = RequestMethod.POST)
+	public String updateQnA(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("Do user updateQnA");
+				
+		model.addAttribute("qnaId", request.getParameter("qnaId"));
+		model.addAttribute("qnaTitle", request.getParameter("qnaTitle"));
+		model.addAttribute("qnaContent", request.getParameter("qnaContent"));
+		if(request.getParameter("isSecret")==null)
+			model.addAttribute("isSecret", "0");
+		else		
+			model.addAttribute("isSecret", request.getParameter("isSecret"));
+		
+		command = new ModifyQnaCommand();
+		command.execute(sqlSession, model);
+		
+		return "redirect:member/myboard";
+		
+	}
+	
+	//userDeleteQna
+	@RequestMapping(value = "/userDeleteQna", method = RequestMethod.POST)
+	public String userDeleteQna(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("Do userDeleteQna");
+				
+		model.addAttribute("qnaId", request.getParameter("qnaId"));
+		
+		command = new DeleteQnaCommand();
+		command.execute(sqlSession, model);
+		
+		return "redirect:member/myboard";
+		
+	}
 	
 }

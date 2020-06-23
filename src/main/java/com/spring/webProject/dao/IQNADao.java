@@ -18,6 +18,9 @@ public interface IQNADao {
 			@Param("qnaContent") String qnaContent, @Param("isSecret") String isSecret);
 
 	int deleteQNA(@Param("qnaId") String qnaId);
+
+	ArrayList<QNABoardDto> userListQnA(@Param("uId") String uId);
+	
 	
 	
 }
