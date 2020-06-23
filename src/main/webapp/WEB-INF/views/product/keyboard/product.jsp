@@ -17,7 +17,8 @@
  
 
 <sec:authorize access="isAuthenticated()">
-<sec:authentication property="principal.username" var="currentUserName"/> 
+<sec:authentication property="principal.username" var="currentUserName"/>
+<sec:authentication property="principal.uName" var="uName"/> 
 </sec:authorize>
 
 
@@ -54,7 +55,7 @@ $(document).ready(function(){
 	}
 	else{
 		$('#isSoldout').append("<span style='font-size: large;'>남은 재고 : "+stock+"</span>");
-	}	
+	}
 	//1page의 list를 불러옴
 	
 	reviewList(1);//처음에 1페이지
@@ -84,6 +85,17 @@ function showQNAList(){ //후기 게시판 뿌려주는 메소드
 	}
 	
 	for(var i=QpageInfo.currentPageFirstNum ; i<=lastNum ;i++){ //list 페이지 내용
+		if(qnaList[i].isSecret==1 && currentUserName!=qnaList[i].uId){
+			$('#qnaTable').append("<tr class='tr"+i+"'>"+
+		    		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
+		    		"<td style='text-align: center;'>비공개</td>"+
+		    		"<td>비공개입니다</td>"+
+		    		"<td style='text-align: center;'>"+qnaList[i].qnaDate +"</td>"+
+		    		"<td style='text-align: center;'>"+qnaList[i].isAnswered +"</td></tr>"
+		    	);
+			continue;
+		}
+		
     	$('#qnaTable').append("<tr class='tr"+i+"'>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
     		"<td style='text-align: center;'>"+qnaList[i].uName+"</td>"+
@@ -184,15 +196,21 @@ function date_to_str(format){
 	return year + "-" + month + "-" + date; // + " " + hour + ":" + min + ":" + sec
 }
 
-function showContent(id){
+function showContent(id){ //toggle content view
 	
 	if($('.tr'+id).attr('content')==undefined){
-		if(qnaList[id].isAnswered=="<b>답변완료</b>"){
+		if(qnaList[id].isAnswered=="<b>답변완료</b>"){ //답변이 달렸을때
 			$('.tr'+id).after("<tr><td colspan='5' style='height:100px;'>"+qnaList[id].qnaContent+
 			"<br><br>"+qnaList[id].qnaAnswer+"</td></tr>");
-		}
-		else{
-			$('.tr'+id).after("<tr><td colspan='5' style='height:100px;'>"+qnaList[id].qnaContent+"</td></tr>");
+		} 
+		else{ 
+			$('.tr'+id).after(
+				"<tr><td colspan='5' style='height:100px;'>"+
+				qnaList[id].qnaContent+
+				"<br><br><div align='right'>"+
+				"<button class='btn btn-dark btn-sm' onclick='modifyQnA("+id+")'>수정</button> "+
+				"<button class='btn btn-dark btn-sm' onclick='deleteQnA("+id+")'>삭제</button></div>"+
+				"</td></tr>");
 		}
 		$('.tr'+id).attr('content',"true");
 	}	
@@ -207,6 +225,37 @@ function showContent(id){
 		$('.tr'+id).attr('content',"true");
 	} 
 	
+}
+
+function modifyQnA(id){
+	if(qnaList[id].uId!=currentUserName){
+		alert("본인만 수정이 가능합니다");
+		return;
+	}
+	$('#QnaModifyView').append(
+			"<input type='hidden' name='qnaId' value='"+qnaList[id].qnaId+"'/>"+
+			"<input type='hidden' name='pId' value='"+qnaList[id].pId+"'/>"+
+			"<input type='hidden' name='pName' value='"+qnaList[id].pName+"'/>"+
+			"<input type='hidden' name='qnaTitle' value='"+qnaList[id].qnaTitle+"'/>"+
+			"<input type='hidden' name='qnaContent' value='"+qnaList[id].qnaContent+"'/>"+
+			"<input type='hidden' name='isSecret' value='"+qnaList[id].isSecret+"'/>"
+			);
+	$('#QnaModifyView').submit();
+}
+
+function deleteQnA(id){
+	if(qnaList[id].uId!=currentUserName){
+		alert("본인만 삭제가 가능합니다");
+		return;
+	}
+	var check = confirm("정말삭제하시겠습니까?");
+	if(check == false)
+		return;
+	$('#DeleteQna').append(
+			"<input type='hidden' name='qnaId' value='"+qnaList[id].qnaId+"'/>"+
+			"<input type='hidden' name='pId' value='"+qnaList[id].pId+"'/>"
+			);
+	$('#DeleteQna').submit();
 }
 
 </script>
@@ -341,7 +390,7 @@ function showContent(id){
 		</table>
 		<br>
 		<h5 align="center">상품을 구매 후 솔직한 후기를 작성해주세요!</h5>
-		<small>mypage -> 구매목록 페이지에서 작성할 수 있습니다</small>
+		<small align="center">mypage -> 구매목록 페이지에서 작성할 수 있습니다</small>
 	  </div>
 
 	  <div class="tab-pane fade" id="qna"> <!-- Q&A게시판 -->
@@ -352,8 +401,16 @@ function showContent(id){
 	    <table width="850" cellpadding="5" cellspacing="0" border="1" style="margin:0 auto;" id="qnaTable">
 		</table>
 		<br>
-		<h5 align="center">문의사항을 친절히 답변해 드립니다</h5>  
-	    
+		<h5 align="center">문의사항을 친절히 답변해 드립니다. <a href='#qna' onclick='writeQnA()'><b>문의하기</b></a></h5>
+		  <form id="QnaWriteView" method="post" action="member/QnaWriteView">
+		  <input type="hidden" name="pId" value="${product.pId}"/>
+		  <input type="hidden" name="pName" value="${product.pName}"/>
+		  <input type="hidden" name="uId" value="${currentUserName}"/>
+		  <input type="hidden" name="uName" value="${uName}"/>
+		  </form>
+		  <script>function writeQnA(){$('#QnaWriteView').submit();}</script>
+		<form id="QnaModifyView" method="post" action="member/QnaModifyView"></form>
+		<form id="DeleteQna" method="post" action="/onlyKeyboardShop/deleteQna"></form>
 	  </div>
 	</div>
 	

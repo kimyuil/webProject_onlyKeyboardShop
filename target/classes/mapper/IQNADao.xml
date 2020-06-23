@@ -13,15 +13,26 @@
 	select count(*) as total from qna where pId=#{pId}
 </select>
 
-<!--  <insert id="purchaseItems">
+ <insert id="insertQna" parameterType="com.spring.webProject.dto.QNABoardDto">
+ 	insert into qna (uId, pId, qnaTitle, qnaContent, qnaDate, isSecret, isAnswered, qnaAnswer, pName, uName)
+ 	values (#{uId},#{pId},#{qnaTitle},#{qnaContent},now(),#{isSecret},#{isAnswered},#{qnaAnswer},#{pName},#{uName})
  </insert>
+ 
+ <update id="modifyQnA">
+ 	update qna set qnaTitle = #{qnaTitle},qnaContent = #{qnaContent},isSecret = #{isSecret} 
+ 	 where qnaId=#{qnaId}
+</update>
 
+<delete id="deleteQNA">
+delete from qna where qnaId = #{qnaId}
+</delete>
+<!-- 
+qnaId, uId, pId, qnaTitle, qnaContent, qnaDate, isSecret, isAnswered, qnaAnswer, pName, uName 
 <select id="getUserPurchaseList" resultType="com.spring.webProject.dto.PurchaseListDto">
 	select * from purchaselist where userId = #{uId}
 </select>
 
-<update id="userCheckDelivery">
-</update> 
+ 
  -->
  
 </mapper> 
