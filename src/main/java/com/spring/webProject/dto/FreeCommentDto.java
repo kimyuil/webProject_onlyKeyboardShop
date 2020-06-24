@@ -9,7 +9,7 @@ public class FreeCommentDto {
 	String cName; 
 	String cPw; 
 	String cComment;
-	int cReplys; 
+	
 	Timestamp cTime; 
 	int IsReplyComment;
 	
@@ -49,12 +49,7 @@ public class FreeCommentDto {
 	public void setcComment(String cComment) {
 		this.cComment = cComment;
 	}
-	public int getcReplys() {
-		return cReplys;
-	}
-	public void setcReplys(int cReplys) {
-		this.cReplys = cReplys;
-	}
+	
 	public Timestamp getcTime() {
 		return cTime;
 	}

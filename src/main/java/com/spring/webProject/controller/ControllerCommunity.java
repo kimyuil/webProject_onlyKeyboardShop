@@ -40,6 +40,8 @@ import com.spring.webProject.command.QNAListCommand;
 import com.spring.webProject.command.QNAPageCommand;
 import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
+import com.spring.webProject.command.WrtieCommentCommand;
+import com.spring.webProject.command.WrtieReCommentCommand;
 import com.spring.webProject.dto.FreeBoardDto;
 import com.spring.webProject.dto.FreeCommentDto;
 import com.spring.webProject.dto.PageDto;
@@ -194,7 +196,7 @@ public class ControllerCommunity {
 	
 	// comment~~~~~~~~~~~~~~~
 	
-	//ajax 후기 게시판 정보전송
+	//ajax로 댓글정보 전송
 	@RequestMapping(value = "/commentList", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> commentList(HttpServletRequest request, Model model)throws Exception {
 		
@@ -208,9 +210,7 @@ public class ControllerCommunity {
 						
 		
 		Map<String, Object> map = model.asMap();
-		
-//		model.addAttribute("comments", comments);
-//		model.addAttribute("recomments", recomments);
+
 		
 		ArrayList<FreeCommentDto> comments = (ArrayList<FreeCommentDto>)map.get("comments");
 		ArrayList<FreeCommentDto> recomments = (ArrayList<FreeCommentDto>)map.get("recomments");
@@ -221,30 +221,55 @@ public class ControllerCommunity {
 		
 		return result;
 	}
-	
-	
-	
-	//ajax comment wirte 모습
+		
+	//ajax comment wirte
+	@Transactional
 	@ResponseBody
 	@RequestMapping(value = "/writeComment", method = RequestMethod.POST)
-	public String writeComment(HttpServletRequest request, Model model) throws Exception {
+	public String writeComment(HttpServletRequest request, Model model) throws RuntimeException {
 		System.out.println("writeComment");
-		
+				
 		model.addAttribute("fbId",request.getParameter("fbId"));
+		model.addAttribute("cName",request.getParameter("cName"));
+		model.addAttribute("cPw",request.getParameter("cPw"));
+		model.addAttribute("cComment",request.getParameter("cComment"));
 		
-		//command = new WrtieCommentCommand();
+		command = new WrtieCommentCommand();
+		try {
+			command.execute(sqlSession, model);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());			
+		}  
 		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		
+		return result;
+		
+	}
+	//ajax comment wirte 대댓글
+	@ResponseBody
+	@RequestMapping(value = "/writeReComment", method = RequestMethod.POST)
+	public String writeReComment(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("write ReComment");
+				
+		model.addAttribute("fbId",request.getParameter("fbId"));
+		model.addAttribute("cParentId",request.getParameter("cParentId"));
+		model.addAttribute("cName",request.getParameter("cName"));
+		model.addAttribute("cPw",request.getParameter("cPw"));
+		model.addAttribute("cComment",request.getParameter("cComment"));
+		
+		command = new WrtieReCommentCommand();
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
 		String result = (String)map.get("result");
-		if(result=="success")
-			return result;
-		else
-			return null;
+		
+		return result;
+		
 	}
-	
-	
+		
 	
 
 	

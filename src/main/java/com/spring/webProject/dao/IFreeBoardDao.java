@@ -26,6 +26,10 @@ public interface IFreeBoardDao {
 			@Param("fbContent") String fbContent);
 
 	int deleteFreeBoard(@Param("fbId") String fbId);
+
+	int increaseReplys(@Param("fbId") String fbId);
+	int decreaseReplys(@Param("fbId") String fbId);
+	
 	
 	
 

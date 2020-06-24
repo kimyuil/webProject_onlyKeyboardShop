@@ -34,6 +34,12 @@
  <delete id="deleteFreeBoard">
  	delete from freeboard where fbId=#{fbId}
  </delete>
+ <update id="increaseReplys">
+ 	update freeboard set fbReplys = fbReplys+1 where fbId = #{fbId}
+ </update>
+ <update id="decreaseReplys">
+ 	update freeboard set fbReplys = fbReplys-1 where fbId = #{fbId}
+ </update>
  
 <!--
 getBoardContent

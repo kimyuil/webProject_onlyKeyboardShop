@@ -32,6 +32,7 @@ var commentsList = new Array();
 var recommentsList = new Array();
 
 $(document).ready(function(){
+	
 	time = time.substring(2,16);
 	$('#time').append(time);
 	
@@ -110,6 +111,8 @@ function deleteBoard(){
 
 
 function commentList(){ //댓글데이터 ajax로 가져오기
+	commentsList = [];
+	recommentsList = [];
 	$.ajax({
 	    url: "/onlyKeyboardShop/commentList",
 	    type: "POST",
@@ -123,10 +126,12 @@ function commentList(){ //댓글데이터 ajax로 가져오기
 	    	for(var i =0;i<data.comments.length;i++){
 	    		var timet=new Date(data.comments[i].cTime);
 	    		var time=date_to_str(timet);
+	    		
+	    		
 	    			    		
 	    		var item = {cId:data.comments[i].cId, cParentId:data.comments[i].cParentId, 
 	    		fbId:data.comments[i].fbId, cName:data.comments[i].cName, cPw:data.comments[i].cPw, 
-	    		cComment:data.comments[i].cComment, cReplys:data.comments[i].cReplys,	  
+	    		cComment:data.comments[i].cComment, cReplys:0,	  
 	    		cTime:time, IsReplyComment:data.comments[i].IsReplyComment};
 	    		
 	    		commentsList.push(item);
@@ -140,11 +145,22 @@ function commentList(){ //댓글데이터 ajax로 가져오기
 	    			    			    		
 	    		var item = {cId:data.recomments[i].cId, cParentId:data.recomments[i].cParentId, 
 	    		fbId:data.recomments[i].fbId, cName:data.recomments[i].cName, cPw:data.recomments[i].cPw, 
-	    		cComment:data.recomments[i].cComment, cReplys:data.recomments[i].cReplys,	  
+	    		cComment:data.recomments[i].cComment, cReplys:0,	  
 	    		cTime:time, IsReplyComment:data.recomments[i].IsReplyComment};
 	    		
 	    		recommentsList.push(item);
 	    	};
+	    	
+	    	//대댓글 개수 구하기
+	    	for(var i = 0 ; i<commentsList.length; i++){
+	    		var replysNum=0;
+	    		for(var j=0;j<recommentsList.length;j++){
+	    			if(commentsList[i].cId==recommentsList[j].cParentId){
+	    				replysNum=replysNum+1;
+	    			}
+	    		}
+	    		commentsList[i].cReplys=replysNum;
+	    	}
 	    	
 	    }	    
 	  });	
@@ -155,7 +171,7 @@ function commentList(){ //댓글데이터 ajax로 가져오기
 
 function showComment(){ //댓글데이터 화면에 뿌려주기
 	
-	$('#accordion').html('');//1번 초기화?
+	$('#accordion').html("<div></div>");//1번 초기화
 	
 	for(var i = 0 ; i<commentsList.length; i++){
 		
@@ -164,7 +180,7 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 			'<div class="card">'+
 			'<div class="card-header bg-transparent" id="heading'+commentsList[i].cId+'">'+
 			'<table><tr>'+
-			'<td style="width:100px; text-align: center;">'+commentsList[i].cName+'</td>'+
+			'<td style="width:100px; text-align: center;"><b>'+commentsList[i].cName+'</b></td>'+
 	      	'<td style="width:600px;">'+commentsList[i].cComment+'</td>'+
 	      	'<td style="width:100px; text-align: center;">'+commentsList[i].cTime+'</td>'+
 	      	'</tr></table>'+
@@ -174,6 +190,9 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 	         'data-target="#collapse'+commentsList[i].cId+'" aria-expanded="false" aria-controls="collapse'+commentsList[i].cId+'">'+
 	         ' <small>댓글 '+commentsList[i].cReplys+'개</small>'+
 	         ' </button>'+
+	         '<span style="float:right; width:20;">&nbsp</span>'+
+	         '<span style="float:right"><a href="#"><small>수정</small></a>&nbsp'+
+	         ' <a href="#"><small>X</small></span> </a>'+
 	         ' </div></div>'+
 	         
 	         ' <!-- ----------대댓글----------- -->'+
@@ -200,8 +219,8 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 	  		'  <textarea class="form-control" id="cComment_re'+commentsList[i].cId+'" rows="1"></textarea>'+
 	  		'</div>'+
 			
-			 ' <button type="submit" class="btn btn-primary">대댓글 등록</button>'+
-			'</form></div></div></div>'
+			 '</form><button type="button" class="btn btn-primary" onclick="writeReComment('+commentsList[i].cId+');">대댓글 등록</button>'+
+			'</div></div></div>'
 		);
 		
 	}
@@ -211,17 +230,22 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 				
 				$('#recomentTable'+commentsList[i].cId).append(
 					'<tr>'+
-		      		'<td style="width:100px; text-align: center; border-bottom: 1px solid #d1d1d1;">'+recommentsList[j].cName+'</td>'+
-		      		'<td style="width:600px; border-bottom: 1px solid #d1d1d1;">'+recommentsList[j].cComment+'</td>'+
+		      		'<td style="width:100px; text-align: center; border-bottom: 1px solid #d1d1d1;"><b>'+recommentsList[j].cName+'</b></td>'+
+		      		'<td style="width:580px; border-bottom: 1px solid #d1d1d1;">'+recommentsList[j].cComment+'</td>'+
+		      		'<td style="width:20px; text-align: center; border-bottom: 1px solid #d1d1d1;">'+
+		      		'<span style="float:right; width:20;">&nbsp</span>'+
+			         ' <a href="#"><small>X</small></span> </a>'+
+			         '</td>'+
 		      		'<td style="width:100px; text-align: center; border-bottom: 1px solid #d1d1d1;">'+recommentsList[j].cTime+'</td>'+
 		      	   '</tr>'	
 				);
 			}
 		}
 	}
+	
 	$('#accordion').append(
 	'<br><br><h5>댓글작성</h5><hr>'+
-	'	<form>'+
+	'	<form onsubmit="return false;">'+
 	'  <div class="form-row">'+
 	'    <div class="form-group col-md-6">'+
 	'      <label for="cName">이름</label>'+
@@ -237,10 +261,58 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 	'    <label for="cComment">댓글 입력</label>'+
 	'    <textarea class="form-control" id="cComment" rows="3"></textarea>'+
 	'  </div>'+
+	'</form>'+
+	'  <button type="button" onclick="writeComment();" class="btn btn-primary">댓글등록</button>'
+	);
+}//
 
-	'  <button type="button" onclick="writeComment()" class="btn btn-primary">댓글등록</button>'+
-	'</form>');
+
+
+function writeComment(){
+	var cName=$('#cName').val();
+	var cPw=$('#cPw').val();
+	var cComment=$('#cComment').val();
 	
+	//fbId, cName, cPw, cComment, 
+ 	$.ajax({
+	    url: "/onlyKeyboardShop/writeComment",
+	    type: "POST",
+	    cache: false,
+	    async: false,
+	    data: {"fbId" : fbId,"cName":cName, "cPw":cPw, "cComment":cComment},
+	    success: function(data){
+	    	alert("댓글 작성완료");
+	    	commentList();
+	    	showComment();
+	    },
+	    error: function(data){
+	    	alert("다시시도해주세요");
+	    }
+	}); 
+}
+
+function writeReComment(parrentId){
+	var cParentId=parrentId; 
+	var cName=$('#cName_re'+parrentId).val();
+	var cPw=$('#cPw_re'+parrentId).val();
+	var cComment=$('#cComment_re'+parrentId).val();
+	
+	// cParentId, fbId, cName, cPw, cComment,
+	$.ajax({
+	    url: "/onlyKeyboardShop/writeReComment",
+	    type: "POST",
+	    cache: false,
+	    async: false,
+	    data: {"fbId" : fbId, "cParentId":cParentId,"cName":cName, "cPw":cPw, "cComment":cComment },
+	    success: function(data){
+	    	alert("대댓글 작성완료");
+	    	commentList();
+	    	showComment();
+	    },
+	    error: function(data){
+	    	alert("다시시도해주세요");
+	    }
+	});
 }
 
 function date_to_str(format){
@@ -257,41 +329,6 @@ function date_to_str(format){
     if(sec<10) sec = '0' + sec;
 	return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 }
-
-function writeComment(){
-	$.ajax({
-	    url: "/onlyKeyboardShop/writeComment",
-	    type: "POST",
-	    cache: false,
-	    async: false,
-	    data: {"fbId" : fbId},
-	    success: function(data){
-	    	$('#clickGood').attr('class','btn btn-outline-danger btn-sm');
-			$('#clickGood').html('추천');
-	    },
-	    error: function(data){
-	    	alert("다시시도해주세요");
-	    }
-	});
-}
-
-function writeReComment(){
-	$.ajax({
-	    url: "/onlyKeyboardShop/writeReComment",
-	    type: "POST",
-	    cache: false,
-	    async: false,
-	    data: {"fbId" : fbId},
-	    success: function(data){
-	    	$('#clickGood').attr('class','btn btn-outline-danger btn-sm');
-			$('#clickGood').html('추천');
-	    },
-	    error: function(data){
-	    	alert("다시시도해주세요");
-	    }
-	});
-}
-
 </script>
 
 

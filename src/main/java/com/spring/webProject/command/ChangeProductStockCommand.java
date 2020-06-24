@@ -19,7 +19,7 @@ public class ChangeProductStockCommand implements ICommand {
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
 		// TODO Auto-generated method stub
-		IProductDao dao =sqlSession.getMapper(IProductDao.class);
+		IProductDao dao = sqlSession.getMapper(IProductDao.class);
 		Map<String, Object> map = model.asMap();
 		String[] pId = ((String)map.get("pId")).split(",");
 		String[] pNumof = ((String) map.get("pNumof")).split(",");
