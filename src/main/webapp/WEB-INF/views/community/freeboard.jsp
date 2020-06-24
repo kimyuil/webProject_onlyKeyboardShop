@@ -17,7 +17,7 @@
 
 <script>
 
-$(document).ready(function(){
+//$(document).ready(function(){
 	/* $('#freeboard').html(
 			' <thead><tr>'+    
       '<th scope="col" style="width:50px;text-align: center;">no</th>'+
@@ -37,7 +37,7 @@ $(document).ready(function(){
 		      '<td style="text-align: center;">50</td>'+
 		    '</tr>');
 	$('#freeboard').append('</tbody>'); */
-});
+//});
 
 </script>
 
@@ -84,13 +84,22 @@ $(document).ready(function(){
 		<a href="/onlyKeyboardShop/freeboardList?page=${pageInfo.blockStartNum-1}">이전</a>
 	</c:if>
 	<c:forEach var="i" begin="${pageInfo.blockStartNum}" end="${pageInfo.blockLastNum}" >
-	 	<a href="/onlyKeyboardShop/freeboardList?page=${i}">${i}</a> 
+	 	<a href="/onlyKeyboardShop/freeboardList?page=${i}">
+	 		<c:if test="${i==pageInfo.currentPage}" >
+	 		<b>${i}</b>
+	 		</c:if>
+	 		<c:if test="${i!=pageInfo.currentPage}" >
+	 		${i}
+	 		</c:if>
+	 	</a> 
 	</c:forEach>
 	<c:if test="${pageInfo.blockLastNum != pageInfo.realLastBlockNum}" >
 		<a href="/onlyKeyboardShop/freeboardList?page=${pageInfo.blockLastNum+1}">다음</a>
 	</c:if>
+	
 	<span style="float:right">
-	<button class='btn btn-outline-dark btn-sm'>글쓰기</button>
+	<button class='btn btn-outline-dark btn-sm' 
+	onclick="location.href ='/onlyKeyboardShop/member/freeboardWriteView?page=${pageInfo.currentPage}'">글쓰기</button>
 	</span>
 </td>
 </tr>

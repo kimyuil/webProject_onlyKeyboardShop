@@ -1,15 +1,14 @@
 package com.spring.webProject.command;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.dao.IFreeBoardDao;
-import com.spring.webProject.dto.FreeBoardDto;
+import com.spring.webProject.dao.IQNADao;
 
-public class FreeBoardContentViewCommand implements ICommand {
+public class ModifyFreeboardCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
@@ -18,16 +17,16 @@ public class FreeBoardContentViewCommand implements ICommand {
 		
 		Map<String, Object> map = model.asMap();
 		String fbId = (String) map.get("fbId");
+		String fbTitle = (String) map.get("fbTitle");
+		String fbContent = (String) map.get("fbContent");
 		
-		int result = dao.clickBoardHit(fbId);
+		int result = dao.modifyFreeBoard(fbId,fbTitle,fbContent);
 		
-		FreeBoardDto board = new FreeBoardDto();
-		board = dao.getBoardContent(fbId);
-		
-		
-		
-		model.addAttribute("board", board);
-
+		if(result==1) {
+			model.addAttribute("result", "success");
+		}else {
+			model.addAttribute("result", "fail");
+		}
 	}
 
 }

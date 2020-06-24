@@ -22,16 +22,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.webProject.command.FreeBoardPageCommand;
+import com.spring.webProject.command.FreeboardLikeMinusCommand;
+import com.spring.webProject.command.FreeboardLikePlusCommand;
+import com.spring.webProject.command.DeleteFreeboardCommand;
 import com.spring.webProject.command.FreeBoardContentViewCommand;
 import com.spring.webProject.command.FreeBoardListCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
+import com.spring.webProject.command.InsertFreeboardCommand;
+import com.spring.webProject.command.ModifyFreeboardCommand;
 import com.spring.webProject.command.ReviewPageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.PurchaseItemsCommand;
 import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
+import com.spring.webProject.dto.FreeBoardDto;
 import com.spring.webProject.dto.PageDto;
 import com.spring.webProject.dto.ProductDto;
 import com.spring.webProject.dto.ReviewBoardDto;
@@ -82,6 +88,107 @@ public class ControllerCommunity {
 		
 		return "community/freeboardContentView";
 	}
+	//freeboardContentView
+	@RequestMapping(value = "/member/freeboardWriteView", method = RequestMethod.GET)
+	public String freeboardWriteView(HttpServletRequest request , Model model) throws Exception {
+		System.out.println("freeboardWriteView");
+		
+		String page = request.getParameter("page");
+		model.addAttribute("page", page);	
+		
+		return "community/freeboardWriteView";
+	}
+	//freeboardWrite
+	@RequestMapping(value = "/freeboardWrite", method = RequestMethod.POST)
+	public String freeboardWrite(FreeBoardDto board , Model model) throws Exception {
+		System.out.println("freeboardWrite");
+		
+		command = new InsertFreeboardCommand();
+		model.addAttribute("board", board);
+		command.execute(sqlSession, model);
+		
+		return "redirect:freeboardList";
+	}
+	//freeboard 추천버튼
+	@ResponseBody
+	@RequestMapping(value = "/freeboardLikePlus", method = RequestMethod.POST)
+	public String freeboardLikePlus(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("freeboardLikePlus");
+		
+		model.addAttribute("fbId",request.getParameter("fbId"));
+		
+		command = new FreeboardLikePlusCommand();
+		
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		if(result=="success")
+			return result;
+		else
+			return null;
+	}
+	//freeboard 추천 취소버튼
+	@ResponseBody
+	@RequestMapping(value = "/freeboardLikeMinus", method = RequestMethod.POST)
+	public String freeboardLikeMinus(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("freeboardLikeMinus");
+		
+		model.addAttribute("fbId",request.getParameter("fbId"));
+		
+		command = new FreeboardLikeMinusCommand();
+		
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		if(result=="success")
+			return result;
+		else
+			return null;
+	}
+	//freeboardModifyView
+	@RequestMapping(value = "/member/freeboardModifyView", method = RequestMethod.POST)
+	public String freeboardModifyView(HttpServletRequest request , Model model) throws Exception {
+		System.out.println("freeboardModifyView");
+		
+		model.addAttribute("page", request.getParameter("page"));
+		model.addAttribute("fbId", request.getParameter("fbId"));
+		model.addAttribute("fbTitle", request.getParameter("fbTitle"));
+		model.addAttribute("fbContent", request.getParameter("fbContent"));
+		return "community/freeboardModifyView";
+	}
+	//freeboardContentView
+	@RequestMapping(value = "/freeboardModify", method = RequestMethod.POST)
+	public String freeboardModify(HttpServletRequest request , Model model) throws Exception {
+		System.out.println("freeboardModify");
+		
+		model.addAttribute("page", request.getParameter("page"));
+		model.addAttribute("fbId", request.getParameter("fbId"));
+		model.addAttribute("fbTitle", request.getParameter("fbTitle"));
+		model.addAttribute("fbContent", request.getParameter("fbContent"));
+		
+		command = new ModifyFreeboardCommand();
+		command.execute(sqlSession, model);
+		
+		
+		return "redirect:freeboardContentView";
+	}
+	//deleteFreeboard
+	@RequestMapping(value = "/deleteFreeboard", method = RequestMethod.POST)
+	public String deleteFreeboard(HttpServletRequest request , Model model) throws Exception {
+		System.out.println("deleteFreeboard");
+		
+		model.addAttribute("page", request.getParameter("page"));
+		model.addAttribute("fbId", request.getParameter("fbId"));
+		
+		command = new DeleteFreeboardCommand();
+		command.execute(sqlSession, model);
+		
+		return "redirect:freeboardList";
+	}
+	
+
 	
 	@RequestMapping(value = "/noticeList", method = RequestMethod.GET)
 	public String notice(Locale locale, Model model) {

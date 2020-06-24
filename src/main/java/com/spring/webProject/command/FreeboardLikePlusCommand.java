@@ -1,15 +1,13 @@
 package com.spring.webProject.command;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.dao.IFreeBoardDao;
-import com.spring.webProject.dto.FreeBoardDto;
 
-public class FreeBoardContentViewCommand implements ICommand {
+public class FreeboardLikePlusCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
@@ -17,17 +15,15 @@ public class FreeBoardContentViewCommand implements ICommand {
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String fbId = (String) map.get("fbId");
+		String fbId = (String)map.get("fbId");
 		
-		int result = dao.clickBoardHit(fbId);
+		int result = dao.likePlus(fbId);
 		
-		FreeBoardDto board = new FreeBoardDto();
-		board = dao.getBoardContent(fbId);
-		
-		
-		
-		model.addAttribute("board", board);
-
+		if(result==1) {
+			model.addAttribute("result", "success");
+		}else {
+			model.addAttribute("result", "fail");
+		}
 	}
 
 }
