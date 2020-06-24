@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.webProject.command.FreeBoardPageCommand;
 import com.spring.webProject.command.FreeboardLikeMinusCommand;
 import com.spring.webProject.command.FreeboardLikePlusCommand;
+import com.spring.webProject.command.CommentListCommand;
 import com.spring.webProject.command.DeleteFreeboardCommand;
 import com.spring.webProject.command.FreeBoardContentViewCommand;
 import com.spring.webProject.command.FreeBoardListCommand;
@@ -35,11 +36,15 @@ import com.spring.webProject.command.ReviewPageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
 import com.spring.webProject.command.PurchaseItemsCommand;
+import com.spring.webProject.command.QNAListCommand;
+import com.spring.webProject.command.QNAPageCommand;
 import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.dto.FreeBoardDto;
+import com.spring.webProject.dto.FreeCommentDto;
 import com.spring.webProject.dto.PageDto;
 import com.spring.webProject.dto.ProductDto;
+import com.spring.webProject.dto.QNABoardDto;
 import com.spring.webProject.dto.ReviewBoardDto;
 
 
@@ -71,7 +76,7 @@ public class ControllerCommunity {
 		
 		return "community/freeboard";
 	}
-	//freeboardContentView
+	//freeboardContentView 게시글화면 
 	@RequestMapping(value = "/freeboardContentView", method = RequestMethod.GET)
 	public String freeboardContentView(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("freeboardContentView");
@@ -85,10 +90,9 @@ public class ControllerCommunity {
 		command = new FreeBoardContentViewCommand();
 		command.execute(sqlSession, model);
 		
-		
 		return "community/freeboardContentView";
 	}
-	//freeboardContentView
+	//freeboardContentView 게시글쓰기 화면
 	@RequestMapping(value = "/member/freeboardWriteView", method = RequestMethod.GET)
 	public String freeboardWriteView(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("freeboardWriteView");
@@ -98,7 +102,7 @@ public class ControllerCommunity {
 		
 		return "community/freeboardWriteView";
 	}
-	//freeboardWrite
+	//freeboardWrite 글쓰기 db입력
 	@RequestMapping(value = "/freeboardWrite", method = RequestMethod.POST)
 	public String freeboardWrite(FreeBoardDto board , Model model) throws Exception {
 		System.out.println("freeboardWrite");
@@ -147,7 +151,7 @@ public class ControllerCommunity {
 		else
 			return null;
 	}
-	//freeboardModifyView
+	//freeboardModifyView 수정 view
 	@RequestMapping(value = "/member/freeboardModifyView", method = RequestMethod.POST)
 	public String freeboardModifyView(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("freeboardModifyView");
@@ -158,7 +162,7 @@ public class ControllerCommunity {
 		model.addAttribute("fbContent", request.getParameter("fbContent"));
 		return "community/freeboardModifyView";
 	}
-	//freeboardContentView
+	// 자유게시글 수정
 	@RequestMapping(value = "/freeboardModify", method = RequestMethod.POST)
 	public String freeboardModify(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("freeboardModify");
@@ -188,8 +192,66 @@ public class ControllerCommunity {
 		return "redirect:freeboardList";
 	}
 	
+	// comment~~~~~~~~~~~~~~~
+	
+	//ajax 후기 게시판 정보전송
+	@RequestMapping(value = "/commentList", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> commentList(HttpServletRequest request, Model model)throws Exception {
+		
+		System.out.println("commentList");
+		
+		String fbId = request.getParameter("fbId");
+		model.addAttribute("fbId", fbId);
+
+		command = new CommentListCommand();
+		command.execute(sqlSession, model);//게시판 리스트를 받아옴
+						
+		
+		Map<String, Object> map = model.asMap();
+		
+//		model.addAttribute("comments", comments);
+//		model.addAttribute("recomments", recomments);
+		
+		ArrayList<FreeCommentDto> comments = (ArrayList<FreeCommentDto>)map.get("comments");
+		ArrayList<FreeCommentDto> recomments = (ArrayList<FreeCommentDto>)map.get("recomments");
+		
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("comments", comments);
+		result.put("recomments", recomments);
+		
+		return result;
+	}
+	
+	
+	
+	//ajax comment wirte 모습
+	@ResponseBody
+	@RequestMapping(value = "/writeComment", method = RequestMethod.POST)
+	public String writeComment(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("writeComment");
+		
+		model.addAttribute("fbId",request.getParameter("fbId"));
+		
+		//command = new WrtieCommentCommand();
+		
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		if(result=="success")
+			return result;
+		else
+			return null;
+	}
+	
+	
+	
 
 	
+	
+	
+	
+	//notice
 	@RequestMapping(value = "/noticeList", method = RequestMethod.GET)
 	public String notice(Locale locale, Model model) {
 		System.out.println("noticeList");

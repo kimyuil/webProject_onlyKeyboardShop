@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.webProject.dao.IFreeCommentDao">
+
+ <select id="FreeboardCommentsList" resultType="com.spring.webProject.dto.FreeCommentDto">
+	select * from freeboard_comment where fbId=#{fbId}
+</select>
+
+<!--  <select id="getBoardsList" resultType="com.spring.webProject.dto.FreeBoardDto">
+	select * from freeboard
+</select>
+<select id="listLength" resultType="int">
+	select count(*) as total from freeboard
+</select>
+<select id="getBoardContent" resultType="com.spring.webProject.dto.FreeBoardDto">
+	select * from freeboard where fbId=#{fbId}
+</select>
+ <insert id="insertFreeboard" parameterType="com.spring.webProject.dto.FreeBoardDto">
+ 	insert into freeboard (fbTitle, fbContent, fbTime, uId, uName, fbHit, fbReplys, fbgood)
+ 	values (#{fbTitle},#{fbContent},now(),#{uId},#{uName},0,0,0)
+ </insert>
+ <update id="clickBoardHit">
+ 	update freeboard set fbHit=fbHit+1 where fbId=#{fbId}
+ </update>
+ <update id="likePlus">
+ 	update freeboard set fbgood=fbgood+1 where fbId=#{fbId}
+ </update>
+ <update id="likeMinus">
+ 	update freeboard set fbgood=fbgood-1 where fbId=#{fbId}
+ </update>
+ <update id="modifyFreeBoard">
+ 	update freeboard set fbTitle=#{fbTitle}, fbContent=#{fbContent} where fbId=#{fbId}
+ </update>
+ <delete id="deleteFreeBoard">
+ 	delete from freeboard where fbId=#{fbId}
+ </delete>
+ --> 
+
+</mapper>
