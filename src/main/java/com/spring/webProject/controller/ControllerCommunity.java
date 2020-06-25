@@ -24,14 +24,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.webProject.command.FreeBoardPageCommand;
 import com.spring.webProject.command.FreeboardLikeMinusCommand;
 import com.spring.webProject.command.FreeboardLikePlusCommand;
+import com.spring.webProject.command.CheckCommentPwCommand;
 import com.spring.webProject.command.CommentListCommand;
+import com.spring.webProject.command.DeleteCommentCommand;
 import com.spring.webProject.command.DeleteFreeboardCommand;
 import com.spring.webProject.command.FreeBoardContentViewCommand;
 import com.spring.webProject.command.FreeBoardListCommand;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.command.IdCheckCommand;
 import com.spring.webProject.command.InsertFreeboardCommand;
+import com.spring.webProject.command.ModifyCommentCommand;
 import com.spring.webProject.command.ModifyFreeboardCommand;
+import com.spring.webProject.command.NoticeBoardListCommand;
+import com.spring.webProject.command.NoticeBoardPageCommand;
 import com.spring.webProject.command.ReviewPageCommand;
 import com.spring.webProject.command.ProductCommand;
 import com.spring.webProject.command.ProductPageCommand;
@@ -181,15 +186,21 @@ public class ControllerCommunity {
 		return "redirect:freeboardContentView";
 	}
 	//deleteFreeboard
+	@Transactional
 	@RequestMapping(value = "/deleteFreeboard", method = RequestMethod.POST)
-	public String deleteFreeboard(HttpServletRequest request , Model model) throws Exception {
+	public String deleteFreeboard(HttpServletRequest request , Model model) throws RuntimeException {
 		System.out.println("deleteFreeboard");
 		
 		model.addAttribute("page", request.getParameter("page"));
 		model.addAttribute("fbId", request.getParameter("fbId"));
 		
 		command = new DeleteFreeboardCommand();
-		command.execute(sqlSession, model);
+		try {
+			command.execute(sqlSession, model);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());			
+		}
 		
 		return "redirect:freeboardList";
 	}
@@ -269,19 +280,82 @@ public class ControllerCommunity {
 		return result;
 		
 	}
+	@ResponseBody  //댓글 비밀번호 확인
+	@RequestMapping(value = "/checkCommentPw", method = RequestMethod.POST)
+	public String checkCommentPw(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("checkCommentPw");
+				
+		model.addAttribute("cId",request.getParameter("cId"));
+		model.addAttribute("cPw",request.getParameter("cPw"));
 		
+		command = new CheckCommentPwCommand();
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		
+		return result;
+	}
+	@ResponseBody  //댓글 수정하기
+	@RequestMapping(value = "/modifyComment", method = RequestMethod.POST)
+	public String modifyComment(HttpServletRequest request, Model model) throws Exception {
+		System.out.println("modifyComment");
+				
+		model.addAttribute("cId",request.getParameter("cId"));
+		model.addAttribute("cComment",request.getParameter("cComment"));
+		
+		command = new ModifyCommentCommand();
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		
+		return result;
+	}
 	
-
-	
-	
+	@Transactional
+	@ResponseBody  //댓글 삭제하기
+	@RequestMapping(value = "/deleteComment", method = RequestMethod.POST)
+	public String deleteComment(HttpServletRequest request, Model model) throws RuntimeException {
+		System.out.println("deleteComment");
+		
+		model.addAttribute("cId",request.getParameter("cId"));
+		model.addAttribute("fbId",request.getParameter("fbId"));
+		
+		command = new DeleteCommentCommand(); //댓글, 딸린 대댓글 모두 삭제
+		
+		try {
+			command.execute(sqlSession, model);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());			
+		}  
+		
+		Map<String, Object> map = model.asMap();
+		String result = (String)map.get("result");
+		
+		return result;
+	}
+		
 	
 	
 	//notice
 	@RequestMapping(value = "/noticeList", method = RequestMethod.GET)
-	public String notice(Locale locale, Model model) {
+	public String notice(HttpServletRequest request, Model model)  throws Exception {
 		System.out.println("noticeList");
+		
+		String page = request.getParameter("page");
+		if (page==null)
+			page="1";
+		
+		command = new NoticeBoardListCommand();
+		command.execute(sqlSession, model);
+		
+		command = new NoticeBoardPageCommand(Integer.parseInt(page));
+		command.execute(sqlSession, model);
+		
 		return "community/notice";
-	}//community 지워야함
+	}
 	
 	
 	

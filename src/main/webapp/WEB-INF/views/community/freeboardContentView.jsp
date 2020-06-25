@@ -191,8 +191,8 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 	         ' <small>댓글 '+commentsList[i].cReplys+'개</small>'+
 	         ' </button>'+
 	         '<span style="float:right; width:20;">&nbsp</span>'+
-	         '<span style="float:right"><a href="#"><small>수정</small></a>&nbsp'+
-	         ' <a href="#"><small>X</small></span> </a>'+
+	         '<span style="float:right"><a href="javascript:modifyComment('+commentsList[i].cId+')"><small>수정</small></a>&nbsp'+
+	         ' <a href="javascript:deleteComment('+commentsList[i].cId+')"><small>X</small></span> </a>'+
 	         ' </div></div>'+
 	         
 	         ' <!-- ----------대댓글----------- -->'+
@@ -234,7 +234,7 @@ function showComment(){ //댓글데이터 화면에 뿌려주기
 		      		'<td style="width:580px; border-bottom: 1px solid #d1d1d1;">'+recommentsList[j].cComment+'</td>'+
 		      		'<td style="width:20px; text-align: center; border-bottom: 1px solid #d1d1d1;">'+
 		      		'<span style="float:right; width:20;">&nbsp</span>'+
-			         ' <a href="#"><small>X</small></span> </a>'+
+			         ' <a href="javascript:deleteComment('+recommentsList[j].cId+')"><small>X</small></span> </a>'+
 			         '</td>'+
 		      		'<td style="width:100px; text-align: center; border-bottom: 1px solid #d1d1d1;">'+recommentsList[j].cTime+'</td>'+
 		      	   '</tr>'	
@@ -313,6 +313,79 @@ function writeReComment(parrentId){
 	    	alert("다시시도해주세요");
 	    }
 	});
+}
+
+function modifyComment(cid){
+	var result = checkCommentPw(cid);
+	if(result == null){
+		alert("잘못된 비밀번호입니다");
+		return
+	}
+	var cCommentM = prompt("댓글 내용 재입력");
+	if(cCommentM==null)
+		return;
+	
+	$.ajax({
+	    url: "/onlyKeyboardShop/modifyComment",
+	    type: "POST",
+	    cache: false,
+	    async: false,
+	    data: {"cId" : cid, "cComment":cCommentM },
+	    success: function(data){
+	    	if(data=="ok"){
+	    		alert("수정완료");
+	    		commentList();
+	    		showComment();	
+	    	}
+	    }
+	});
+}
+
+function deleteComment(cid){
+	var result = checkCommentPw(cid);
+	if(result == null){
+		alert("잘못된 비밀번호입니다");
+		return
+	}
+	
+	var check = confirm("정말 삭제하시겠습니까?");
+	if(check==false)
+		return;
+	
+	$.ajax({
+	    url: "/onlyKeyboardShop/deleteComment",
+	    type: "POST",
+	    cache: false,
+	    async: false,
+	    data: {"cId" : cid ,"fbId":fbId},
+	    success: function(data){
+	    	alert("삭제완료");
+	    	commentList();
+	    	showComment();	
+	    }
+	});
+	
+}
+
+function checkCommentPw(cid){
+	var pw = prompt("비밀번호를 입력해주세요");
+	if(pw==null) { return;}
+		
+	var result;
+	$.ajax({
+	    url: "/onlyKeyboardShop/checkCommentPw",
+	    type: "POST",
+	    cache: false,
+	    async: false,
+	    data: {"cId" : cid, "cPw":pw },
+	    success: function(data){
+	    	if(data=="ok")
+	    		result="ok";
+	    	else
+	    		result= null;
+	    }
+	});
+	return result;
 }
 
 function date_to_str(format){

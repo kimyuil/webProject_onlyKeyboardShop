@@ -13,6 +13,14 @@ public interface IFreeCommentDao {
 	int writeComment(@Param("fbId") String fbId,@Param("cName") String cName,@Param("cPw") String cPw,@Param("cComment") String cComment);
 	
 	int writeReComment(@Param("fbId") String fbId,@Param("cParentId") String cParentId,@Param("cName") String cName,@Param("cPw") String cPw,@Param("cComment") String cComment);
+
+	String getCommentPwById(@Param("cId") String cId);
+
+	int modifyComment(@Param("cId") String cId,@Param("cComment")  String cComment);
+
+	int deleteComment(@Param("cId") String cId);
+
+	int deleteCommentByFreeboard(@Param("fbId") String fbId);
 	
 
 }

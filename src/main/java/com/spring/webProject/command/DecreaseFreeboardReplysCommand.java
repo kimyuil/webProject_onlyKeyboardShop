@@ -7,10 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.dao.IFreeBoardDao;
-import com.spring.webProject.dao.IProductDao;
-
 @Transactional
-public class IncreaseFreeboardReplysCommand implements ICommand {
+public class DecreaseFreeboardReplysCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
@@ -19,13 +17,13 @@ public class IncreaseFreeboardReplysCommand implements ICommand {
 		Map<String, Object> map = model.asMap();
 		String fbId = (String) map.get("fbId");
 		
-		int result = dao.increaseReplys(fbId);
+		int result = dao.decreaseReplys(fbId);
 		
 		if(result==1)
-			model.addAttribute("result", "success");
+			model.addAttribute("result", "ok");
 		else {
 			model.addAttribute("result", null);
-			throw new RuntimeException("freeboard update error");
+			throw new RuntimeException("freeboard decrese update error");
 		}
 	}
 

@@ -41,15 +41,4 @@
  	update freeboard set fbReplys = fbReplys-1 where fbId = #{fbId}
  </update>
  
-<!--
-getBoardContent
-<select id="getProduct" resultType="com.spring.webProject.dto.ProductDto">
-	select * from product where pId = #{param1}
-</select>
-
-<update id="checkStockAddSelling">
-	update product set pStock=pStock-#{pNum}, pSellingNum=pSellingNum+#{pNum} 
-	where pId=#{pId} and pStock-#{pNum} > -1
-</update>
- -->
 </mapper>

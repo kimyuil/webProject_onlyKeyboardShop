@@ -6,26 +6,25 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import com.spring.webProject.dao.IFreeBoardDao;
+import com.spring.webProject.dao.IFreeCommentDao;
 
-public class DeleteFreeboardCommand implements ICommand {
+public class DeleteCommentCommand implements ICommand {
 
 	@Transactional
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws RuntimeException {
 		// TODO Auto-generated method stub
 		
-		ICommand boardCommand = new DeleteFreeboardItemCommand();
-		ICommand commentCommand = new DeleteCommandByFreeboardCommand();
-
+		ICommand commentCommand = new DeleteCommentItemCommand();
+		ICommand boardCommand = new DecreaseFreeboardReplysCommand();
+		
 		try {
-			boardCommand.execute(sqlSession, model);
 			commentCommand.execute(sqlSession, model);
+			boardCommand.execute(sqlSession, model);
 			
 		}catch(Exception e){
 			throw new RuntimeException(e.getMessage());
 		}
-		
 		
 	}
 

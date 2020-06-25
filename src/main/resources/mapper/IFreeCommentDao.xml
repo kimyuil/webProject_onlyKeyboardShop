@@ -9,6 +9,10 @@
 	select * from freeboard_comment where fbId=#{fbId}
 </select>
 
+<select id="getCommentPwById" resultType="String">
+	select cPw from freeboard_comment where cId=#{cId}
+</select>
+
 <insert id="writeComment">
  	insert into freeboard_comment (fbId, cName, cPw, cComment, cTime, IsReplyComment)
  	values (#{fbId},#{cName},#{cPw},#{cComment},now(),0)
@@ -19,6 +23,16 @@
  	values (#{fbId},#{cParentId},#{cName},#{cPw},#{cComment},now(),1)
  </insert>
 
+ <update id="modifyComment">
+ 	update freeboard_comment set cComment=#{cComment} where cId=#{cId}
+ </update>
+ <delete id="deleteComment">
+ 	delete from freeboard_comment where cId=#{cId} or cParentId=#{cId}
+ </delete>
+ <delete id="deleteCommentByFreeboard">
+ 	delete from freeboard_comment where fbId=#{fbId}
+ </delete>
+ 
 <!--  <select id="getBoardsList" resultType="com.spring.webProject.dto.FreeBoardDto">
 	select * from freeboard
 </select>

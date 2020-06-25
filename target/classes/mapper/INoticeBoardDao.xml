@@ -3,15 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.spring.webProject.dao.IFreeBoardDao">
+<mapper namespace="com.spring.webProject.dao.INoticeBoardDao">
 
+<select id="getNoticeBoardsList" resultType="com.spring.webProject.dto.NoticeDto">
+	select * from noticeboard
+</select>
 
- <select id="getBoardsList" resultType="com.spring.webProject.dto.FreeBoardDto">
-	select * from freeboard
+<select id="noticelistLength" resultType="int">
+	select count(*) as total from noticeboard
 </select>
-<select id="listLength" resultType="int">
-	select count(*) as total from freeboard
-</select>
+
+<!--  
+
 <select id="getBoardContent" resultType="com.spring.webProject.dto.FreeBoardDto">
 	select * from freeboard where fbId=#{fbId}
 </select>
@@ -40,5 +43,6 @@
  <update id="decreaseReplys">
  	update freeboard set fbReplys = fbReplys-1 where fbId = #{fbId}
  </update>
- 
+ --> 
+
 </mapper>
