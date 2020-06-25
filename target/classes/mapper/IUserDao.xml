@@ -34,4 +34,12 @@
 	select uId from user where uId=#{id} and uPw=#{pw}
 </select>
 
+<update id="modifyUserInfo">
+	update user set uPw=#{uPw}, uEmail=#{uEmail},uAdress=#{uAdress},uPhone=#{uPhone} where uId=#{uId}
+</update>
+
+<delete id="deleteUser">
+	delete from user where uId=#{id}
+</delete>
+
 </mapper>

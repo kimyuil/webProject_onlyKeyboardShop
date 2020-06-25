@@ -19,4 +19,9 @@ public interface IUserDao {
 	void renewPw(@Param("id") String id,@Param("pw") String pw);
 
 	String userCheck(@Param("id") String id,@Param("pw") String pw);
+
+	int deleteUser(@Param("id") String uId);
+
+	int modifyUserInfo(@Param("uId") String uId,@Param("uPw") String uPw,@Param("uEmail") String uEmail,
+			@Param("uAdress") String uAdress,@Param("uPhone") String uPhone);
 }
