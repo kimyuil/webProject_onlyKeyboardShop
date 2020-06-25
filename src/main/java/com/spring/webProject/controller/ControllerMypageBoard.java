@@ -42,10 +42,12 @@ import com.spring.webProject.command.ReviewListCommand;
 import com.spring.webProject.command.TestCommand;
 import com.spring.webProject.command.UserCheckCommand;
 import com.spring.webProject.command.UserCheckDeliveryCommand;
+import com.spring.webProject.command.UserFreeboardListCommand;
 import com.spring.webProject.command.UserQnAListCommand;
 import com.spring.webProject.command.UserReviewListCommand;
 import com.spring.webProject.command.WriteReivewCommand;
 import com.spring.webProject.command.InsertReviewDataCommand;
+import com.spring.webProject.dto.FreeBoardDto;
 import com.spring.webProject.dto.PageDto;
 import com.spring.webProject.dto.PurchaseListDto;
 import com.spring.webProject.dto.QNABoardDto;
@@ -232,4 +234,23 @@ public class ControllerMypageBoard {
 		
 	}
 	
+	//userFreeboard
+	@ResponseBody
+	@RequestMapping(value = "/userFreeboardList", method = RequestMethod.POST)
+	public Map<String, Object> userFreeboardList(HttpServletRequest request, Model model) throws Exception{
+		System.out.println("userFreeboardList");
+		
+		command = new UserFreeboardListCommand();
+		
+		String id = request.getParameter("uId");
+		model.addAttribute("uId", id);
+		command.execute(sqlSession, model);
+		
+		Map<String, Object> map = model.asMap();
+
+		ArrayList<FreeBoardDto> boardsList = (ArrayList<FreeBoardDto>)map.get("boards");
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("boards", boardsList);
+		return result;
+	}
 }

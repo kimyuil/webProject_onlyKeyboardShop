@@ -5,6 +5,9 @@
 
 <mapper namespace="com.spring.webProject.dao.IFreeBoardDao">
 
+<select id="userListFreeboard" resultType="com.spring.webProject.dto.FreeBoardDto">
+	select * from freeboard where uId = #{uId}
+</select>
 
  <select id="getBoardsList" resultType="com.spring.webProject.dto.FreeBoardDto">
 	select * from freeboard

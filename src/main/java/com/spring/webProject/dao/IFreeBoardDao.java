@@ -29,6 +29,8 @@ public interface IFreeBoardDao {
 
 	int increaseReplys(@Param("fbId") String fbId);
 	int decreaseReplys(@Param("fbId") String fbId);
+
+	ArrayList<FreeBoardDto> userListFreeboard(@Param("uId") String uId);
 	
 	
 	
