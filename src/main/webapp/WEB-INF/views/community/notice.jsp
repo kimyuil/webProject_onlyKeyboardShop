@@ -37,7 +37,7 @@
   	<th scope="row" style="text-align: center;">${status.index*(-1)+pageInfo.lastPageNum}
   	</th>
 	<td>
-	<a href="/onlyKeyboardShop/noticeboardContentView?nbId=${notices.nbId}&page=${pageInfo.currentPage}">
+	<a href="/onlyKeyboardShop/noticeContentView?nbId=${notices.nbId}&page=${pageInfo.currentPage}">
 	${notices.nbTitle} 
 	</a></td>
 	<td style="text-align: center;">운영자</td>
@@ -67,7 +67,7 @@
 	<c:if test="${currentUserName == 'admin'}">
 	<span style="float:right">
 	<button class='btn btn-outline-dark btn-sm' 
-	onclick="location.href ='/onlyKeyboardShop/member/freeboardWriteView?page=${pageInfo.currentPage}'">글쓰기</button>
+	onclick="location.href ='/onlyKeyboardShop/admin/noticeWriteView?page=${pageInfo.currentPage}'">글쓰기</button>
 	</span>
 	</c:if>
 </td>
