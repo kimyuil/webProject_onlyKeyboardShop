@@ -105,13 +105,13 @@ function modifyForm(){ //onsubmit
       <th scope="row" style="text-align: center;">전화번호</th>
       <td><div class="row">
     	<div class="col">
-      		<input type="text" class="form-control" id="phone1" >
+      		<input type="text" maxlength="3" class="form-control" id="phone1" >
     	</div>
     	<div class="col">
-      		<input type="text" class="form-control" id="phone2">
+      		<input type="text" maxlength="4" class="form-control" id="phone2">
     	</div>
     	<div class="col">
-      		<input type="text" class="form-control" id="phone3">
+      		<input type="text" maxlength="4" class="form-control" id="phone3">
     	</div>
     	<input type="hidden" id="submitPhone" name="uPhone">
   	</div>

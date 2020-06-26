@@ -56,7 +56,7 @@
   
   <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
   	<ul class="navbar-nav ml-auto">
-  	<sec:authorize access="isAnonymous()">
+  	<sec:authorize access="isAnonymous()"><!--  -->
   		<li class="nav-item">
   			<a class="nav-link" href="login">login</a>
   		</li>
@@ -74,6 +74,11 @@
   		<li class="nav-item">
   			<a class="nav-link" href="/onlyKeyboardShop/mypage">mypage</a>
   		</li>
+  	<sec:authorize access="hasRole('ROLE_ADMIN')">
+  		<li class="nav-item">
+  			<a class="nav-link" href="/onlyKeyboardShop/admin/adminpage"><b>관리자페이지</b></a>
+  		</li>
+  	</sec:authorize>
   	</ul>
   </div>
 </nav>

@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -96,8 +97,16 @@ public class ControllerMypageOthers {
 		command = new ModifyUserInfoCommand();
 		command.execute(sqlSession, model);
 		
+		Map<String, Object> map = model.asMap();
+		String result = (String) map.get("result");
 		
-		return "membership/mypage/modifyInfoView";
+		if(result=="success") {
+			SecurityContextHolder.clearContext();
+			return "membership/mypage/modifyInfoComplete";
+		}
+		else
+			return "membership/mypage/modifyInfoComplete";
+		
 	}
 	
 	//È¸¿øÅ»ÅðÈ­¸é
@@ -120,8 +129,10 @@ public class ControllerMypageOthers {
 		Map<String, Object> map = model.asMap();
 		String result = (String) map.get("result");
 		
-		if(result=="true")
+		if(result=="true") {
+			SecurityContextHolder.clearContext();
 			return "membership/mypage/deleteInfoComplete";
+		}
 		else
 			return "membership/mypage/deleteInfo";
 		
