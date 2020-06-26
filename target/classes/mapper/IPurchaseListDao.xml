@@ -36,6 +36,16 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
 	update purchaselist set state='checkedDelivery' where purId = #{purId}  
 </update> 
 
+<select id="getPurchaseListAdmin" resultType="com.spring.webProject.dto.PurchaseListDto">
+	select * from purchaselist
+</select>
+
+<update id="adminSendItem">
+	update purchaselist set state='shipping' where purId = #{purId}
+</update>
+<update id="adminShippedItem">
+	update purchaselist set state='delivered' where purId = #{purId}
+</update>  
  
 </mapper> 
 <!-- 

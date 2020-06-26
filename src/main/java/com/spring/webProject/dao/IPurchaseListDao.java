@@ -21,4 +21,10 @@ public interface IPurchaseListDao {
 
 	public int reChangeUserState(@Param("purId") String purId); //when delete
 
+	public ArrayList<PurchaseListDto> getPurchaseListAdmin();
+
+	public int adminSendItem(@Param("purId") String purId);
+
+	public int adminShippedItem(@Param("purId") String purId);
+
 }
