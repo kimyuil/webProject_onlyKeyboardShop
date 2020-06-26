@@ -84,7 +84,7 @@ function getList(){ //초기 리스트와 초기 페이지정보를 저장해두
 	    			state="사용자<br>배송확인";
 	    			break;
 	    		case "writeReview":
-	    			state="<b>사용자<br>리뷰작성</b>";
+	    			state="<a href='/onlyKeyboardShop/productPage?pId="+data.afterList[i].productId+"'><b>사용자<br>리뷰작성</b></a>";
 	    			break;
 	    		};
 	    		var date = new Date(data.afterList[i].purTime);

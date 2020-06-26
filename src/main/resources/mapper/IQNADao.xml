@@ -30,6 +30,15 @@
 <delete id="deleteQNA">
 delete from qna where qnaId = #{qnaId}
 </delete>
+
+<select id="adminListQnA" resultType="com.spring.webProject.dto.QNABoardDto">
+	select * from qna
+</select>
+
+<update id="adminAnswerQnA">
+ 	update qna set qnaAnswer = #{qnaAnswer},isAnswered =1 
+ 	 where qnaId=#{qnaId}
+</update>
 <!-- 
 qnaId, uId, pId, qnaTitle, qnaContent, qnaDate, isSecret, isAnswered, qnaAnswer, pName, uName 
 <select id="getUserPurchaseList" resultType="com.spring.webProject.dto.PurchaseListDto">

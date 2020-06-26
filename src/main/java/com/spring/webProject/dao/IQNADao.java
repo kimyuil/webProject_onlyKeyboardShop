@@ -20,6 +20,10 @@ public interface IQNADao {
 	int deleteQNA(@Param("qnaId") String qnaId);
 
 	ArrayList<QNABoardDto> userListQnA(@Param("uId") String uId);
+
+	ArrayList<QNABoardDto> adminListQnA();
+
+	int adminAnswerQnA(@Param("qnaId") String qnaId,@Param("qnaAnswer") String qnaAnswer);
 	
 	
 	

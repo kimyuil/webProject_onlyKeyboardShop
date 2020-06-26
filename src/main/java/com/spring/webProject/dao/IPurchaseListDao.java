@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.webProject.dto.PurchaseListDto;
+import com.spring.webProject.dto.QNABoardDto;
 
 public interface IPurchaseListDao {
 
@@ -26,5 +27,6 @@ public interface IPurchaseListDao {
 	public int adminSendItem(@Param("purId") String purId);
 
 	public int adminShippedItem(@Param("purId") String purId);
+
 
 }
