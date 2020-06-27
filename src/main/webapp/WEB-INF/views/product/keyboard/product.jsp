@@ -107,12 +107,12 @@ $(document).ready(function(){
 
 <div style="display:table; width:100%; ">
 <div style="display:table-cell; width:100%; text-align: center; ">
-	<div style="width:400px; display:inline-block; margin-top: 0; vertical-align: top;"> <!-- 왼쪽이미지 -->
+	<div style="width:30%; display:inline-block; margin-top: 0; vertical-align: top;"> <!-- 왼쪽이미지 400-->
 		<img src="${product.pImageRoute}" width="100%" style="vertical-align: top;" /> 
 	</div>
 	<div style="width:100px; height:10px; display:inline-block;"></div>
 
-	<div style="width:400px; display:inline-block;text-align:left; "> <!-- 오른쪽 정보 -->
+	<div style="width:35%; display:inline-block;text-align:left; "> <!-- 오른쪽 정보 -->
 	
 	
 	<form action="member/buyPage"  method="post" id="buyForm" onsubmit="return formLoginCheck()"> <!-- hidden으로 user id도 보내야함. -->
@@ -161,10 +161,10 @@ $(document).ready(function(){
 		<br><br>
 	<!-- 상세정보 탭 -->
 	<div align="center">
-		<div style="width:50%; margin:0 auto; background-color:#ebebeb; height:60px; line-height:60px;font-size:large; ">
+		<div style="width:800px; margin:0 auto; background-color:#ebebeb; height:60px; line-height:60px;font-size:large; ">
 		상세정보</div>
 	
-		<img src="${product.pExplainImageRoute}" style="width:65%;"/>
+		<img src="${product.pExplainImageRoute}" style="width:800px;"/>
 	</div>
 	
 	<div style="width:40%; margin:0 auto;">
