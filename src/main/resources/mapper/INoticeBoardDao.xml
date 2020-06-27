@@ -32,31 +32,6 @@
  <delete id="deleteNotice">
  	delete from noticeboard where nbId=#{nbId}
  </delete>
-<!--  
 
- <insert id="insertFreeboard" parameterType="com.spring.webProject.dto.FreeBoardDto">
- 	insert into freeboard (fbTitle, fbContent, fbTime, uId, uName, fbHit, fbReplys, fbgood)
- 	values (#{fbTitle},#{fbContent},now(),#{uId},#{uName},0,0,0)
- </insert>
- 
- <update id="likePlus">
- 	update freeboard set fbgood=fbgood+1 where fbId=#{fbId}
- </update>
- <update id="likeMinus">
- 	update freeboard set fbgood=fbgood-1 where fbId=#{fbId}
- </update>
- <update id="modifyFreeBoard">
- 	update freeboard set fbTitle=#{fbTitle}, fbContent=#{fbContent} where fbId=#{fbId}
- </update>
- <delete id="deleteFreeBoard">
- 	delete from freeboard where fbId=#{fbId}
- </delete>
- <update id="increaseReplys">
- 	update freeboard set fbReplys = fbReplys+1 where fbId = #{fbId}
- </update>
- <update id="decreaseReplys">
- 	update freeboard set fbReplys = fbReplys-1 where fbId = #{fbId}
- </update>
- --> 
 
 </mapper>

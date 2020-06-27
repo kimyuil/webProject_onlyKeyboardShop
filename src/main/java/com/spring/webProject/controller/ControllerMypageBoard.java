@@ -1,16 +1,11 @@
 package com.spring.webProject.controller;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,40 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.webProject.command.ChangePurchaseStateCommand;
 import com.spring.webProject.command.DeleteQnaCommand;
 import com.spring.webProject.command.DeleteUserReviewCommand;
-import com.spring.webProject.command.FindIdCommand;
-import com.spring.webProject.command.FindPwCommand;
-import com.spring.webProject.command.GetUserReviewOneItemCommand;
 import com.spring.webProject.command.GetUserReviewOneItemCommand;
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.IdCheckCommand;
-import com.spring.webProject.command.JoinCommand;
-import com.spring.webProject.command.LoginCommand;
 import com.spring.webProject.command.ModifyQnaCommand;
 import com.spring.webProject.command.ModifyReivewCommand;
-import com.spring.webProject.command.OrderListCommand;
-import com.spring.webProject.command.ReviewPageCommand;
-import com.spring.webProject.command.PreventReWriteCheckCommand;
-import com.spring.webProject.command.ProductCommand;
-import com.spring.webProject.command.ProductPageCommand;
-import com.spring.webProject.command.RenewPwCommand;
-import com.spring.webProject.command.ReviewListCommand;
-import com.spring.webProject.command.TestCommand;
-import com.spring.webProject.command.UserCheckCommand;
-import com.spring.webProject.command.UserCheckDeliveryCommand;
 import com.spring.webProject.command.UserFreeboardListCommand;
 import com.spring.webProject.command.UserQnAListCommand;
 import com.spring.webProject.command.UserReviewListCommand;
-import com.spring.webProject.command.WriteReivewCommand;
-import com.spring.webProject.command.InsertReviewDataCommand;
 import com.spring.webProject.dto.FreeBoardDto;
-import com.spring.webProject.dto.PageDto;
-import com.spring.webProject.dto.PurchaseListDto;
 import com.spring.webProject.dto.QNABoardDto;
 import com.spring.webProject.dto.ReviewBoardDto;
-import com.spring.webProject.dto.UserDto;
 
 
 @Controller

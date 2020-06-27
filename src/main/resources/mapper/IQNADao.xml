@@ -39,13 +39,6 @@ delete from qna where qnaId = #{qnaId}
  	update qna set qnaAnswer = #{qnaAnswer},isAnswered =1 
  	 where qnaId=#{qnaId}
 </update>
-<!-- 
-qnaId, uId, pId, qnaTitle, qnaContent, qnaDate, isSecret, isAnswered, qnaAnswer, pName, uName 
-<select id="getUserPurchaseList" resultType="com.spring.webProject.dto.PurchaseListDto">
-	select * from purchaselist where userId = #{uId}
-</select>
 
- 
- -->
  
 </mapper> 

@@ -48,21 +48,3 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
 </update>  
  
 </mapper> 
-<!-- 
-<select id="listProduct" resultType="com.spring.webProject.dto.ProductDto">
-	select * from product where pCategory = #{param1}
-</select>
-
-<select id="getProduct" resultType="com.spring.webProject.dto.ProductDto">
-	select * from product where pId = #{param1}
-</select>
-
-<select id="getBookmarkList" resultType="String">
-	select uInterestedList from user where uId = #{uId}
-</select>
-
-<update id="addBookmark">
-	update user set uInterestedList=#{pIdAdd} where uId = #{uId}
-</update> 
-
--->

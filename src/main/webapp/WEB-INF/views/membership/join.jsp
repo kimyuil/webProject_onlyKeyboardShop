@@ -7,10 +7,7 @@
 <title>Insert title here</title>
 <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 <script src="/onlyKeyboardShop/resources/js/joinActions.js"></script>
-<script>
 
-
- </script>
 
 </head>
 <body>
