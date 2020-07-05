@@ -7,14 +7,14 @@
  <mapper namespace="com.spring.webProject.dao.IQNADao">
 
 <select id="listQna" resultType="com.spring.webProject.dto.QNABoardDto">
-	select * from qna where pId=#{pId}
+	select * from qna where pId=#{pId} order by qnaId DESC
 </select>
 <select id="listLength" resultType="int">
 	select count(*) as total from qna where pId=#{pId}
 </select>
 
 <select id="userListQnA" resultType="com.spring.webProject.dto.QNABoardDto">
-	select * from qna where uId=#{uId}
+	select * from qna where uId=#{uId} order by qnaId DESC
 </select>
 
  <insert id="insertQna" parameterType="com.spring.webProject.dto.QNABoardDto">
@@ -32,7 +32,7 @@ delete from qna where qnaId = #{qnaId}
 </delete>
 
 <select id="adminListQnA" resultType="com.spring.webProject.dto.QNABoardDto">
-	select * from qna
+	select * from qna 
 </select>
 
 <update id="adminAnswerQnA">

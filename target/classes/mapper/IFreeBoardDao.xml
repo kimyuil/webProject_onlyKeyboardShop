@@ -6,11 +6,11 @@
 <mapper namespace="com.spring.webProject.dao.IFreeBoardDao">
 
 <select id="userListFreeboard" resultType="com.spring.webProject.dto.FreeBoardDto">
-	select * from freeboard where uId = #{uId}
+	select * from freeboard where uId = #{uId} order by fbId DESC
 </select>
 
  <select id="getBoardsList" resultType="com.spring.webProject.dto.FreeBoardDto">
-	select * from freeboard
+	select * from freeboard order by fbId DESC
 </select>
 <select id="listLength" resultType="int">
 	select count(*) as total from freeboard

@@ -6,11 +6,11 @@
 <mapper namespace="com.spring.webProject.dao.IReviewDao">
 
 <select id="listReview" resultType="com.spring.webProject.dto.ReviewBoardDto">
-	select * from review where pId=#{pId}
+	select * from review where pId=#{pId} order by reId DESC
 </select>
 
 <select id="userListReview" resultType="com.spring.webProject.dto.ReviewBoardDto">
-	select * from review where uId=#{uId}
+	select * from review where uId=#{uId} order by reId DESC
 </select>
 
 <select id="listLength" resultType="int">

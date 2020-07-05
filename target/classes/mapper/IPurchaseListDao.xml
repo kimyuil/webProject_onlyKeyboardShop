@@ -17,7 +17,7 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
  </insert>
 
 <select id="getUserPurchaseList" resultType="com.spring.webProject.dto.PurchaseListDto">
-	select * from purchaselist where userId = #{uId}
+	select * from purchaselist where userId = #{uId} order by purId DESC
 </select>
 
 <select id="getStateByPurId" resultType="String">
@@ -37,7 +37,7 @@ purTime, state, uName, uAdress, uPhone, purMessage, pNum -->
 </update> 
 
 <select id="getPurchaseListAdmin" resultType="com.spring.webProject.dto.PurchaseListDto">
-	select * from purchaselist
+	select * from purchaselist order by purId DESC
 </select>
 
 <update id="adminSendItem">

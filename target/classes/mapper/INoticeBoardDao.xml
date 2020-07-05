@@ -6,7 +6,7 @@
 <mapper namespace="com.spring.webProject.dao.INoticeBoardDao">
 
 <select id="getNoticeBoardsList" resultType="com.spring.webProject.dto.NoticeDto">
-	select * from noticeboard
+	select * from noticeboard order by nbId DESC
 </select>
 
 <select id="noticelistLength" resultType="int">
