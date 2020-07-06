@@ -11,9 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.webProject.command.DeleteUserInfoCommand;
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.ModifyUserInfoCommand;
+import com.spring.webProject.command.membership.DeleteUserInfoCommand;
+import com.spring.webProject.command.membership.ModifyUserInfoCommand;
 
 
 @Controller

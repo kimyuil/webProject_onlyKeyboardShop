@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.webProject.command.AdminOrderListCommand;
-import com.spring.webProject.command.AdminQnAListCommand;
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.ModifyAdminAnswerQnaCommand;
-import com.spring.webProject.command.adminSendItemModifyCommand;
-import com.spring.webProject.command.adminShippedItemModifyCommand;
+import com.spring.webProject.command.admin.AdminOrderListCommand;
+import com.spring.webProject.command.admin.AdminQnAListCommand;
+import com.spring.webProject.command.admin.ModifyAdminAnswerQnaCommand;
+import com.spring.webProject.command.admin.adminSendItemModifyCommand;
+import com.spring.webProject.command.admin.adminShippedItemModifyCommand;
 import com.spring.webProject.dto.PurchaseListDto;
 import com.spring.webProject.dto.QNABoardDto;
 

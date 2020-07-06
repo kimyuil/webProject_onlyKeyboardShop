@@ -9,13 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.webProject.command.DeleteNoticeCommand;
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.InsertNoticeCommand;
-import com.spring.webProject.command.ModifyNoticeCommand;
-import com.spring.webProject.command.NoticeBoardListCommand;
-import com.spring.webProject.command.NoticeBoardPageCommand;
-import com.spring.webProject.command.NoticeContentViewCommand;
+import com.spring.webProject.command.community.DeleteNoticeCommand;
+import com.spring.webProject.command.community.InsertNoticeCommand;
+import com.spring.webProject.command.community.ModifyNoticeCommand;
+import com.spring.webProject.command.community.NoticeBoardListCommand;
+import com.spring.webProject.command.community.NoticeBoardPageCommand;
+import com.spring.webProject.command.community.NoticeContentViewCommand;
 import com.spring.webProject.dto.NoticeDto;
 
 

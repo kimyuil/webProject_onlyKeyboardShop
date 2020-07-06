@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.webProject.command.FindIdCommand;
-import com.spring.webProject.command.FindPwCommand;
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.IdCheckCommand;
-import com.spring.webProject.command.JoinCommand;
-import com.spring.webProject.command.RenewPwCommand;
+import com.spring.webProject.command.membership.FindIdCommand;
+import com.spring.webProject.command.membership.FindPwCommand;
+import com.spring.webProject.command.membership.IdCheckCommand;
+import com.spring.webProject.command.membership.JoinCommand;
+import com.spring.webProject.command.membership.RenewPwCommand;
 import com.spring.webProject.dto.UserDto;
 
 

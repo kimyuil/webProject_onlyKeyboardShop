@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.OrderListCommand;
-import com.spring.webProject.command.PreventReWriteCheckCommand;
-import com.spring.webProject.command.UserCheckDeliveryCommand;
-import com.spring.webProject.command.WriteReivewCommand;
+import com.spring.webProject.command.membership.OrderListCommand;
+import com.spring.webProject.command.membership.PreventReWriteCheckCommand;
+import com.spring.webProject.command.membership.UserCheckDeliveryCommand;
+import com.spring.webProject.command.membership.WriteReivewCommand;
 import com.spring.webProject.dto.PurchaseListDto;
 
 

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.webProject.command.ICommand;
-import com.spring.webProject.command.ProductCommand;
-import com.spring.webProject.command.ProductPageCommand;
+import com.spring.webProject.command.product.ProductCommand;
+import com.spring.webProject.command.product.ProductPageCommand;
 
 
 /**
