@@ -39,7 +39,7 @@ function showQNAList(){ //qna 게시판 뿌려주는 메소드
 		'</tr>');
 	
 	
-	for(var i=0 ; i<qnaAfterList.length ;i++){ //list 페이지 내용
+	for(var i=qnaAfterList.length-1 ; i>=0 ;i--){ //list 페이지 내용
 				
     	$('#qnaAfterTable').append("<tr class='atr"+i+"'>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
@@ -70,7 +70,7 @@ function QNAList(){ //QNA 게시판 리스트
 	    	for(var i =0;i<data.qnas.length;i++){
 	    		
 	    		var isAnswered="<b>답변대기중</b>";
-	    		if (data.qnas[i].isAnswered==1) isAnswered="답변완료"; //답변완료된건 뿌리지 않음.
+	    		if (data.qnas[i].isAnswered==1) isAnswered="답변완료";
 	    		
 	    		
 	    		var isSecret=false;

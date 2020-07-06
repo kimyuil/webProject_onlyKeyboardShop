@@ -17,10 +17,9 @@ public class UserSecurityDao {
 	 private SqlSessionTemplate sqlSession;
 	 
 	public UserSecurityDto getUserById(String username) throws Exception {
-		System.out.println("security dao"+username);
-		System.out.println(sqlSession.toString());
+		
 		UserSecurityDto user = sqlSession.selectOne("user.selectUserById", username);
-		System.out.println("dbÀÛ¾÷³¡"+user.getuName());
+		
 	    return user;
 	}
 }

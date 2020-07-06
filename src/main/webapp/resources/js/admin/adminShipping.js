@@ -126,7 +126,7 @@ function showLists(){ //실질적인 출력 담당
 			'<td style="width:120px;text-align: center;">후기</td>'+
 		'</tr>');
 	
-	for(var i=0 ; i<afterList.length ;i++){ //list 페이지 내용
+	for(var i=afterList.length-1 ; i>=0 ;i--){ //list 페이지 내용
 		var obj = JSON.stringify(afterList[i]);
 		//alert(obj);
 		$('#afterList').append(

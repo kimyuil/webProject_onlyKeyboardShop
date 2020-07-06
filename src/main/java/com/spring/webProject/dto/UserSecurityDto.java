@@ -13,13 +13,12 @@ public class UserSecurityDto implements UserDetails {
 	String uId;
 	String uPw;
 	String uName;
-	String uPhone;//- 들어와도 빼야함
+	String uPhone;
 	String uBirth;//YYYY-MM-DDs string
 	String uGender; //남자 or 여자 
 	String uEmail;
 	String uAdress;
 	//String uInterestedList;  구현X
-	//int uisAdmin; //0은 일반user 1은 admin
 	int enabled;
 	String authority;
 

@@ -19,8 +19,7 @@ public class UserDetailsCommand implements UserDetailsService {
 		System.out.println("security command");
 		// TODO Auto-generated method stub
 		UserSecurityDto user;
-		if(UserSecurityDao == null)
-			System.out.println("security dao°¡ null");
+		
 		try {
 			user = UserSecurityDao.getUserById(username);
 			
