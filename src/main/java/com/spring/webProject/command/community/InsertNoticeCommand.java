@@ -19,6 +19,7 @@ public class InsertNoticeCommand implements ICommand {
 		NoticeDto notice = (NoticeDto)map.get("notice");
 		
 		int result = dao.insertNoticeBoard(notice);
+		model.addAttribute("result", result==1 ? "success" : null);
 	}
 
 }

@@ -84,6 +84,7 @@ public class ControllerNotice {
 		model.addAttribute("notice", notice);
 		command.execute(sqlSession, model);
 		
+		//model.result -> success or null 체크가능
 		return "redirect:noticeList";
 	}
 	//noticeModifyView 수정 view
@@ -110,6 +111,7 @@ public class ControllerNotice {
 		command = new ModifyNoticeCommand();
 		command.execute(sqlSession, model);
 		
+		//model.result -> success or null 체크가능
 		return "redirect:noticeContentView";
 	}	
 	@RequestMapping(value = "/deleteNotice", method = RequestMethod.POST)
@@ -121,7 +123,8 @@ public class ControllerNotice {
 		
 		command = new DeleteNoticeCommand();
 		command.execute(sqlSession, model);
-
+		
+		//model.result -> success or null 체크가능
 		return "redirect:noticeList?page="+page;
 	}
 }

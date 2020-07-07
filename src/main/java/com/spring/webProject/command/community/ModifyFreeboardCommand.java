@@ -22,12 +22,7 @@ public class ModifyFreeboardCommand implements ICommand {
 		String fbContent = (String) map.get("fbContent");
 		
 		int result = dao.modifyFreeBoard(fbId,fbTitle,fbContent);
-		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
+		model.addAttribute("result", result==1 ? "success" : null);
 	}
 
 }

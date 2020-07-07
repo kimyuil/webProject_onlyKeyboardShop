@@ -20,12 +20,8 @@ public class ModifyAdminAnswerQnaCommand implements ICommand {
 		String qnaAnswer = (String) map.get("qnaAnswer");
 		
 		int result = dao.adminAnswerQnA(qnaId,qnaAnswer);
+		model.addAttribute("result", result);
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
 	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IFreeCommentDao;
+import com.spring.webProject.dto.FreeCommentDto;
 
 public class WrtieReCommentCommand implements ICommand {
 
@@ -16,17 +17,12 @@ public class WrtieReCommentCommand implements ICommand {
 		IFreeCommentDao dao = sqlSession.getMapper(IFreeCommentDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String fbId = (String) map.get("fbId");
-		String cParentId = (String) map.get("cParentId");
-		String cName = (String) map.get("cName");
-		String cPw = (String) map.get("cPw");
-		String cComment = (String) map.get("cComment");
+		FreeCommentDto comment = (FreeCommentDto)map.get("comment");
 		
-		int result = dao.writeReComment(fbId,cParentId,cName,cPw,cComment);
-		if(result==1)
-			model.addAttribute("result", "success");
-		else
-			model.addAttribute("result", null);
+		int result = dao.writeReComment(comment);
+		
+		model.addAttribute("result", result==1?"success":null);
+		
 	}
 
 }

@@ -13,12 +13,12 @@
 	select cPw from freeboard_comment where cId=#{cId}
 </select>
 
-<insert id="writeComment">
+<insert id="writeComment" parameterType="com.spring.webProject.dto.FreeCommentDto">
  	insert into freeboard_comment (fbId, cName, cPw, cComment, cTime, IsReplyComment)
  	values (#{fbId},#{cName},#{cPw},#{cComment},now(),0)
  </insert>
  
- <insert id="writeReComment">
+ <insert id="writeReComment" parameterType="com.spring.webProject.dto.FreeCommentDto">
  	insert into freeboard_comment (fbId,cParentId ,cName, cPw, cComment, cTime, IsReplyComment)
  	values (#{fbId},#{cParentId},#{cName},#{cPw},#{cComment},now(),1)
  </insert>

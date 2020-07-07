@@ -16,14 +16,9 @@ public class DeleteNoticeCommand implements ICommand {
 		INoticeBoardDao dao = sqlSession.getMapper(INoticeBoardDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String nbId = (String) map.get("nbId");
-		int result = dao.deleteNotice(nbId);
+		int result = dao.deleteNotice((String) map.get("nbId"));
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", null);			
-		}
+		model.addAttribute("result", result==1 ? "success" : null );
 	}
 
 }

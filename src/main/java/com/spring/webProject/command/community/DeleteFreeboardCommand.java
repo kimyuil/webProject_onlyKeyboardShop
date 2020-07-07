@@ -17,11 +17,12 @@ public class DeleteFreeboardCommand implements ICommand {
 		// TODO Auto-generated method stub
 		
 		ICommand boardCommand = new DeleteFreeboardItemCommand();
-		ICommand commentCommand = new DeleteCommandByFreeboardCommand();
+		ICommand commentCommand = new DeleteCommentByFreeboardCommand();
 
 		try {
 			boardCommand.execute(sqlSession, model);
 			commentCommand.execute(sqlSession, model);
+			model.addAttribute("result", "success");
 			
 		}catch(Exception e){
 			throw new RuntimeException(e.getMessage());

@@ -19,7 +19,7 @@ public class NoticeBoardListCommand implements ICommand {
 		INoticeBoardDao dao = sqlSession.getMapper(INoticeBoardDao.class);
 		
 		ArrayList<NoticeDto> notices = new ArrayList<NoticeDto>();
-		notices = dao.getNoticeBoardsList();//여기서문제!?
+		notices = dao.getNoticeBoardsList();
 		
 		model.addAttribute("notices", notices);
 	}

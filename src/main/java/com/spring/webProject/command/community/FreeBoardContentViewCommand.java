@@ -20,14 +20,12 @@ public class FreeBoardContentViewCommand implements ICommand {
 		Map<String, Object> map = model.asMap();
 		String fbId = (String) map.get("fbId");
 		
-		int result = dao.clickBoardHit(fbId);
+		dao.clickBoardHit(fbId); //조회수 up
 		
 		FreeBoardDto board = new FreeBoardDto();
 		board = dao.getBoardContent(fbId);
 		
-		
-		
-		model.addAttribute("board", board);
+		model.addAttribute("board", board); //내용 불러오기
 
 	}
 

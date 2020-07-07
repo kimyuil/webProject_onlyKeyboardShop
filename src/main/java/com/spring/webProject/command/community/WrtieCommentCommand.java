@@ -21,7 +21,7 @@ public class WrtieCommentCommand implements ICommand {
 		try {
 			commentCommand.execute(sqlSession, model);
 			boardCommand.execute(sqlSession, model);
-			
+			model.addAttribute("result", "success");
 		}catch(Exception e){
 			throw new RuntimeException(e.getMessage());
 		}

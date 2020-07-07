@@ -52,7 +52,7 @@ public class ControllerAdmin {
 		return "membership/admin/checkQnA";
 	}
 	
-	 //ajax 구매목록 가져오기
+	 //ajax 모든 사용자 구매요청 불러오기
 	@RequestMapping(value = "/getTotalOrderList", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> getTotalOrderList(HttpServletRequest request, Model model)throws Exception {
 		
@@ -85,7 +85,6 @@ public class ControllerAdmin {
 		
 		command = new adminSendItemModifyCommand();
 		String purId = request.getParameter("purId");
-		System.out.println(purId);
 		model.addAttribute("purId", purId);
 		
 		command.execute(sqlSession, model);
@@ -93,13 +92,9 @@ public class ControllerAdmin {
 		Map<String, Object> map = model.asMap();
 						
 		int result = (Integer)map.get("result");
-		System.out.println("result : "+result);
-		if(result==1) {
-			System.out.println("success");
-			return "success";
-		}
-		else
-			return null;
+		
+		return result==1 ?  "success" : null;
+		
 	}
 	@RequestMapping(value = "/adminShippedItemModify", method = RequestMethod.POST)
 	public @ResponseBody String adminShippedItemModify(HttpServletRequest request, Model model)throws Exception {
@@ -108,7 +103,6 @@ public class ControllerAdmin {
 		
 		command = new adminShippedItemModifyCommand();
 		String purId = request.getParameter("purId");
-		System.out.println(purId);
 		model.addAttribute("purId", purId);
 		
 		command.execute(sqlSession, model);
@@ -116,13 +110,8 @@ public class ControllerAdmin {
 		Map<String, Object> map = model.asMap();
 						
 		int result = (Integer)map.get("result");
-		System.out.println("result : "+result);
-		if(result==1) {
-			System.out.println("success");
-			return "success";
-		}
-		else
-			return null;
+		
+		return result==1 ?  "success" : null;
 	}
 
 	// Q&A 리스트 불러오기
@@ -160,11 +149,8 @@ public class ControllerAdmin {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String) map.get("result");
-		if(result=="success")
-			return "success";
-		else
-			return null;
+		int result = (Integer) map.get("result");
+		return result==1 ?  "success" : null;
 		
 	}
 

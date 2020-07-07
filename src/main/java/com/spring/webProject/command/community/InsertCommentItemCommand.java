@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IFreeCommentDao;
+import com.spring.webProject.dto.FreeCommentDto;
 
 @Transactional
 public class InsertCommentItemCommand implements ICommand {
@@ -19,14 +20,11 @@ public class InsertCommentItemCommand implements ICommand {
 		IFreeCommentDao dao = sqlSession.getMapper(IFreeCommentDao.class);
 				
 		Map<String, Object> map = model.asMap();
-		String fbId = (String) map.get("fbId");
-		String cName = (String) map.get("cName");
-		String cPw = (String) map.get("cPw");
-		String cComment = (String) map.get("cComment");
+		FreeCommentDto comment = (FreeCommentDto)map.get("comment");
 		
-		int result = dao.writeComment(fbId,cName,cPw,cComment);
-		if(result==1)
-			model.addAttribute("result", "success");
+		int result = dao.writeComment(comment);
+		
+		if(result==1) return;
 		else {
 			model.addAttribute("result", null);
 			throw new RuntimeException("insert error");

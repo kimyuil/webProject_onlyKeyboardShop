@@ -17,14 +17,12 @@ public class DecreaseFreeboardReplysCommand implements ICommand {
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
 		Map<String, Object> map = model.asMap();
 		String fbId = (String) map.get("fbId");
-		
 		int result = dao.decreaseReplys(fbId);
 		
-		if(result==1)
-			model.addAttribute("result", "ok");
+		if(result==1) return; //success
 		else {
 			model.addAttribute("result", null);
-			throw new RuntimeException("freeboard decrese update error");
+			throw new RuntimeException("freeboard decrease update error");
 		}
 	}
 

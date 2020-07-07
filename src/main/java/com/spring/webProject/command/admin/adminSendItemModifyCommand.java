@@ -16,9 +16,7 @@ public class adminSendItemModifyCommand implements ICommand {
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String purId = (String) map.get("purId");
-		
-		int result = dao.adminSendItem(purId); //success:1 fail:0
+		int result = dao.adminSendItem((String) map.get("purId")); //success:1 fail:0
 		model.addAttribute("result", result);
 	}
 

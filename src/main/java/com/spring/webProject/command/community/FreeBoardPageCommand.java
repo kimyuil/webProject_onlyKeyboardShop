@@ -51,7 +51,7 @@ public class FreeBoardPageCommand implements ICommand {
 		pageInfo.setCurrentPageFirstNum(pageStartNum);
 		pageInfo.setBlockStartNum(blockStartNum);
 		pageInfo.setLastPageNum(totalNum);
-		pageInfo.setRealLastBlockNum(realLastBlockNum);//이게 더 쓸모있는.
+		pageInfo.setRealLastBlockNum(realLastBlockNum);
 		
 		model.addAttribute("pageInfo", pageInfo);
 	}

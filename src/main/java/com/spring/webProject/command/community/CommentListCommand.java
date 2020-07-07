@@ -18,14 +18,14 @@ public class CommentListCommand implements ICommand {
 		// TODO Auto-generated method stub
 		IFreeCommentDao dao = sqlSession.getMapper(IFreeCommentDao.class);
 		
-		ArrayList<FreeCommentDto> temp = new ArrayList<FreeCommentDto>();
-		ArrayList<FreeCommentDto> comments = new ArrayList<FreeCommentDto>();
-		ArrayList<FreeCommentDto> recomments = new ArrayList<FreeCommentDto>();
+		ArrayList<FreeCommentDto> temp = new ArrayList<FreeCommentDto>(),
+				comments = new ArrayList<FreeCommentDto>(),
+				recomments = new ArrayList<FreeCommentDto>();
 		
 		Map<String, Object> map = model.asMap();
 		String fbId = (String)map.get("fbId");
-		
 		temp = dao.FreeboardCommentsList(fbId);
+		
 		for(int i=0;i<temp.size();i++) {
 			if(temp.get(i).getIsReplyComment()==0)
 				comments.add(temp.get(i));

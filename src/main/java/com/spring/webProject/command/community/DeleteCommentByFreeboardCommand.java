@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IFreeCommentDao;
 
-public class DeleteCommandByFreeboardCommand implements ICommand {
+public class DeleteCommentByFreeboardCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws RuntimeException {
@@ -16,11 +16,9 @@ public class DeleteCommandByFreeboardCommand implements ICommand {
 		IFreeCommentDao dao = sqlSession.getMapper(IFreeCommentDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String fbId = (String) map.get("fbId");
-		
-		int result = dao.deleteCommentByFreeboard(fbId);
-		model.addAttribute("result", "ok");
-		//댓글이 없을수도 있다. result가 0이라고 해서 무조건 잘못된게 아님.
+		dao.deleteCommentByFreeboard((String) map.get("fbId"));
+		return;
+		//게시판을 삭제하면서 삭제된 댓글 개수가 여러개 or 0개일 수 있음
 	}
 
 }

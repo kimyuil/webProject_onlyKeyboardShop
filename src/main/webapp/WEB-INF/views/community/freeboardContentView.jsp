@@ -51,8 +51,10 @@ function clickGood(){
 		    async: false,
 		    data: {"fbId" : fbId},
 		    success: function(data){
-		    	$('#clickGood').attr('class','btn btn-danger btn-sm');
-				$('#clickGood').html('추천 ♥');
+		    	if(data=="success"){
+		    		$('#clickGood').attr('class','btn btn-danger btn-sm');
+					$('#clickGood').html('추천 ♥');
+		    	}
 		    },
 		    error: function(data){
 		    	alert("다시시도해주세요");
@@ -67,8 +69,10 @@ function clickGood(){
 		    async: false,
 		    data: {"fbId" : fbId},
 		    success: function(data){
-		    	$('#clickGood').attr('class','btn btn-outline-danger btn-sm');
-				$('#clickGood').html('추천');
+		    	if(data=="success"){
+		    		$('#clickGood').attr('class','btn btn-outline-danger btn-sm');
+					$('#clickGood').html('추천');
+		    	}
 		    },
 		    error: function(data){
 		    	alert("다시시도해주세요");
@@ -281,9 +285,11 @@ function writeComment(){
 	    async: false,
 	    data: {"fbId" : fbId,"cName":cName, "cPw":cPw, "cComment":cComment},
 	    success: function(data){
-	    	alert("댓글 작성완료");
-	    	commentList();
-	    	showComment();
+	    	if (data == "success"){
+	    		alert("댓글 작성완료");
+	    		commentList();
+	    		showComment();
+	    	}
 	    },
 	    error: function(data){
 	    	alert("다시시도해주세요");
@@ -305,9 +311,11 @@ function writeReComment(parrentId){
 	    async: false,
 	    data: {"fbId" : fbId, "cParentId":cParentId,"cName":cName, "cPw":cPw, "cComment":cComment },
 	    success: function(data){
-	    	alert("대댓글 작성완료");
-	    	commentList();
-	    	showComment();
+	    	if(data=="success"){
+	    		alert("대댓글 작성완료");
+	    		commentList();
+	    		showComment();
+	    	}
 	    },
 	    error: function(data){
 	    	alert("다시시도해주세요");
@@ -332,7 +340,7 @@ function modifyComment(cid){
 	    async: false,
 	    data: {"cId" : cid, "cComment":cCommentM },
 	    success: function(data){
-	    	if(data=="ok"){
+	    	if(data=="success"){
 	    		alert("수정완료");
 	    		commentList();
 	    		showComment();	
@@ -359,9 +367,11 @@ function deleteComment(cid){
 	    async: false,
 	    data: {"cId" : cid ,"fbId":fbId},
 	    success: function(data){
-	    	alert("삭제완료");
-	    	commentList();
-	    	showComment();	
+	    	if(data == "success"){
+	    		alert("삭제완료");
+	    		commentList();
+	    		showComment();	
+	    	}
 	    }
 	});
 	

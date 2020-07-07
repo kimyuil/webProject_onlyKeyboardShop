@@ -19,16 +19,14 @@ public class DeleteCommentItemCommand implements ICommand {
 		
 		Map<String, Object> map = model.asMap();
 		String cId = (String) map.get("cId");
-		
 		int result = dao.deleteComment(cId);
 		
 		if(result==0) {
 			model.addAttribute("result", null);
 			throw new RuntimeException("command delete error");
 		}
-		else { //삭제는 1줄 이상 가능하다!
-			model.addAttribute("result", "ok");
-		}
+		else return; //삭제는 1줄 이상 가능하다!
+		
 	}
 
 }

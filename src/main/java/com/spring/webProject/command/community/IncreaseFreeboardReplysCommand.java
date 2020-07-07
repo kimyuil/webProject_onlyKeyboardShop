@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IFreeBoardDao;
 import com.spring.webProject.dao.IProductDao;
+import com.spring.webProject.dto.FreeCommentDto;
 
 @Transactional
 public class IncreaseFreeboardReplysCommand implements ICommand {
@@ -18,12 +19,10 @@ public class IncreaseFreeboardReplysCommand implements ICommand {
 		// TODO Auto-generated method stub
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
 		Map<String, Object> map = model.asMap();
-		String fbId = (String) map.get("fbId");
+		FreeCommentDto comment = (FreeCommentDto)map.get("comment");
+		int result = dao.increaseReplys(Integer.toString(comment.getFbId()));
 		
-		int result = dao.increaseReplys(fbId);
-		
-		if(result==1)
-			model.addAttribute("result", "success");
+		if(result==1) return;
 		else {
 			model.addAttribute("result", null);
 			throw new RuntimeException("freeboard update error");

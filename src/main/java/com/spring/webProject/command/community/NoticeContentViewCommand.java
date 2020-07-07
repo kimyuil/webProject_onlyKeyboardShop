@@ -20,10 +20,10 @@ public class NoticeContentViewCommand implements ICommand {
 		Map<String, Object> map = model.asMap();
 		String nbId = (String) map.get("nbId");
 		
-		int result = dao.clickNoticeHit(nbId);
+		dao.clickNoticeHit(nbId);
 		NoticeDto notice = new NoticeDto();
-		notice = dao.getNoticeContent(nbId);
 		
+		notice = dao.getNoticeContent(nbId);
 		model.addAttribute("notice", notice);
 	}
 

@@ -16,15 +16,9 @@ public class FreeboardLikePlusCommand implements ICommand {
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String fbId = (String)map.get("fbId");
-		
-		int result = dao.likePlus(fbId);
-		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
+			
+		int result = dao.likePlus((String)map.get("fbId"));
+		model.addAttribute("result", result==1 ? "success" : null);
 	}
 
 }

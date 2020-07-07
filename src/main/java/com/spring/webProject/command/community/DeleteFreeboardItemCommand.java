@@ -16,18 +16,13 @@ public class DeleteFreeboardItemCommand implements ICommand {
 	public void execute(SqlSession sqlSession, Model model) throws RuntimeException {
 		// TODO Auto-generated method stub
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
-		
 		Map<String, Object> map = model.asMap();
-		String fbId = (String) map.get("fbId");
-			
-		int result = dao.deleteFreeBoard(fbId);
+		int result = dao.deleteFreeBoard((String) map.get("fbId"));
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
+		if(result==1) return; 
+		else {
+			model.addAttribute("result", null);
 			throw new RuntimeException("freeboard delete error");
-			
 		}
 	}
 

@@ -97,6 +97,7 @@ public class ControllerFreeBoard {
 		model.addAttribute("board", board);
 		command.execute(sqlSession, model);
 		
+		//model.result -> success or null 체크가능
 		return "redirect:freeboardList";
 	}
 	//freeboard 추천버튼
@@ -112,11 +113,7 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
-		if(result=="success")
-			return result;
-		else
-			return null;
+		return (String)map.get("result");
 	}
 	//freeboard 추천 취소버튼
 	@ResponseBody
@@ -131,11 +128,7 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
-		if(result=="success")
-			return result;
-		else
-			return null;
+		return (String)map.get("result");
 	}
 	//freeboardModifyView 수정 view
 	@RequestMapping(value = "/member/freeboardModifyView", method = RequestMethod.POST)
@@ -161,7 +154,7 @@ public class ControllerFreeBoard {
 		command = new ModifyFreeboardCommand();
 		command.execute(sqlSession, model);
 		
-		
+		//model.result -> success or null 체크가능
 		return "redirect:freeboardContentView";
 	}
 	//deleteFreeboard
@@ -181,6 +174,7 @@ public class ControllerFreeBoard {
 			throw new RuntimeException(e.getMessage());			
 		}
 		
+		//model.result 검사 success or null 체크가능
 		return "redirect:freeboardList";
 	}
 	
@@ -197,10 +191,8 @@ public class ControllerFreeBoard {
 
 		command = new CommentListCommand();
 		command.execute(sqlSession, model);//게시판 리스트를 받아옴
-						
 		
 		Map<String, Object> map = model.asMap();
-
 		
 		ArrayList<FreeCommentDto> comments = (ArrayList<FreeCommentDto>)map.get("comments");
 		ArrayList<FreeCommentDto> recomments = (ArrayList<FreeCommentDto>)map.get("recomments");
@@ -216,14 +208,10 @@ public class ControllerFreeBoard {
 	@Transactional
 	@ResponseBody
 	@RequestMapping(value = "/writeComment", method = RequestMethod.POST)
-	public String writeComment(HttpServletRequest request, Model model) throws RuntimeException {
+	public String writeComment(FreeCommentDto comment, Model model) throws RuntimeException {
 		System.out.println("writeComment");
-				
-		model.addAttribute("fbId",request.getParameter("fbId"));
-		model.addAttribute("cName",request.getParameter("cName"));
-		model.addAttribute("cPw",request.getParameter("cPw"));
-		model.addAttribute("cComment",request.getParameter("cComment"));
 		
+		model.addAttribute("comment", comment);
 		command = new WrtieCommentCommand();
 		try {
 			command.execute(sqlSession, model);
@@ -233,30 +221,23 @@ public class ControllerFreeBoard {
 		}  
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
-		
-		return result;
+		return (String)map.get("result");
 		
 	}
 	//ajax comment wirte 대댓글
 	@ResponseBody
 	@RequestMapping(value = "/writeReComment", method = RequestMethod.POST)
-	public String writeReComment(HttpServletRequest request, Model model) throws Exception {
+	public String writeReComment(FreeCommentDto comment, Model model) throws Exception {
 		System.out.println("write ReComment");
 				
-		model.addAttribute("fbId",request.getParameter("fbId"));
-		model.addAttribute("cParentId",request.getParameter("cParentId"));
-		model.addAttribute("cName",request.getParameter("cName"));
-		model.addAttribute("cPw",request.getParameter("cPw"));
-		model.addAttribute("cComment",request.getParameter("cComment"));
-		
+		model.addAttribute("comment", comment);
 		command = new WrtieReCommentCommand();
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
+		return (String)map.get("result");
 		
-		return result;
+		
 		
 	}
 	@ResponseBody  //댓글 비밀번호 확인
@@ -271,9 +252,7 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
-		
-		return result;
+		return (String)map.get("result");
 	}
 	@ResponseBody  //댓글 수정하기
 	@RequestMapping(value = "/modifyComment", method = RequestMethod.POST)
@@ -287,9 +266,8 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
-		
-		return result;
+		int result = (Integer)map.get("result"); //1 or 0
+		return result==1 ? "success" : null;
 	}
 	
 	@Transactional
@@ -311,8 +289,7 @@ public class ControllerFreeBoard {
 		}  
 		
 		Map<String, Object> map = model.asMap();
-		String result = (String)map.get("result");
+		return (String)map.get("result");
 		
-		return result;
 	}
 }

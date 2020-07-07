@@ -20,11 +20,7 @@ public class ModifyCommentCommand implements ICommand {
 		String cComment = (String) map.get("cComment");
 		
 		int result = dao.modifyComment(cId, cComment);
-		
-		if(result==1)
-			model.addAttribute("result", "ok");
-		else
-			model.addAttribute("result", null);
+		model.addAttribute("result",result);
 	}
 
 }

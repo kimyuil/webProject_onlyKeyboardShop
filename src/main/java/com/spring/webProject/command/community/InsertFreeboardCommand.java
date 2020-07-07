@@ -21,6 +21,7 @@ public class InsertFreeboardCommand implements ICommand {
 		FreeBoardDto board = (FreeBoardDto) map.get("board");
 		
 		int result = dao.insertFreeboard(board);
+		model.addAttribute("result", result==1 ? "success" : null);
 	}
 
 }

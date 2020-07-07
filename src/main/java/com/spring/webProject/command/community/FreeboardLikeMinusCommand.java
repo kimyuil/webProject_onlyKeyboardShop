@@ -16,15 +16,10 @@ public class FreeboardLikeMinusCommand implements ICommand {
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String fbId = (String)map.get("fbId");
 		
-		int result = dao.likeMinus(fbId);
+		int result = dao.likeMinus((String)map.get("fbId"));
+		model.addAttribute("result", result==1 ? "success" : null);
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
 	}
 
 }

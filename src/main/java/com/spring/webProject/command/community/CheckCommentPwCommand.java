@@ -21,10 +21,8 @@ public class CheckCommentPwCommand implements ICommand {
 		
 		String RealPw = dao.getCommentPwById(cId);
 		
-		if(RealPw.equals(inputcPw))
-			model.addAttribute("result", "ok");
-		else
-			model.addAttribute("result", null);
+		model.addAttribute("result", RealPw.equals(inputcPw) ? "ok" : null);
+		
 	}
 
 }

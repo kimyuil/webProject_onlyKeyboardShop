@@ -22,12 +22,7 @@ public class ModifyNoticeCommand implements ICommand {
 		String nbContent = (String) map.get("nbContent");
 		
 		int result = dao.modifyNotice(nbId, nbTitle, nbContent);
-		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
+		model.addAttribute("result", result==1 ? "success" : null);
 	}
 
 }

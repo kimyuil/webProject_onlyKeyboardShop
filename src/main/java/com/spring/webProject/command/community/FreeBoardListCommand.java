@@ -15,7 +15,6 @@ public class FreeBoardListCommand implements ICommand {
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
 		// TODO Auto-generated method stub
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
-		
 		ArrayList<FreeBoardDto> boards = new ArrayList<FreeBoardDto>();
 		boards = dao.getBoardsList();
 		

@@ -13,20 +13,20 @@ public class AdminOrderListCommand implements ICommand {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
-		// TODO Auto-generated method stub
+		
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
-		ArrayList<PurchaseListDto> totalList = new ArrayList<PurchaseListDto>(); 
-		ArrayList<PurchaseListDto> beforeCheckList = new ArrayList<PurchaseListDto>();
-		ArrayList<PurchaseListDto> afterCheckList = new ArrayList<PurchaseListDto>();
+		ArrayList<PurchaseListDto> totalList = new ArrayList<PurchaseListDto>(), 
+				beforeCheckList = new ArrayList<PurchaseListDto>(), 
+				afterCheckList = new ArrayList<PurchaseListDto>(); 
 		
 		totalList = dao.getPurchaseListAdmin();
-		for(int i = 0 ; i < totalList.size(); i++) { //사용자 구매확정누른후(후기를 쓸수 있음)
+		for(int i = 0 ; i < totalList.size(); i++) { //사용자 구매확정 & 후기쓴 아이템들
 			if(totalList.get(i).getState().equals(PurchaseListDto.checkedDelivery)||
 					totalList.get(i).getState().equals(PurchaseListDto.writeReview)) {
 				afterCheckList.add(totalList.get(i));
 			}
-			else { //사용자 구매확정버튼 누르기전
+			else { //그이전
 				beforeCheckList.add(totalList.get(i));
 			}
 		}
