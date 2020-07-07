@@ -112,32 +112,28 @@ function moveFocus(num,fromform,toform){
 
 $(document).on("click", "#userCheckButton", function(){
 	
-	var temp = "uId=${user.uId}&uPw=";
-	var uPw = document.getElementById("uPw");
+	var uPw = $('#uPw').val();
 	
-	var query = temp.concat(uPw.value);
+	$.ajax({
+	    url: "/onlyKeyboardShop/userCheck",
+	    type: "POST",
+	    cache: false,
+	    data: {"uId" : "${user.uId}" , "uPw" : uPw },
+	    success: function(data){
+	    	if(data === 'success'){
+				document.querySelector("#result").style.color = "#0377fc";
+				document.querySelector('#result').innerHTML ="인증되었습니다";
+				sessionStorage.setItem("purchaseUserCheck","ok");
+			}
+			else{
+				document.querySelector('#result').style.color = "#fc1c03";
+				document.querySelector('#result').innerHTML ="인증이 실패했습니다";
+				sessionStorage.removeItem("purchaseUserCheck");
+				
+			}
+	    }
+	});
 	
-	
-const xhr = new XMLHttpRequest();
-	
-	xhr.open('POST','/onlyKeyboardShop/userCheck'); //여기는 member/가 붙어서 이렇게..
-	
-	xhr.onreadystatechange=function(){
-	
-		if(xhr.responseText === 'success'){
-			document.querySelector("#result").style.color = "#0377fc";
-			document.querySelector('#result').innerHTML ="인증되었습니다";
-			sessionStorage.setItem("purchaseUserCheck","ok");
-		}
-		else{
-			document.querySelector('#result').style.color = "#fc1c03";
-			document.querySelector('#result').innerHTML ="인증이 실패했습니다";
-			sessionStorage.removeItem("purchaseUserCheck");
-			
-		}
-	}
-	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	xhr.send(query);
 });
 
 

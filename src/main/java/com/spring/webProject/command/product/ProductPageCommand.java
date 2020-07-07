@@ -19,9 +19,8 @@ public class ProductPageCommand implements ICommand {
 		IProductDao dao = sqlSession.getMapper(IProductDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String pId = (String) map.get("pId");
-		
-		ProductDto product = dao.getProduct(pId);
+				
+		ProductDto product = dao.getProduct((String) map.get("pId"));
 		String[] colors = product.getpColors().split(",");
 		
 		model.addAttribute("colorsArray", colors);

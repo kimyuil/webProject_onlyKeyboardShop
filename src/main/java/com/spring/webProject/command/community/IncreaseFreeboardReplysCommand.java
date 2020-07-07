@@ -23,10 +23,8 @@ public class IncreaseFreeboardReplysCommand implements ICommand {
 		int result = dao.increaseReplys(Integer.toString(comment.getFbId()));
 		
 		if(result==1) return;
-		else {
-			model.addAttribute("result", null);
+		else 
 			throw new RuntimeException("freeboard update error");
-		}
 	}
 
 }

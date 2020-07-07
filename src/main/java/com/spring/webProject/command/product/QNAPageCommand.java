@@ -30,7 +30,7 @@ public class QNAPageCommand implements ICommand {
 		int totalNum = dao.listLength(pId);
 		
 		
-		PageDto pageInfo=new PageDto(5,3); //후기게시판 5개씩 3블록으로 표시
+		PageDto pageInfo=new PageDto(5,3); //Q&A 게시판 5개씩 3블록으로 표시
 		int pageStartNum = (page-1)*PageDto.pageCount;
 		int pageLastNum = page*PageDto.pageCount -1;
 		
@@ -57,7 +57,7 @@ public class QNAPageCommand implements ICommand {
 		pageInfo.setCurrentPageFirstNum(pageStartNum);
 		pageInfo.setBlockStartNum(blockStartNum);
 		pageInfo.setLastPageNum(totalNum);
-		pageInfo.setRealLastBlockNum(realLastBlockNum);//이게 더 쓸모있는.
+		pageInfo.setRealLastBlockNum(realLastBlockNum);
 		
 		model.addAttribute("pageInfo", pageInfo);
 

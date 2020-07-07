@@ -21,12 +21,9 @@ public class UserCheckCommand implements ICommand {
 		String id = (String) map.get("id");
 		String pw = (String) map.get("pw");
 		String result = dao.userCheck(id,pw);
-		System.out.println(result);
 		
-		if(result == null)
-			model.addAttribute("result", 0);
-		else
-			model.addAttribute("result", 1);
+		//중복되는 아이디가 없어서 null이 되었다는건 인증실패. 0반환. 아니면 1
+		model.addAttribute("result", result == null ? 0 : 1 );
 		
 	}
 

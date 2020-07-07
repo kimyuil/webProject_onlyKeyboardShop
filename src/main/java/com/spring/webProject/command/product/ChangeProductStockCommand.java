@@ -25,17 +25,16 @@ public class ChangeProductStockCommand implements ICommand {
 		String[] pId = ((String)map.get("pId")).split(",");
 		String[] pNumof = ((String) map.get("pNumof")).split(",");
 		
-		for(int i = 0 ; i < pId.length; i++) {
+		for(int i = 0 ; i < pId.length; i++) 
 			doStock(dao,pId[i], pNumof[i]);
-			
-		}
 		
 	}
 	
 	synchronized void doStock(IProductDao dao,String pId,String pnum) {
 		int result = dao.checkStockAddSelling(pId,pnum);
-		if(result!=1)
-			throw new RuntimeException("No Stock");
+		if(result!=1) {
+			throw new RuntimeException("No Stock transaction");
+		}
 	}
 	
 	

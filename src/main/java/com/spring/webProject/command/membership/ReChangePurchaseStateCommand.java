@@ -21,10 +21,9 @@ public class ReChangePurchaseStateCommand implements ICommand {
 		int result = dao.reChangeUserState((String) map.get("purId"));
 		
 		if(result==1) return ;
-		else {
-			model.addAttribute("result", null);
+		else 
 			throw new RuntimeException("purchaseList state Rechange error transaction");
-		}
+		
 
 	}
 

@@ -32,11 +32,9 @@ public class InsertPurchaseCommand implements ICommand {
 		String[] pNumof = ((String) map.get("pNumof")).split(",");
 		String state = PurchaseListDto.purchased;
 		
-		for(int i = 0 ; i < pId.length; i++) {
-			System.out.println(i+"번째 실행");
+		for(int i = 0 ; i < pId.length; i++) 
 			doPurchase(dao,uId, uName, uAdress, uPhone, deliverMessage, pId[i], pName[i], pColor[i], pImage[i], pNumof[i],state);
-		}
-
+		
 	}
 	
 	synchronized void doPurchase(IPurchaseListDao dao,String uId,String uName,String uAdress,String uPhone,String deliverMessage,String pId,String pName,String pColor,String pImage,String pNumof,String state) {

@@ -3,6 +3,7 @@ package com.spring.webProject.command.membership;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.command.ICommand;
@@ -28,6 +29,9 @@ public class DeleteUserInfoCommand implements ICommand {
 		
 		int deleteResult = dao.deleteUser(uId);
 		model.addAttribute("result", deleteResult==1 ? "success" : "error");
+		
+		if (deleteResult == 1)
+			SecurityContextHolder.clearContext();
 	}
 
 }

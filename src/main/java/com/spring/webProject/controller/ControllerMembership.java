@@ -60,10 +60,10 @@ public class ControllerMembership {
 	public String findPw(HttpServletRequest request, Model model)throws Exception {
 		System.out.println("findPw");
 		
-		command = new FindPwCommand();
 		model.addAttribute("email",request.getParameter("email") );
 		model.addAttribute("id",request.getParameter("id") );
 		
+		command = new FindPwCommand();
 		command.execute(sqlSession, model);
 		
 		return "membership/findResultPw";
@@ -74,23 +74,11 @@ public class ControllerMembership {
 		
 		command = new RenewPwCommand();
 		model.addAttribute("pw",request.getParameter("uPw") );
-		model.addAttribute("id",request.getParameter("id") );//미정
+		model.addAttribute("id",request.getParameter("id") );
 				
 		command.execute(sqlSession, model);
 		
 		return "membership/login";
-	}
-	
-	//로그아웃
-	@RequestMapping(value = "/member/home", method = RequestMethod.GET)
-	public String logout(Locale locale, Model model) {
-		System.out.println("logout");
-		return "home";
-	}
-	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-	public String logout2(Locale locale, Model model) {
-		System.out.println("logout2");
-		return "home";
 	}
 	
 	
@@ -120,8 +108,7 @@ public class ControllerMembership {
 		
 		command = new IdCheckCommand();
 		
-		String id = request.getParameter("uId");
-		model.addAttribute("id", id);
+		model.addAttribute("id", request.getParameter("uId"));
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
@@ -138,6 +125,4 @@ public class ControllerMembership {
 		
 		return "membership/errorPage";
 	}
-	
-
 }

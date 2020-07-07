@@ -51,18 +51,15 @@ public class ControllerMypageBoard {
 		
 		command = new UserReviewListCommand();
 		
-		String id = request.getParameter("uId");
-		model.addAttribute("uId", id);
+		model.addAttribute("uId", request.getParameter("uId"));
 		command.execute(sqlSession, model);
-		
-		
-		
-		  Map<String, Object> map = model.asMap();
+	
+		Map<String, Object> map = model.asMap();
 
-		  ArrayList<ReviewBoardDto> reviewList = (ArrayList<ReviewBoardDto>)map.get("reviews");
-		  Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
-		  result.put("reviews", reviewList);
-		  return result;
+		ArrayList<ReviewBoardDto> reviewList = (ArrayList<ReviewBoardDto>)map.get("reviews");
+		Map<String,Object> result = new HashMap<String, Object>();// 반환할 결과물
+		result.put("reviews", reviewList);
+		return result;
 	}
 	
 	//리뷰수정버튼클릭 (리뷰수정창 팝업)
@@ -89,7 +86,6 @@ public class ControllerMypageBoard {
 		command = new ModifyReivewCommand();
 		command.execute(sqlSession, model);
 
-
 		Map<String, Object> map = model.asMap();
 		String result = (String)map.get("result");
 		model.addAttribute("submit", result=="success" ? "success" : "error");
@@ -105,10 +101,8 @@ public class ControllerMypageBoard {
 		
 		command = new DeleteUserReviewCommand();
 		
-		String reId = request.getParameter("reId");
-		String purId = request.getParameter("purId");
-		model.addAttribute("reId", reId);
-		model.addAttribute("purId", purId);
+		model.addAttribute("reId", request.getParameter("reId"));
+		model.addAttribute("purId", request.getParameter("purId"));
 		
 		try {
 		command.execute(sqlSession, model);
@@ -119,7 +113,7 @@ public class ControllerMypageBoard {
 		
 		Map<String, Object> map = model.asMap();
 		String result = (String)map.get("result");
-		return result;
+		return result; //success or null
 		
 	}
 	
@@ -131,8 +125,7 @@ public class ControllerMypageBoard {
 		
 		command = new UserQnAListCommand();
 		
-		String id = request.getParameter("uId");
-		model.addAttribute("uId", id);
+		model.addAttribute("uId", request.getParameter("uId"));
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
@@ -147,7 +140,6 @@ public class ControllerMypageBoard {
 	public String userModifyQnaView(HttpServletRequest request,Model model) throws Exception {
 		System.out.println("userModifyQnaView");
 		
-		
 		model.addAttribute("qnaId", request.getParameter("qnaId"));
 		model.addAttribute("pId", request.getParameter("pId"));
 		model.addAttribute("pName", request.getParameter("pName"));
@@ -155,11 +147,8 @@ public class ControllerMypageBoard {
 		model.addAttribute("qnaContent", request.getParameter("qnaContent"));
 		model.addAttribute("isSecret", request.getParameter("isSecret"));
 		model.addAttribute("isFromMypage", "true");
-		//update from qna set title=~,content=~ isSecret=~ where qnaId = !
 		
 		return "product/QnaModifyView";
-		
-		//command.execute(sqlSession, model); //이전에 작성한 리뷰정보 가져오기
 	}
 	
 	//Q&A DB 테이블로 update
@@ -206,8 +195,7 @@ public class ControllerMypageBoard {
 		
 		command = new UserFreeboardListCommand();
 		
-		String id = request.getParameter("uId");
-		model.addAttribute("uId", id);
+		model.addAttribute("uId", request.getParameter("uId"));
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();

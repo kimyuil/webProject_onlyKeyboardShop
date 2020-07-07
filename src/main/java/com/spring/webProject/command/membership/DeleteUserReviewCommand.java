@@ -26,6 +26,7 @@ public class DeleteUserReviewCommand implements ICommand {
 			model.addAttribute("result", "success");
 		}
 		catch(Exception e){
+			model.addAttribute("result", null);
 			throw new RuntimeException(e.getMessage());
 		}
 		

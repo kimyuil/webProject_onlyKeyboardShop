@@ -53,11 +53,8 @@ public class ControllerNotice {
 	public String noticeContentView(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("noticeContentView");
 		
-		String nbId = request.getParameter("nbId");
-		String page = request.getParameter("page");
-		
-		model.addAttribute("nbId", nbId);
-		model.addAttribute("page", page);
+		model.addAttribute("nbId", request.getParameter("nbId"));
+		model.addAttribute("page", request.getParameter("page"));
 				
 		command = new NoticeContentViewCommand();
 		command.execute(sqlSession, model);
@@ -70,13 +67,13 @@ public class ControllerNotice {
 	public String noticeWriteView(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("noticeWriteView (admin)");
 	
-		String page = request.getParameter("page");
-		model.addAttribute("page", page);	
+		model.addAttribute("page", request.getParameter("page"));	
 		
 		return "community/NoticeWriteView";
 	}
+	
 	//공지사항 글쓰기 (admin) db입력
-	@RequestMapping(value = "/noticeWrite ", method = RequestMethod.POST)
+	@RequestMapping(value = "/noticeWrite", method = RequestMethod.POST)
 	public String freeboardWrite(NoticeDto notice , Model model) throws Exception {
 		System.out.println("freeboardWrite");
 		
@@ -98,7 +95,7 @@ public class ControllerNotice {
 		model.addAttribute("nbContent", request.getParameter("nbContent"));
 		return "community/NoticeModifyView";
 	}
-	// 자유게시글 수정
+	// 공지게시글 수정
 	@RequestMapping(value = "/modifyNotice", method = RequestMethod.POST)
 	public String modifyNotice(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("modifyNotice");

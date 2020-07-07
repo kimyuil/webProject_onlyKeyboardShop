@@ -20,10 +20,9 @@ public class DeleteFreeboardItemCommand implements ICommand {
 		int result = dao.deleteFreeBoard((String) map.get("fbId"));
 		
 		if(result==1) return; 
-		else {
-			model.addAttribute("result", null);
+		else
 			throw new RuntimeException("freeboard delete error");
-		}
+		
 	}
 
 }

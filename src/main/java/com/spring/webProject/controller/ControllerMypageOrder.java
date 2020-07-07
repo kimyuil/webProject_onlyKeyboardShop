@@ -39,16 +39,14 @@ public class ControllerMypageOrder {
 			
 		return "membership/mypage/lookupOrder";
 	}
-	  //ajax 구매목록 가져오기
+	//ajax 구매목록 가져오기
 	@RequestMapping(value = "/getOrderList", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> reviewList(HttpServletRequest request, Model model)throws Exception {
 		
 		System.out.println("getOrderList");
 		
 		command = new OrderListCommand();
-		String uId = request.getParameter("uId");
-		System.out.println(uId);
-		model.addAttribute("uId", uId);
+		model.addAttribute("uId", request.getParameter("uId"));
 		
 		command.execute(sqlSession, model);
 		
@@ -119,7 +117,6 @@ public class ControllerMypageOrder {
 		
 		command = new WriteReivewCommand();
 		try {
-			
 			command.execute(sqlSession, model);
 		}
 		catch(Exception e) {

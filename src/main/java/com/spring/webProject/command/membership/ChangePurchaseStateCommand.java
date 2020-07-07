@@ -25,10 +25,9 @@ public class ChangePurchaseStateCommand implements ICommand {
 		int result = dao.changeUserState(Integer.toString(review.getPurId()));
 		
 		if(result==1) return;
-		else {
-			model.addAttribute("result", "fail");
+		else 
 			throw new RuntimeException("stateChange error");
-		}
+		
 					
 	}
 

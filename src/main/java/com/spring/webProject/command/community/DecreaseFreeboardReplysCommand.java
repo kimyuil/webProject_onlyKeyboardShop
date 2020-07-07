@@ -20,10 +20,9 @@ public class DecreaseFreeboardReplysCommand implements ICommand {
 		int result = dao.decreaseReplys(fbId);
 		
 		if(result==1) return; //success
-		else {
-			model.addAttribute("result", null);
+		else 
 			throw new RuntimeException("freeboard decrease update error");
-		}
+
 	}
 
 }

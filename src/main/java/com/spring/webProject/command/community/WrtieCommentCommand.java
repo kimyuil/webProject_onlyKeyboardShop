@@ -23,6 +23,7 @@ public class WrtieCommentCommand implements ICommand {
 			boardCommand.execute(sqlSession, model);
 			model.addAttribute("result", "success");
 		}catch(Exception e){
+			model.addAttribute("result", null);
 			throw new RuntimeException(e.getMessage());
 		}
 	

@@ -85,12 +85,9 @@ public class ControllerMypageOthers {
 		Map<String, Object> map = model.asMap();
 		String result = (String) map.get("result");
 		
-		if(result=="success") {
-			SecurityContextHolder.clearContext();
-			return "membership/mypage/deleteInfoComplete";
-		}
-		else
-			return "membership/mypage/deleteInfo";
+		return result=="success" ? "membership/mypage/deleteInfoComplete" 
+				: "membership/mypage/deleteInfo";  
+		
 		
 		
 	}

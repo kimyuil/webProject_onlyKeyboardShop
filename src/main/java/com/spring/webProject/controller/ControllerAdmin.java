@@ -39,13 +39,13 @@ public class ControllerAdmin {
 		return "membership/admin/adminpage";
 	}
 	
-	//check Order
+	//check Order page
 	@RequestMapping(value = "/admin/checkOrder", method = RequestMethod.GET)
 	public String checkOrder(Model model) {
 		System.out.println("checkOrder");	
 		return "membership/admin/checkOrder";
 	}
-	//check Order
+	//check Q&A page
 	@RequestMapping(value = "/admin/checkQnA", method = RequestMethod.GET)
 	public String checkQnA(Model model) {
 		System.out.println("checkQnA");	
@@ -78,14 +78,14 @@ public class ControllerAdmin {
 		
 	}
 	
+	// admin 발송버튼
 	@RequestMapping(value = "/adminSendItemModify", method = RequestMethod.POST)
 	public @ResponseBody String adminSendItemModify(HttpServletRequest request, Model model)throws Exception {
 		
 		System.out.println("adminSendItemModify");
 		
 		command = new adminSendItemModifyCommand();
-		String purId = request.getParameter("purId");
-		model.addAttribute("purId", purId);
+		model.addAttribute("purId", request.getParameter("purId"));
 		
 		command.execute(sqlSession, model);
 		
@@ -96,14 +96,14 @@ public class ControllerAdmin {
 		return result==1 ?  "success" : null;
 		
 	}
+	// admin 발송완료버튼
 	@RequestMapping(value = "/adminShippedItemModify", method = RequestMethod.POST)
 	public @ResponseBody String adminShippedItemModify(HttpServletRequest request, Model model)throws Exception {
 		
 		System.out.println("adminShippedItemModify");
 		
 		command = new adminShippedItemModifyCommand();
-		String purId = request.getParameter("purId");
-		model.addAttribute("purId", purId);
+		model.addAttribute("purId", request.getParameter("purId"));
 		
 		command.execute(sqlSession, model);
 		
@@ -122,8 +122,7 @@ public class ControllerAdmin {
 		
 		command = new AdminQnAListCommand();
 		
-		String id = request.getParameter("uId");
-		model.addAttribute("uId", id);
+		model.addAttribute("uId", request.getParameter("uId"));
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
@@ -134,9 +133,8 @@ public class ControllerAdmin {
 		return result;
 	}
 	
-	//adminQnaAnswer
-
-	//Q&A DB 테이블로 update
+	
+	//Q&A DB 테이블로 update 답변하기 기능 ajax
 	@ResponseBody
 	@RequestMapping(value = "/adminQnaAnswer", method = RequestMethod.POST)
 	public String adminQnaAnswer(HttpServletRequest request, Model model) throws Exception {

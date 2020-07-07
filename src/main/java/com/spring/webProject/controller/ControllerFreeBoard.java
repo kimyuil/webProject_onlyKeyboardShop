@@ -67,11 +67,8 @@ public class ControllerFreeBoard {
 	public String freeboardContentView(HttpServletRequest request , Model model) throws Exception {
 		System.out.println("freeboardContentView");
 		
-		String fbId = request.getParameter("fbId");
-		String page = request.getParameter("page");
-		
-		model.addAttribute("fbId", fbId);
-		model.addAttribute("page", page);
+		model.addAttribute("fbId", request.getParameter("fbId"));
+		model.addAttribute("page", request.getParameter("page"));
 				
 		command = new FreeBoardContentViewCommand();
 		command.execute(sqlSession, model);
@@ -88,7 +85,7 @@ public class ControllerFreeBoard {
 		
 		return "community/freeboardWriteView";
 	}
-	//freeboardWrite 글쓰기 db입력
+	//freeboardWrite  db입력
 	@RequestMapping(value = "/freeboardWrite", method = RequestMethod.POST)
 	public String freeboardWrite(FreeBoardDto board , Model model) throws Exception {
 		System.out.println("freeboardWrite");
@@ -113,7 +110,7 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		return (String)map.get("result");
+		return (String)map.get("result"); //success or null
 	}
 	//freeboard 추천 취소버튼
 	@ResponseBody
@@ -128,7 +125,7 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		return (String)map.get("result");
+		return (String)map.get("result"); //success or null
 	}
 	//freeboardModifyView 수정 view
 	@RequestMapping(value = "/member/freeboardModifyView", method = RequestMethod.POST)
@@ -178,16 +175,16 @@ public class ControllerFreeBoard {
 		return "redirect:freeboardList";
 	}
 	
+	
 	// comment~~~~~~~~~~~~~~~
 	
-	//ajax로 댓글정보 전송
+	//ajax로 댓글리스트 뿌리기
 	@RequestMapping(value = "/commentList", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> commentList(HttpServletRequest request, Model model)throws Exception {
 		
 		System.out.println("commentList");
 		
-		String fbId = request.getParameter("fbId");
-		model.addAttribute("fbId", fbId);
+		model.addAttribute("fbId", request.getParameter("fbId"));
 
 		command = new CommentListCommand();
 		command.execute(sqlSession, model);//게시판 리스트를 받아옴
@@ -221,7 +218,7 @@ public class ControllerFreeBoard {
 		}  
 		
 		Map<String, Object> map = model.asMap();
-		return (String)map.get("result");
+		return (String)map.get("result"); //success or null
 		
 	}
 	//ajax comment wirte 대댓글
@@ -235,11 +232,9 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		return (String)map.get("result");
-		
-		
-		
+		return (String)map.get("result"); //success or null
 	}
+	
 	@ResponseBody  //댓글 비밀번호 확인
 	@RequestMapping(value = "/checkCommentPw", method = RequestMethod.POST)
 	public String checkCommentPw(HttpServletRequest request, Model model) throws Exception {
@@ -252,7 +247,7 @@ public class ControllerFreeBoard {
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		return (String)map.get("result");
+		return (String)map.get("result"); //ok or null
 	}
 	@ResponseBody  //댓글 수정하기
 	@RequestMapping(value = "/modifyComment", method = RequestMethod.POST)
@@ -289,7 +284,7 @@ public class ControllerFreeBoard {
 		}  
 		
 		Map<String, Object> map = model.asMap();
-		return (String)map.get("result");
+		return (String)map.get("result"); // success or null
 		
 	}
 }

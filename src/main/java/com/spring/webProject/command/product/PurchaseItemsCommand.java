@@ -26,8 +26,10 @@ public class PurchaseItemsCommand implements ICommand {
 		try {
 		productCommand.execute(sqlSession, model);//재고줄이고 판매량늘리기
 		purchaseCommand.execute(sqlSession, model);//구매목록 db에 insert
+		model.addAttribute("result", "success");
 		}
 		catch(Exception e){
+			model.addAttribute("result", null);
 			throw new RuntimeException(e.getMessage());
 		}
 		

@@ -64,7 +64,7 @@ public class ControllerProduct {
 	@Transactional
 	@RequestMapping(value = "member/buyAction", method = RequestMethod.POST)
 	public String buyAction(HttpServletRequest request, Model model) throws RuntimeException {
-		System.out.println("buyAction test page");
+		System.out.println("buyAction test page"); //여러 레코드를 입력해야 할 수 있으므로 객체로 받지 못함
 		
 		command = new PurchaseItemsCommand();
  
@@ -73,7 +73,8 @@ public class ControllerProduct {
 		model.addAttribute("uAdress", request.getParameter("uAdress"));
 		model.addAttribute("uPhone", request.getParameter("uPhone"));
 		model.addAttribute("deliverMessage", request.getParameter("deliverMessage"));
-		model.addAttribute("pId", request.getParameter("pId"));
+		
+		model.addAttribute("pId", request.getParameter("pId")); //여러개 상품 한번에 구매할때    , 로 구분되어 전송
 		model.addAttribute("pName", request.getParameter("pName"));
 		model.addAttribute("pColor", request.getParameter("pColor"));
 		model.addAttribute("pImage", request.getParameter("pImage"));
@@ -88,12 +89,10 @@ public class ControllerProduct {
 		
 		
 		Map<String, Object> map = model.asMap();
-		String error = (String) map.get("error");
+		String result = (String) map.get("result");
 		
-		if(error!=null) // 에러가 있으면
-			return "home";
-		else
-			return "product/buySuccess";
+		return result=="success" ? "product/buySuccess" :"home";  
+		
 	}
 	
 	  //ajax 후기 게시판 정보전송
@@ -104,8 +103,7 @@ public class ControllerProduct {
 		
 		command = new ReviewListCommand();
 		
-		String pId = request.getParameter("pId");
-		model.addAttribute("pId", pId);
+		model.addAttribute("pId", request.getParameter("pId"));
 		
 		command.execute(sqlSession, model); //게시판 리스트를 받아옴
 		
@@ -135,24 +133,15 @@ public class ControllerProduct {
 		
 		command = new UserCheckCommand();
 		
-		String id = request.getParameter("uId");
-		model.addAttribute("id", id);
-		String pw = request.getParameter("uPw");
-		model.addAttribute("pw", pw);
+		model.addAttribute("id", request.getParameter("uId"));
+		model.addAttribute("pw", request.getParameter("uPw"));
 		
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
-		Integer result = (Integer) map.get("result");
+		Integer result = (Integer) map.get("result"); //1 or 0 
 		
-		if(result == 1) {
-			System.out.println("success");
-			return "success";
-		}
-		else {
-			System.out.println("fail");
-			return "fail";
-		}
+		return result == 1 ? "success" : null;
 
 	}
 	
@@ -175,7 +164,6 @@ public class ControllerProduct {
 		command = new QNAPageCommand(Integer.parseInt(page));
 		command.execute(sqlSession, model);
 				
-		
 		Map<String, Object> map = model.asMap();
 				
 		ArrayList<QNABoardDto> qnas = (ArrayList<QNABoardDto>)map.get("qnas");//게시판리스트들
@@ -210,6 +198,8 @@ public class ControllerProduct {
 		model.addAttribute("qna", qna);
 		command = new WriteQnaCommand();
 		command.execute(sqlSession, model);
+		
+		//model.result -> success or null 체크가능
 		return "redirect:productPage?pId="+qna.getpId();
 	}
 	
@@ -224,7 +214,6 @@ public class ControllerProduct {
 		model.addAttribute("qnaTitle", request.getParameter("qnaTitle"));
 		model.addAttribute("qnaContent", request.getParameter("qnaContent"));
 		model.addAttribute("isSecret", request.getParameter("isSecret"));
-		//update from qna set title=~,content=~ isSecret=~ where qnaId = !
 		
 		return "product/QnaModifyView";
 	}
@@ -254,8 +243,7 @@ public class ControllerProduct {
 		System.out.println("Do deleteQna");
 		
 		String pId = request.getParameter("pId");
-		String qnaId = request.getParameter("qnaId");
-		model.addAttribute("qnaId",qnaId);
+		model.addAttribute("qnaId",request.getParameter("qnaId"));
 		
 		command = new DeleteQnaCommand();
 		command.execute(sqlSession, model);

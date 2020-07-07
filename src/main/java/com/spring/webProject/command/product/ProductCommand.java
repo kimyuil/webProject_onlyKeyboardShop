@@ -23,7 +23,6 @@ public class ProductCommand implements ICommand {
 		
 		ArrayList<ProductDto> products = dao.listProduct(category);
 		
-				
 		model.addAttribute("products", products);
 	}
 

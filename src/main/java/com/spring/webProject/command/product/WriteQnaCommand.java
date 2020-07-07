@@ -20,6 +20,7 @@ public class WriteQnaCommand implements ICommand {
 		QNABoardDto qna = (QNABoardDto) map.get("qna");
 		
 		int result = dao.insertQna(qna);
+		model.addAttribute("result", result==1 ? "success" : null);
 		
 	}
 

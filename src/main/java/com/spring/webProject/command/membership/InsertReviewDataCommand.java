@@ -25,10 +25,9 @@ public class InsertReviewDataCommand implements ICommand {
 		int result = dao.writeReivew(review);
 		
 		if(result==1) return;
-		else {
-			model.addAttribute("result", null);
+		else 
 			throw new RuntimeException("insert error");
-		}
+		
 				
 	}
 

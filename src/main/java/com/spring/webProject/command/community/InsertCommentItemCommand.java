@@ -25,10 +25,9 @@ public class InsertCommentItemCommand implements ICommand {
 		int result = dao.writeComment(comment);
 		
 		if(result==1) return;
-		else {
-			model.addAttribute("result", null);
+		else 
 			throw new RuntimeException("insert error");
-		}
+		
 
 	}
 

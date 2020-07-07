@@ -20,11 +20,11 @@ public class DeleteOneReviewDataCommand implements ICommand {
 		Map<String, Object> map = model.asMap();
 				
 		int result = dao.deleteReivew((String) map.get("reId"));
+		
 		if(result==1) return;
-		else {
-			model.addAttribute("result", null);
+		else 
 			throw new RuntimeException("review Delete error transaction");
-		}
+		
 	}
 
 }
