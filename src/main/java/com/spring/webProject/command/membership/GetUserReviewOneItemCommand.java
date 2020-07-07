@@ -9,7 +9,7 @@ import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IReviewDao;
 import com.spring.webProject.dto.ReviewBoardDto;
 
-public class GetUserReviewOneItemCommand implements ICommand {
+public class GetUserReviewOneItemCommand implements ICommand { //¸®ºä¼öÁ¤ÇÒ¶§ ¾²ÀÓ ÆË¾÷
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) throws Exception {
@@ -17,10 +17,9 @@ public class GetUserReviewOneItemCommand implements ICommand {
 		IReviewDao dao = sqlSession.getMapper(IReviewDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String reId = (String) map.get("reId");
-		
+				
 		ReviewBoardDto review = new ReviewBoardDto();
-		review = dao.getUserReviewOneItem(reId);
+		review = dao.getUserReviewOneItem((String) map.get("reId"));
 		model.addAttribute("review", review);
 	}
 

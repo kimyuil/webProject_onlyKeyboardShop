@@ -78,7 +78,7 @@ public class ControllerMembership {
 				
 		command.execute(sqlSession, model);
 		
-		return "membership/login";//미정
+		return "membership/login";
 	}
 	
 	//로그아웃
@@ -108,7 +108,8 @@ public class ControllerMembership {
 		command = new JoinCommand();
 		model.addAttribute("user",user);
 		command.execute(sqlSession, model);
-
+		
+		//model.result -> success or null 체크가능
 		return "redirect:login";
 	}
 	
@@ -126,10 +127,7 @@ public class ControllerMembership {
 		Map<String, Object> map = model.asMap();
 		Integer result = (Integer) map.get("result");
 		
-		if(result == 1)
-			return "success";
-		else
-			return "fail";
+		return result == 1 ? "ok" : null;
 
 	}
 		

@@ -3,6 +3,7 @@ package com.spring.webProject.command.membership;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 
 import com.spring.webProject.command.ICommand;
@@ -26,11 +27,10 @@ public class ModifyUserInfoCommand implements ICommand {
 		
 		int result = dao.modifyUserInfo(uId,uPw,uEmail,uAdress,uPhone);
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
+		model.addAttribute("result", result==1 ? "success" : "error" );
+		
+		if(result == 1) //강제 로그아웃 시키기
+			SecurityContextHolder.clearContext();
 		
 	}
 

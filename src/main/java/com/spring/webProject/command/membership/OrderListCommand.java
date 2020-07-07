@@ -18,14 +18,14 @@ public class OrderListCommand implements ICommand {
 		// TODO Auto-generated method stub
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
-		ArrayList<PurchaseListDto> totalList = new ArrayList<PurchaseListDto>(); 
-		ArrayList<PurchaseListDto> beforeCheckList = new ArrayList<PurchaseListDto>();
-		ArrayList<PurchaseListDto> afterCheckList = new ArrayList<PurchaseListDto>();
+		ArrayList<PurchaseListDto> totalList = new ArrayList<PurchaseListDto>(), 
+				beforeCheckList = new ArrayList<PurchaseListDto>(),
+				afterCheckList = new ArrayList<PurchaseListDto>();
 		
 		Map<String, Object> map = model.asMap();
-		String uId = (String)map.get("uId");
+			
+		totalList = dao.getUserPurchaseList((String)map.get("uId"));
 		
-		totalList = dao.getUserPurchaseList(uId);
 		for(int i = 0 ; i < totalList.size(); i++) { //사용자 구매확정누른후(후기를 쓸수 있음)
 			if(totalList.get(i).getState().equals(PurchaseListDto.checkedDelivery)||
 					totalList.get(i).getState().equals(PurchaseListDto.writeReview)) {

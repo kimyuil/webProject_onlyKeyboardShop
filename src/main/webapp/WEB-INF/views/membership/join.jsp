@@ -5,7 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script> -->
+
 <script src="/onlyKeyboardShop/resources/js/joinActions.js"></script>
 
 
@@ -27,8 +30,8 @@
 	    <samll><span id="result"></span></samll>
 	  </div>
 	  <div class="form-group col-md-3">
-	    <br>
-	    <button type="button" class="btn btn-primary" id="idCheckButton" onclick="javascript:idCheck()" >id<br>확인</button>
+	    <br><!-- 아이디중복확인 -->
+	    <button type="button" class="btn btn-primary" id="idCheckButton"  >id<br>확인</button> <!-- onclick="javascript:idCheck()" -->
 	  </div>
 	   
 	</div>
@@ -46,7 +49,7 @@
   <div class="form-group">
     <label for="name">이름</label>
     <input type="text" class="form-control" id="name" name="uName" placeholder="이름">
-          <!-- 아이디중복확인 -->
+          
   </div>
   <div class="form-group">
     <label for="phone">전화번호</label>

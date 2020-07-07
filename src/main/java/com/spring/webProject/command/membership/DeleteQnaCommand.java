@@ -17,16 +17,11 @@ public class DeleteQnaCommand implements ICommand {
 		IQNADao dao = sqlSession.getMapper(IQNADao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String qnaId = (String) map.get("qnaId");
+			
+		int result = dao.deleteQNA((String) map.get("qnaId"));
 		
-		int result = dao.deleteQNA(qnaId);
+		model.addAttribute("result", result==1 ? "success" : null);
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		
-		}
 	}
 
 }

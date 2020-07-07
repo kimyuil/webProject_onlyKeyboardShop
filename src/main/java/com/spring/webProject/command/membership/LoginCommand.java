@@ -9,7 +9,8 @@ import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IUserDao;
 import com.spring.webProject.dto.UserDto;
 
-public class LoginCommand implements ICommand {
+//no use or Spring Security use
+public class LoginCommand implements ICommand { 
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) {
@@ -24,9 +25,6 @@ public class LoginCommand implements ICommand {
 		String uName = dao.loginAction(uId,uPw);
 		model.addAttribute("uName", uName);
 
-		//로그인 이후는? 페이지에 이름띄어주기해야하는데 그냥 name값 세션에 넣으면 끝
-		//uId만 있으면 구매도 장바구니도 게시판글쓰기도 모두 가능함.
-		//name과 uId만 받아오면 되고.. null이면 로그인실패인것..		
 	}
 
 }

@@ -13,11 +13,11 @@
 var grade;
 $(document).ready(function(){
 	
-	if("${submit}"=="true"){
+	if("${submit}"=="success"){
 		alert("작성이 완료되었습니다. 감사합니다");
 		self.close();
 	}
-	else if("${submit}"=="fail"){
+	else if("${submit}"=="error"){
 		alert("실패. 다시 시도해주세요");
 	}
 	
@@ -105,7 +105,6 @@ function reviewWrite(){
 <input type="hidden" name="pColor" id="pColor" value="${pColor}"/>
 <input type="hidden" name="uName" id="uName" value="${uName}"/>
 <input type="hidden" name="reGrade" id="reGrade"/>
-<input type="hidden" name="submit" value="true"/>
 </form>
 
 

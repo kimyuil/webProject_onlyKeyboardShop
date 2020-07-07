@@ -21,11 +21,7 @@ public class ModifyReivewCommand implements ICommand {
 		String reGrade = (String) map.get("reGrade");
 		
 		int result = dao.modifyReivew(reId,reContent,reGrade);
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
+		model.addAttribute("result", result==1 ? "success" : null );
 	}
 
 }

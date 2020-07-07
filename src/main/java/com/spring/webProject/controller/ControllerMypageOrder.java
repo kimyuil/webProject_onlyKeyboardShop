@@ -20,6 +20,7 @@ import com.spring.webProject.command.membership.PreventReWriteCheckCommand;
 import com.spring.webProject.command.membership.UserCheckDeliveryCommand;
 import com.spring.webProject.command.membership.WriteReivewCommand;
 import com.spring.webProject.dto.PurchaseListDto;
+import com.spring.webProject.dto.ReviewBoardDto;
 
 
 @Controller
@@ -70,20 +71,16 @@ public class ControllerMypageOrder {
 		System.out.println("User check Delivery");
 		
 		command = new UserCheckDeliveryCommand();
-		String purId = request.getParameter("purId");
-		System.out.println(purId);
-		model.addAttribute("purId", purId);
+		model.addAttribute("purId", request.getParameter("purId"));
 		
 		command.execute(sqlSession, model);
 		
 		Map<String, Object> map = model.asMap();
 						
 		int result = (Integer)map.get("result");
-		System.out.println("result : "+result);
-		if(result==1)
-			return "sucess";
-		else
-			return null;
+		
+		return result==1 ? "success" : null;
+
 	}
 	
 	//리뷰작성버튼클릭
@@ -92,7 +89,6 @@ public class ControllerMypageOrder {
 		System.out.println("writeReviewView");
 		
 		command = new PreventReWriteCheckCommand();
-		String purId = request.getParameter("purId");
 		model.addAttribute("purId",request.getParameter("purId"));
 		command.execute(sqlSession, model); //리뷰 중복작성을 확인
 		
@@ -100,7 +96,7 @@ public class ControllerMypageOrder {
 		String resultState = (String)map.get("resultState");
 		
 		if (resultState.equals(PurchaseListDto.writeReview)) {
-			model.addAttribute("submit","true");//창닫기용
+			model.addAttribute("submit","success");//창닫기용
 			return "membership/mypage/writeReviewView";
 		}
 			
@@ -116,17 +112,10 @@ public class ControllerMypageOrder {
 	//리뷰 작성후 db로 내용 삽입
 	@Transactional
 	@RequestMapping(value = "/writeReview", method = RequestMethod.POST)
-	public String writeReview(HttpServletRequest request,Model model) throws RuntimeException {
+	public String writeReview(ReviewBoardDto review ,Model model) throws RuntimeException {
 		System.out.println("do writeReview");
 		
-		model.addAttribute("purId", request.getParameter("purId"));
-		model.addAttribute("pId", request.getParameter("pId"));
-		model.addAttribute("uId", request.getParameter("uId"));
-		model.addAttribute("pName", request.getParameter("pName"));
-		model.addAttribute("pColor", request.getParameter("pColor"));
-		model.addAttribute("uName", request.getParameter("uName"));
-		model.addAttribute("reGrade", request.getParameter("reGrade"));
-		model.addAttribute("reContent", request.getParameter("reContent"));
+		model.addAttribute("review", review);
 		
 		command = new WriteReivewCommand();
 		try {
@@ -141,15 +130,10 @@ public class ControllerMypageOrder {
 		Map<String, Object> map = model.asMap();
 		
 		String result = (String)map.get("result");
-		System.out.println("result : "+result);
-		if(result=="success") {//success
-			model.addAttribute("submit",request.getParameter("submit"));//창닫기용
-			return "membership/mypage/writeReviewView";
-		}
-		else {
-			model.addAttribute("submit","fail");
-			return "membership/mypage/writeReviewView";
-		}
+		
+		model.addAttribute("submit", result=="success"? "success" : "error");
+		
+		return "membership/mypage/writeReviewView";
 		
 	}
 		

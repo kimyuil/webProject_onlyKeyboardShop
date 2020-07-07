@@ -19,8 +19,8 @@ public class RenewPwCommand implements ICommand {
 		String id = (String)map.get("id");
 		String pw = (String)map.get("pw");
 		
-		dao.renewPw(id,pw);
-		model.addAttribute("pwChange", "ok");
+		int result = dao.renewPw(id,pw);
+		model.addAttribute("pwChange", result==1 ? "success" : "error");
 	}
 
 }

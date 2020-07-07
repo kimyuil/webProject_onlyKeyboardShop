@@ -20,10 +20,9 @@ public class UserQnAListCommand implements ICommand {
 		IQNADao dao = sqlSession.getMapper(IQNADao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String uId = (String) map.get("uId");
 		
 		ArrayList<QNABoardDto> qnas = new ArrayList<QNABoardDto>();
-		qnas = dao.userListQnA(uId);
+		qnas = dao.userListQnA((String) map.get("uId"));
 		
 		model.addAttribute("qnas", qnas);
 	}

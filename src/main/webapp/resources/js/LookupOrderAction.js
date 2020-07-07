@@ -154,13 +154,15 @@ function checkDelivery(purId){
 	    async: false,
 	    data: {"purId" : purId},
 	    success: function(data){
-	    	
+	    	if(data=="success"){
+	    		getList();
+	    		showLists();
+	    	}
 	    }
 	    
 	}); 
 	 
-	getList();
-	showLists();
+	
 }
 
 function reviewWritePopup(index){

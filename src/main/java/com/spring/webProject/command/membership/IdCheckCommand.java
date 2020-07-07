@@ -18,13 +18,10 @@ public class IdCheckCommand implements ICommand {
 		IUserDao dao = sqlSession.getMapper(IUserDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String id = (String) map.get("id");
-		String result = dao.idCheck(id);
+		String result = dao.idCheck((String) map.get("id")); //id값이 있으면 그 id 값을 반환
 		
-		if(result == null)
-			model.addAttribute("result", 1);
-		else
-			model.addAttribute("result", 0);
+		// 중복되지 않으면 (result==null) 1, 아니면 0
+		model.addAttribute("result", result == null ? 1 : 0 );
 		
 	}
 

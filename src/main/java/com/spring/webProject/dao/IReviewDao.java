@@ -9,10 +9,8 @@ public interface IReviewDao {
 	public ArrayList<ReviewBoardDto> listReview(@Param("pId")String pid);
 	
 	public ArrayList<ReviewBoardDto> userListReview(@Param("uId")String uId);
-	public int writeReivew(@Param("pId") String pId,@Param("uId") String uId,
-			@Param("pName") String pName,	@Param("pColor") String pColor,
-			@Param("uName") String uName,@Param("reGrade") String reGrade,
-			@Param("reContent") String reContent,@Param("purId") String purId);
+	
+	public int writeReivew(ReviewBoardDto review);
 	
 		
 	public ReviewBoardDto getUserReviewOneItem(@Param("reId") String reId);

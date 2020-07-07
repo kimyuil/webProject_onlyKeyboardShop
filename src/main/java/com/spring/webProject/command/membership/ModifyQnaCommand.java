@@ -24,11 +24,7 @@ public class ModifyQnaCommand implements ICommand {
 		
 		int result = dao.modifyQnA(qnaId,qnaTitle,qnaContent,isSecret);
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-		}
+		model.addAttribute("result", result==1 ? "success" : null );  
 		
 	}
 

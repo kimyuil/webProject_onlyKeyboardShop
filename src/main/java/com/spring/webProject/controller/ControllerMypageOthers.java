@@ -60,16 +60,8 @@ public class ControllerMypageOthers {
 		
 		command = new ModifyUserInfoCommand();
 		command.execute(sqlSession, model);
-		
-		Map<String, Object> map = model.asMap();
-		String result = (String) map.get("result");
-		
-		if(result=="success") {
-			SecurityContextHolder.clearContext();
-			return "membership/mypage/modifyInfoComplete";
-		}
-		else
-			return "membership/mypage/modifyInfoComplete";
+				
+		return "membership/mypage/modifyInfoComplete";
 		
 	}
 	
@@ -93,7 +85,7 @@ public class ControllerMypageOthers {
 		Map<String, Object> map = model.asMap();
 		String result = (String) map.get("result");
 		
-		if(result=="true") {
+		if(result=="success") {
 			SecurityContextHolder.clearContext();
 			return "membership/mypage/deleteInfoComplete";
 		}

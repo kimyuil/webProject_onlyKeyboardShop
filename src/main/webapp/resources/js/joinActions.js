@@ -24,32 +24,29 @@ function moveFocus(num,fromform,toform){
 
 $(document).on("click", "#idCheckButton", function(){
 	
-	var id = document.getElementById("id");
-	var temp = "uId=";
-	var query = temp.concat(id.value);
+	var id = $('#id').val();
+		
+	$.ajax({
+	    url: "/onlyKeyboardShop/idCheck",
+	    type: "POST",
+	    cache: false,
+	    data: {"uId" : id},
+	    success: function(data){
+	    	if(data == "ok"){
+				document.querySelector("#result").style.color = "#0377fc";
+				document.querySelector('#result').innerHTML ="인증되었습니다";
+				$('#submit').removeAttr("disabled","disabled");
+				sessionStorage.setItem("idCheck","ok");
+			}
+			else{
+				document.querySelector('#result').style.color = "#fc1c03";
+				document.querySelector('#result').innerHTML ="중복된 값이 있습니다";
+				$('#submit').attr("disabled","disabled");
+				sessionStorage.removeItem("idCheck");
+			}
+	    }
+	});
 	
-	//alert(query);
-const xhr = new XMLHttpRequest();
-	
-	xhr.open('POST','idCheck');
-	
-	xhr.onreadystatechange=function(){
-	
-		if(xhr.responseText === 'fail'){
-			document.querySelector('#result').style.color = "#fc1c03";
-			document.querySelector('#result').innerHTML ="중복된 값이 있습니다";
-			$('#submit').attr("disabled","disabled");
-			sessionStorage.removeItem("idCheck");
-		}
-		else{
-			document.querySelector("#result").style.color = "#0377fc";
-			document.querySelector('#result').innerHTML ="인증되었습니다";
-			$('#submit').removeAttr("disabled","disabled");
-			sessionStorage.setItem("idCheck","ok");
-		}
-	}
-	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	xhr.send(query);
 });
 
  

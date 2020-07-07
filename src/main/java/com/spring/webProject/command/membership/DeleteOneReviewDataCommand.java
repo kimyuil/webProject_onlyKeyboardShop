@@ -18,14 +18,12 @@ public class DeleteOneReviewDataCommand implements ICommand {
 		
 		IReviewDao dao = sqlSession.getMapper(IReviewDao.class);
 		Map<String, Object> map = model.asMap();
-		String reId = (String) map.get("reId");
-		
-		int result = dao.deleteReivew(reId);
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-			throw new RuntimeException("Delete error");
+				
+		int result = dao.deleteReivew((String) map.get("reId"));
+		if(result==1) return;
+		else {
+			model.addAttribute("result", null);
+			throw new RuntimeException("review Delete error transaction");
 		}
 	}
 

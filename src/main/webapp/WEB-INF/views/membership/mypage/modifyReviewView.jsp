@@ -17,7 +17,7 @@ $(document).ready(function(){
 		alert("작성이 완료되었습니다. 감사합니다");
 		self.close();
 	}
-	else if("${submit}"=="fail"){
+	else if("${submit}"=="error"){
 		alert("실패. 다시 시도해주세요");
 		self.close();
 	}

@@ -17,9 +17,8 @@ public class UserCheckDeliveryCommand implements ICommand {
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String purId = (String) map.get("purId");
 		
-		int result = dao.userCheckDelivery(purId); //success:1 fail:0
+		int result = dao.userCheckDelivery((String) map.get("purId")); //success:1 fail:0
 		model.addAttribute("result", result);
 	}
 

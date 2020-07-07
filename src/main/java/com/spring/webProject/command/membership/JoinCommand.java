@@ -22,16 +22,9 @@ public class JoinCommand implements ICommand {
 		Map<String, Object> map = model.asMap();
 		UserDto user = (UserDto) map.get("user");
 		
-		dao.joinUser(user);
+		int result = dao.joinUser(user);
+		model.addAttribute("result", result==1 ? "success" : null);
 		
-		/*
-		 * IProductDao dao = sqlSession.getMapper(IProductDao.class);
-		
-		dao.listProduct(user);
-		
-				
-		model.addAttribute("products", products);
-		 * */
 	}
 
 }

@@ -27,10 +27,7 @@ public class DeleteUserInfoCommand implements ICommand {
 		}
 		
 		int deleteResult = dao.deleteUser(uId);
-		if(deleteResult==1)
-			model.addAttribute("result", "true");
-		else
-			model.addAttribute("result", "error");
+		model.addAttribute("result", deleteResult==1 ? "success" : "error");
 	}
 
 }

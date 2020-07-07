@@ -16,9 +16,8 @@ public class PreventReWriteCheckCommand implements ICommand {
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String purId = (String) map.get("purId");
+		String result = dao.getStateByPurId((String) map.get("purId"));
 		
-		String result = dao.getStateByPurId(purId);
 		model.addAttribute("resultState", result);
 	}
 

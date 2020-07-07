@@ -18,12 +18,10 @@ public class UserReviewListCommand implements ICommand {
 		IReviewDao dao = sqlSession.getMapper(IReviewDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String uId = (String) map.get("uId");
 		
 		ArrayList<ReviewBoardDto> reviews = new ArrayList<ReviewBoardDto>();
-		reviews = dao.userListReview(uId);
-		
-		
+		reviews = dao.userListReview((String) map.get("uId"));
+				
 		model.addAttribute("reviews", reviews);
 	}
 

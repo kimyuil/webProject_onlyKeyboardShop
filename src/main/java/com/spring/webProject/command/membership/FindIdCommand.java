@@ -23,18 +23,17 @@ public class FindIdCommand implements ICommand {
 		
 		if(resultId == null)
 			model.addAttribute("resultId", "false");
-		else {
+		else { //반환된 아이디의 가운데 절반부분을 *로 표시해서 리턴해주는 과정.
 			int length = resultId.length();
 			int lastIndex = length-1;
 			int changeAmount;
 			
-			if(length/2 == 0) //짝수는
-				changeAmount = length/2; //그대로 
+			if(length/2 == 0) 
+				changeAmount = length/2;  
 			else
-				changeAmount = (int)(length/2) + 1; //홀수는 몫+1 
+				changeAmount = (int)(length/2) + 1;  
 			
-			//4이면 4/2한2를  1~2  6이면
-			
+					
 			StringBuilder returnId = new StringBuilder(resultId);
 						
 			int startIndex= (int)(lastIndex/2)-(int)(length/4)+1;
@@ -43,7 +42,6 @@ public class FindIdCommand implements ICommand {
 			for(int i=startIndex ; i<change ; i++ ) {
 				returnId.setCharAt(i,'*');
 			}
-			
 			
 			model.addAttribute("resultId", returnId);
 		}

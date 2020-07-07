@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function(){
 	
-	if("${result}"=="fail"){
+	if("${result}"=="error"){
 		alert("수정에 실패했습니다. 다시 시도해주세요")
 		location.href="/onlyKeyboardShop/home";
 		return

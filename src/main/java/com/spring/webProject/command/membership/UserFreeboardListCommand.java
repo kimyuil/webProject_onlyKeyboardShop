@@ -18,9 +18,8 @@ public class UserFreeboardListCommand implements ICommand {
 		IFreeBoardDao dao = sqlSession.getMapper(IFreeBoardDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String uId = (String) map.get("uId");
 		ArrayList<FreeBoardDto> boards = new ArrayList<FreeBoardDto>();
-		boards = dao.userListFreeboard(uId);
+		boards = dao.userListFreeboard((String) map.get("uId"));
 		model.addAttribute("boards", boards);
 	}
 

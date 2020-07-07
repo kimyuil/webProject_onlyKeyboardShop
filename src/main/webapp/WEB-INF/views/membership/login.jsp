@@ -9,12 +9,20 @@
 </head>
 <body>
 
-<c:if test="${pwChange=='ok'}" >
-<script>
-alert("성공적으로 변경되었습니다. 다시 로그인해주시기 바랍니다");
-</script>
+<c:choose>
+    <c:when test="${pwChange eq 'success'}">
+		<script>
+		alert("성공적으로 변경되었습니다. 다시 로그인해주시기 바랍니다");
+		</script>        
+    </c:when>
+ 
+    <c:when test="${pwChange eq 'error'}">
+		<script>
+		alert("에러가 발생했습니다. 관리자에게 문의해주시기 바랍니다.");
+		</script>        
+    </c:when>
+</c:choose>
 
-</c:if>
 
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>
 <br>

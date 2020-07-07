@@ -17,16 +17,13 @@ public class ReChangePurchaseStateCommand implements ICommand {
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String purId = (String) map.get("purId");//userId, productId
 		
-		int result;
-		result = dao.reChangeUserState(purId);
+		int result = dao.reChangeUserState((String) map.get("purId"));
 		
-		if(result==1) {
-			model.addAttribute("result", "success");
-		}else {
-			model.addAttribute("result", "fail");
-			throw new RuntimeException("state Rechange error");
+		if(result==1) return ;
+		else {
+			model.addAttribute("result", null);
+			throw new RuntimeException("purchaseList state Rechange error transaction");
 		}
 
 	}

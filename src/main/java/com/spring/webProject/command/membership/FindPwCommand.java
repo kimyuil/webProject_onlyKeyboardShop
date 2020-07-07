@@ -18,13 +18,12 @@ public class FindPwCommand implements ICommand {
 		Map<String, Object> map = model.asMap();
 		String email = (String)map.get("email");
 		String id = (String)map.get("id");
-		System.out.println(email+", "+id);
-		String result = dao.findPw(email,id);
-		System.out.println(result+"pwcommand결과");		
-		if(result == null)
-			model.addAttribute("resultPw", "false");
-		else
-			model.addAttribute("resultPw", "true"); //새롭게 renew Pw
+		
+		String result = dao.findPw(email,id); //id와 이메일이 맞으면 해당 id값을 다시리턴함. 
+		
+		//없다면 이메일이나 아이디중 하나가 잘못된 것.
+		model.addAttribute("resultPw", result == null ? "false" : "ok" );
+		 
 	}
 
 }

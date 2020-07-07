@@ -14,7 +14,6 @@
 alert("해당하는 정보가 존재하지 않습니다");
 history.go(-1);
 </script>
-
 </c:if>
 
 <%@ include file="/WEB-INF/views/menubar_top.jsp"%>

@@ -23,6 +23,7 @@ public class DeleteUserReviewCommand implements ICommand {
 		try {
 			reviewCommand.execute(sqlSession, model);//재고줄이고 판매량늘리기
 			purchaseListCommand.execute(sqlSession, model);//구매목록 db에 insert
+			model.addAttribute("result", "success");
 		}
 		catch(Exception e){
 			throw new RuntimeException(e.getMessage());

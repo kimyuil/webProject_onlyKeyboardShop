@@ -1,4 +1,4 @@
-package com.spring.webProject.command.membership;
+package com.spring.webProject.command.product;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.spring.webProject.command.product;
+package com.spring.webProject.command.membership;
 
 import java.util.Map;
 
@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import com.spring.webProject.command.ICommand;
 import com.spring.webProject.dao.IPurchaseListDao;
 import com.spring.webProject.dao.IReviewDao;
+import com.spring.webProject.dto.ReviewBoardDto;
 
 @Transactional
 public class ChangePurchaseStateCommand implements ICommand {
@@ -19,21 +20,16 @@ public class ChangePurchaseStateCommand implements ICommand {
 		IPurchaseListDao dao = sqlSession.getMapper(IPurchaseListDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String purId = (String) map.get("purId");//userId, productId
-		//System.out.println(purId);
+		ReviewBoardDto review = (ReviewBoardDto)map.get("review");
+				
+		int result = dao.changeUserState(Integer.toString(review.getPurId()));
 		
-		int result;
-		result = dao.changeUserState(purId);
-		
-		if(result!=1) {
+		if(result==1) return;
+		else {
 			model.addAttribute("result", "fail");
 			throw new RuntimeException("stateChange error");
 		}
-		else
-			model.addAttribute("result", "success");
-			
-		
-			
+					
 	}
 
 }

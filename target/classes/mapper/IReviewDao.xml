@@ -17,7 +17,7 @@
 	select count(*) as total from review where pId=#{pid}
 </select>
 
-<insert id="writeReivew">
+<insert id="writeReivew" parameterType="com.spring.webProject.dto.ReviewBoardDto">
 INSERT INTO review (pId, uId, pName, pColor, reDate, uName, reContent, reGrade, purId) 
 VALUES (#{pId},#{uId},#{pName},#{pColor},now(),#{uName},#{reContent},#{reGrade},#{purId});
 </insert>

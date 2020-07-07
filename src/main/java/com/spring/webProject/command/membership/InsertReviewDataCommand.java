@@ -20,25 +20,16 @@ public class InsertReviewDataCommand implements ICommand {
 		IReviewDao dao = sqlSession.getMapper(IReviewDao.class);
 		
 		Map<String, Object> map = model.asMap();
-		String pId = (String) map.get("pId");
-		String uId = (String) map.get("uId");
-		String pName = (String) map.get("pName");
-		String pColor = (String) map.get("pColor");
-		String uName = (String) map.get("uName");
-		String reGrade = (String) map.get("reGrade");
-		String reContent = (String) map.get("reContent");
-		String purId = (String) map.get("purId");
+		ReviewBoardDto review = (ReviewBoardDto)map.get("review");
 		
-		int result;
-		result = dao.writeReivew(pId,uId,pName,pColor,uName,reGrade,reContent,purId);
+		int result = dao.writeReivew(review);
 		
-		if(result!=1){
-			model.addAttribute("result", "fail");
+		if(result==1) return;
+		else {
+			model.addAttribute("result", null);
 			throw new RuntimeException("insert error");
 		}
-		else
-			model.addAttribute("result", "success");
-		
+				
 	}
 
 }

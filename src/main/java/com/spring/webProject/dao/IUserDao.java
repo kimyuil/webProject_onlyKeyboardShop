@@ -6,9 +6,9 @@ import com.spring.webProject.dto.UserDto;
 
 public interface IUserDao {
 
-	void joinUser(UserDto user);
+	int joinUser(UserDto user);
 	
-	String idCheck(String id);
+	String idCheck(@Param("id") String id);
 	
 	String loginAction(String uId, String uPw);
 
@@ -16,7 +16,7 @@ public interface IUserDao {
 
 	String findPw(String email, String id);
 	
-	void renewPw(@Param("id") String id,@Param("pw") String pw);
+	int renewPw(@Param("id") String id,@Param("pw") String pw);
 
 	String userCheck(@Param("id") String id,@Param("pw") String pw);
 

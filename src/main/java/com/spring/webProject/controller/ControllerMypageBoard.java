@@ -71,8 +71,7 @@ public class ControllerMypageBoard {
 		System.out.println("modifyReviewView");
 		
 		command = new GetUserReviewOneItemCommand();
-		String reId = request.getParameter("reId");
-		model.addAttribute("reId",reId);
+		model.addAttribute("reId",request.getParameter("reId"));
 		command.execute(sqlSession, model); //이전에 작성한 리뷰정보 가져오기
 		
 		return "membership/mypage/modifyReviewView";
@@ -93,15 +92,9 @@ public class ControllerMypageBoard {
 
 		Map<String, Object> map = model.asMap();
 		String result = (String)map.get("result");
+		model.addAttribute("submit", result=="success" ? "success" : "error");
 		
-		if(result=="success") {//success
-			model.addAttribute("submit","success");//창닫기용
-			return "membership/mypage/modifyReviewView";
-		}
-		else {
-			model.addAttribute("submit","fail");
-			return "membership/mypage/modifyReviewView";
-		}
+		return "membership/mypage/modifyReviewView";
 	}	
 	
 	//리뷰 삭제하기 & 구매에 reviewWrite 상태 바꾸기
@@ -126,11 +119,7 @@ public class ControllerMypageBoard {
 		
 		Map<String, Object> map = model.asMap();
 		String result = (String)map.get("result");
-		System.out.println(result);
-		if(result=="success") 
-			return "success";
-		else
-			return null;		
+		return result;
 		
 	}
 	
@@ -158,7 +147,7 @@ public class ControllerMypageBoard {
 	public String userModifyQnaView(HttpServletRequest request,Model model) throws Exception {
 		System.out.println("userModifyQnaView");
 		
-		//command = new GetUserReviewOneItemCommand();
+		
 		model.addAttribute("qnaId", request.getParameter("qnaId"));
 		model.addAttribute("pId", request.getParameter("pId"));
 		model.addAttribute("pName", request.getParameter("pName"));
@@ -189,6 +178,7 @@ public class ControllerMypageBoard {
 		command = new ModifyQnaCommand();
 		command.execute(sqlSession, model);
 		
+		//model.result -> success or null 체크가능
 		return "redirect:member/myboard";
 		
 	}
@@ -203,6 +193,7 @@ public class ControllerMypageBoard {
 		command = new DeleteQnaCommand();
 		command.execute(sqlSession, model);
 		
+		//model.result -> success or null 체크가능
 		return "redirect:member/myboard";
 		
 	}
