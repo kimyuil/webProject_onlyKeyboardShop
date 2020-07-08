@@ -63,6 +63,20 @@ $(document).ready(function(){
 	
 	QNAList(1); //처음에 1페이지
 	showQNAList();
+	
+	var url = $(location).attr('href');
+	var index = url.indexOf('qna'); 
+	if(index != -1){ //#qna로 왔을때
+		$('#qna').attr('class','tab-pane fade show active');
+		$('#review').attr('class','tab-pane fade');
+		$('#qna_tab').attr('class','nav-link active');
+		$('#review_tab').attr('class','nav-link');
+		
+		location.href='#qna';
+	}
+		
+	 
+	
 })
 
 </script>
@@ -183,10 +197,10 @@ $(document).ready(function(){
 	
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-	    <a class="nav-link active" data-toggle="tab" href="#review">후기 게시판</a>
+	    <a class="nav-link active" data-toggle="tab" href="#review" id="review_tab">후기 게시판</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" data-toggle="tab" href="#qna">Q&A 게시판</a>
+	    <a class="nav-link" data-toggle="tab" href="#qna" id="qna_tab">Q&A 게시판</a>
 	  </li>
 	</ul>
 	<div class="tab-content">

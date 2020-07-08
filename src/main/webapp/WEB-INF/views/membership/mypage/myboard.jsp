@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 </script>
 
-<script src="/onlyKeyboardShop/resources/js/myboard/myboardReview.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/myboard/myboardReview.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/myboard/myboardQnA.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/myboard/myboardFreeboard.js"></script>
 </head>

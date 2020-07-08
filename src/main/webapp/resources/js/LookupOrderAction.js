@@ -50,7 +50,7 @@ function getList(){ //초기 리스트와 초기 페이지정보를 저장해두
 	    			"onClick='reviewWritePopup("+i+")'>후기쓰기</button>"; 
 	    			break;
 	    		case "writeReview":
-	    			state="리뷰작성<br> 감사합니다!";
+	    			state="<a href='/onlyKeyboardShop/productPage?&pId="+data.afterList[i].productId+"#review'>리뷰작성<br> 감사합니다!</a>";
 	    			break;
 	    		};
 	    		var date = new Date(data.afterList[i].purTime);
@@ -111,7 +111,8 @@ function showLists(){ //실질적인 출력 담당
 			'<td style="width:120px;text-align: center;">후기</td>'+
 		'</tr>');
 	
-	for(var i=afterList.length-1 ; i>=0 ;i--){ //list 페이지 내용
+	for(var i=0 ; i<afterList.length ;i++){ //list 페이지 내용
+	//for(var i=afterList.length-1 ; i>=0 ;i--){ //list 페이지 내용
 		var obj = JSON.stringify(afterList[i]);
 		//alert(obj);
 		$('#afterList').append(
@@ -119,7 +120,7 @@ function showLists(){ //실질적인 출력 담당
 		'<td style="text-align: center;">'+(Number(i)+1)+'</td>'+
 		'<td ><img src="'+afterList[i].pImageRoute+'" style="width:100%"/></td>'+
 		'<td>'+
-		afterList[i].pName+'('+afterList[i].pColor+')'+ afterList[i].pNum+'개'+ 
+		afterList[i].pName+'('+afterList[i].pColor+')'+ afterList[i].pNum+'개'+
 		'</td>'+
 		'<td style="text-align: center;">'+afterList[i].purTime+'</td>'+
 		

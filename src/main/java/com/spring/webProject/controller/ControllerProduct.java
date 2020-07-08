@@ -200,7 +200,7 @@ public class ControllerProduct {
 		command.execute(sqlSession, model);
 		
 		//model.result -> success or null 체크가능
-		return "redirect:productPage?pId="+qna.getpId();
+		return "redirect:productPage?pId="+qna.getpId()+"#qna";
 	}
 	
 	//Q&A 작성 화면이동

@@ -5,6 +5,7 @@ function showQNAList(){ //qna 게시판 뿌려주는 메소드
 	$('#qnaTable').html(
 			'<tr>'+
 			'<td style="width:50px;text-align: center; background-color:#dedede" ><b>번호</b></td>'+
+			'<td style="width:75px; text-align: center;background-color:#dedede"><b>상품명</b></td>'+
 			'<td style="width:80px;text-align: center;background-color:#dedede"><b>작성자</b></td>'+
 			'<td style="text-align: center;background-color:#dedede"><b>제목</b></td>'+
 			'<td style="width:100px; text-align: center;background-color:#dedede"><b>날짜</b></td>'+
@@ -16,6 +17,7 @@ function showQNAList(){ //qna 게시판 뿌려주는 메소드
 				
     	$('#qnaTable').append("<tr class='tr"+i+"'>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
+    		"<td style='text-align: center;'><a href='/onlyKeyboardShop/productPage?&pId="+qnaList[i].pId+"#qna'>"+qnaList[i].pName+"</a></td>"+
     		"<td style='text-align: center;'>"+qnaList[i].uName+"</td>"+
     		"<td><a href='javascript:void(0)' onclick='showContent("+i+")'>"+qnaList[i].qnaTitle+"</a></td>"+
     		"<td style='text-align: center;'>"+qnaList[i].qnaDate +"</td>"+

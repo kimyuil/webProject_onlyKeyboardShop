@@ -60,7 +60,7 @@ function showReviewList(){ //실질적인 출력 담당
 	for(var i=0 ; i<reviewsList.length ;i++){ //list 페이지 내용
     	$('#reviewTable').append("<tr>"+
     		"<td style='text-align: center;'>"+(Number(i)+1)+"</td>"+
-    		"<td style='text-align: center;'><a href='/onlyKeyboardShop/productPage?&pId="+reviewsList[i].pId+"'>"+reviewsList[i].pName+"</a></td>"+
+    		"<td style='text-align: center;'><a href='/onlyKeyboardShop/productPage?&pId="+reviewsList[i].pId+"#review'>"+reviewsList[i].pName+"</a></td>"+
     		"<td>"+reviewsList[i].reContent+"</td>"+
     		"<td style='text-align: center;'>"+reviewsList[i].reDate +"</td>"+
     		"<td style='text-align: center;'><b>"+reviewsList[i].reGrade +"</b></td>"+
