@@ -5,8 +5,8 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
-
-<script type="text/javascript" src="http://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=77443487-FD58-35A0-8633-FB8E85DAB6C7"></script>
+<!-- 로컬호스트 일때 인증키 : 77443487-FD58-35A0-8633-FB8E85DAB6C7 -->
+<script type="text/javascript" src="http://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=3DBD31D8-1780-311E-9AE9-41DEBAFD3A19"></script>
 
 	
 
