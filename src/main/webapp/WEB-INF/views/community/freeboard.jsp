@@ -74,7 +74,7 @@
 	
 	<span style="float:right">
 	<button class='btn btn-outline-dark btn-sm' 
-	onclick="location.href ='/onlyKeyboardShop/member/freeboardWriteView?page=${pageInfo.currentPage}'">글쓰기</button>
+	onclick="location.href ='/onlyKeyboardShop/member/freeboardWriteView?page="+"encodeURI(${pageInfo.currentPage})"+"'">글쓰기</button>
 	</span>
 </td>
 </tr>
